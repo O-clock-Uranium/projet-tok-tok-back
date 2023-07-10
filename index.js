@@ -1,11 +1,18 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const PORT = 5050;
+const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/app/views');
+
+app.use(express.static(__dirname + '/static'));
 
 app.get('/', (req, res) => {
-  res.send('Page d\'accueil')
-})
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  res.render('Homepage_Membre.ejs', {
+    root:  __dirname + '/app/views'
+  });
+});
+app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
+});
