@@ -1,36 +1,38 @@
 const express = require("express");
+const app = express();
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("Homepage_Membre.ejs", {});
-});
+app.get("/", (req, res) => {
+    res.render("Homepage_Membre.ejs", {});
+  });
+  
+  app.get("/Accueil_Membre", (req, res) => {
+    res.render("Accueil_Membre.ejs", {});
+  });
+  
+  app.get("/Annonces", (req, res) => {
+    res.render("Annonces.ejs", {});
+  });
+  
+  app.get("/Annonce", (req, res) => {
+    res.render("Annonce.ejs", {});
+  });
+  
+  app.get("/Creer_une_Annonce", (req, res) => {
+    res.render("Creer_une_Annonce.ejs", {});
+  });
+  
+  app.get("/Favoris", (req, res) => {
+    res.render("Favoris.ejs", {});
+  });
+  
+  app.get("/Messagerie", (req, res) => {
+    res.render("Messagerie.ejs", {});
+  });
+  
+  app.get("/Settings(mobile)", (req, res) => {
+    res.render("Settings(mobile).ejs", {});
+  });
 
-router.get("/Accueil_Membre", (req, res) => {
-  res.render("Accueil_Membre.ejs", {});
-});
-
-router.get("/Annonces", (req, res) => {
-  res.render("Annonces.ejs", {});
-});
-
-router.get("/Annonce", (req, res) => {
-  res.render("Annonce.ejs", {});
-});
-
-router.get("/Creer_une_Annonce", (req, res) => {
-  res.render("Creer_une_Annonce.ejs", {});
-});
-
-router.get("/Favoris", (req, res) => {
-  res.render("Favoris.ejs", {});
-});
-
-router.get("/Messagerie", (req, res) => {
-  res.render("Messagerie.ejs", {});
-});
-
-router.get("/Settings(mobile)", (req, res) => {
-  res.render("Settings(mobile).ejs", {});
-});
-
-module.exports = router;
+  module.exports = router;
