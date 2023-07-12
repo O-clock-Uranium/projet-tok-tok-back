@@ -1,6 +1,5 @@
-const database = require('./database');
+const database = require("./database");
 
-const dataMapper = {
-}
+const dataMapper = {};
 
-module.exports= dataMapper
+module.exports = dataMapper;

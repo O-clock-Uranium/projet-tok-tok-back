@@ -1,7 +1,7 @@
-const {Client} = require('pg');
+const { Client } = require("pg");
 
 const client = new Client(process.env.PG_URL);
 
 client.connect();
 
-module.exports= client;
+module.exports = client;

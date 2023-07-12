@@ -1,13 +1,169 @@
-DROP TABLE If EXISTS "User"
-DROP TABLE If EXISTS "Likes"
-DROP TABLE If EXISTS "Post"
-DROP TABLE If EXISTS "Message"
-DROP TABLE If EXISTS "Favourites"
-DROP TABLE If EXISTS "Advert"
-DROP TABLE If EXISTS "Advert_has_image"
-DROP TABLE If EXISTS "Tag"
+BEGIN;
 
-CREATE TABLE user (
+DROP TABLE IF EXISTS "user","likes","post","message","favourites","advert","advert_has_image","tag";
+
+CREATE TABLE "user" (
+  id INTEGER PRIMARY KEY,
+  firstname VARCHAR(64) NOT NULL,
+  lastname VARCHAR(64) NOT NULL,
+  description VARCHAR(255),
+  address TEXT NOT NULL,
+  localization TEXT NOT NULL,
+  email VARCHAR(64) NOT NULL,
+  password VARCHAR(64) NOT NULL,
+  thumbnail TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE "advert" (
+  id INTEGER PRIMARY KEY,
+  title VARCHAR(64) NOT NULL,
+  content TEXT NOT NULL,
+  price SMALLINT NOT NULL,
+  user_id INTEGER NOT NULL,
+  tag_id INTEGER NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES "user"(id),
+  FOREIGN KEY (tag_id) REFERENCES tag(id)
+);
+CREATE TABLE "advert_has_image" (
+  id INTEGER PRIMARY KEY,
+  annonce_id INTEGER NOT NULL,
+  thumbnail TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (annonce_id) REFERENCES advert(id)
+);
+CREATE TABLE "post" (
+  id INTEGER PRIMARY KEY,
+  content TEXT NOT NULL,
+  thumbnail TEXT,
+  reply_to INTEGER,
+  user_id INTEGER NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES "user"(id)
+);
+CREATE TABLE "message" (
+  id INTEGER PRIMARY KEY,
+  content TEXT NOT NULL,
+  expediteur INTEGER NOT NULL,
+  destinataire INTEGER NOT NULL,
+  conversation_id INTEGER NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (expediteur) REFERENCES "user"(id),
+  FOREIGN KEY (destinataire) REFERENCES "user"(id)
+);
+CREATE TABLE "tag" (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(64) NOT NULL
+);
+CREATE TABLE "favourites" (
+  id INTEGER PRIMARY KEY,
+  annonce_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (annonce_id) REFERENCES advert(id),
+  FOREIGN KEY (user_id) REFERENCES "user"(id)
+);
+CREATE TABLE "likes" (
+  id INTEGER PRIMARY KEY,
+  post_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (post_id) REFERENCES post(id),
+  FOREIGN KEY (user_id) REFERENCES "user"(id)
+);
+
+COMMIT;
+
+
+/*DROP TABLE IF EXISTS user;
+ DROP TABLE IF EXISTS likes;
+ DROP TABLE IF EXISTS post;
+ DROP TABLE IF EXISTS message;
+ DROP TABLE IF EXISTS favourites;
+ DROP TABLE IF EXISTS advert;
+ DROP TABLE IF EXISTS advert_has_image;
+ DROP TABLE IF EXISTS tag;
+ CREATE TABLE user (
+ id SERIAL PRIMARY KEY,
+ firstname VARCHAR(64) NOT NULL,
+ lastname VARCHAR(64) NOT NULL,
+ description VARCHAR(255),
+ address TEXT NOT NULL,
+ localization TEXT NOT NULL,
+ email VARCHAR(64) NOT NULL,
+ password VARCHAR(64) NOT NULL,
+ thumbnail TEXT,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+ );
+ CREATE TABLE advert (
+ id SERIAL PRIMARY KEY,
+ title VARCHAR(64) NOT NULL,
+ content TEXT NOT NULL,
+ price SMALLINT NOT NULL,
+ user_id INT NOT NULL,
+ tag_id INT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (user_id) REFERENCES "user"(id),
+ FOREIGN KEY (tag_id) REFERENCES tag(id)
+ );
+ CREATE TABLE advert_has_image (
+ id SERIAL PRIMARY KEY,
+ annonce_id INT NOT NULL,
+ thumbnail TEXT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (annonce_id) REFERENCES advert(id)
+ );
+ CREATE TABLE post (
+ id SERIAL PRIMARY KEY,
+ content TEXT NOT NULL,
+ thumbnail TEXT,
+ reply_to INT,
+ user_id INT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (user_id) REFERENCES "user"(id)
+ );
+ CREATE TABLE message (
+ id SERIAL PRIMARY KEY,
+ content TEXT NOT NULL,
+ expediteur INT NOT NULL,
+ destinataire INT NOT NULL,
+ conversation_id INT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (expediteur) REFERENCES "user"(id),
+ FOREIGN KEY (destinataire) REFERENCES "user"(id)
+ );
+ CREATE TABLE tag (
+ id SERIAL PRIMARY KEY,
+ name VARCHAR(64) NOT NULL
+ );
+ CREATE TABLE favourites (
+ id SERIAL PRIMARY KEY,
+ annonce_id INT NOT NULL,
+ user_id INT NOT NULL,
+ FOREIGN KEY (annonce_id) REFERENCES advert(id),
+ FOREIGN KEY (user_id) REFERENCES "user"(id)
+ );
+ CREATE TABLE likes (
+ id SERIAL PRIMARY KEY,
+ post_id INT NOT NULL,
+ user_id INT NOT NULL,
+ FOREIGN KEY (post_id) REFERENCES post(id),
+ FOREIGN KEY (user_id) REFERENCES "user"(id)
+ );*/
+
+
+ /*BEGIN;
+
+DROP TABLE IF EXISTS "user","likes","post","message","favourites","advert","advert_has_image","tag";
+
+
+CREATE TABLE "user" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   firstname VARCHAR(64) NOT NULL,
   lastname VARCHAR(64) NOT NULL,
@@ -20,9 +176,7 @@ CREATE TABLE user (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
-
-CREATE TABLE annonce (
+CREATE TABLE "advert" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(64) NOT NULL,
   content TEXT NOT NULL,
@@ -34,9 +188,7 @@ CREATE TABLE annonce (
   FOREIGN KEY (user_id) REFERENCES user(id),
   FOREIGN KEY (tag_id) REFERENCES tag(id)
 );
-
-
-CREATE TABLE annonce_image (
+CREATE TABLE "advert_has_image" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   annonce_id INT UNSIGNED NOT NULL,
   thumbnail TEXT NOT NULL,
@@ -44,8 +196,7 @@ CREATE TABLE annonce_image (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (annonce_id) REFERENCES annonce(id)
 );
-
-CREATE TABLE post (
+CREATE TABLE "post" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   content TEXT NOT NULL,
   thumbnail TEXT,
@@ -55,8 +206,7 @@ CREATE TABLE post (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
-
-CREATE TABLE message (
+CREATE TABLE "message" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   content TEXT NOT NULL,
   expediteur INT NOT NULL,
@@ -66,30 +216,21 @@ CREATE TABLE message (
   FOREIGN KEY (expediteur) REFERENCES user(id),
   FOREIGN KEY (destinataire) REFERENCES user(id)
 );
-
-CREATE TABLE tag (
+CREATE TABLE "tag" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL
 );
-
-CREATE TABLE favoris (
+CREATE TABLE "favourites" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   annonce_id INT NOT NULL,
   user_id INT NOT NULL,
   FOREIGN KEY (annonce_id) REFERENCES annonce(id),
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
-
-CREATE TABLE likes (
+CREATE TABLE "likes" (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   post_id INT NOT NULL,
   user_id INT NOT NULL,
   FOREIGN KEY (post_id) REFERENCES post(id),
   FOREIGN KEY (user_id) REFERENCES user(id)
-);
-
-
-
-
-
-
+);*/
