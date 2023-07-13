@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const { Client } = require("pg");
 
-const client = new Client(process.env.PG_URI);
+const client = new Client(process.env.PG_URL);
 
 client.connect();
 

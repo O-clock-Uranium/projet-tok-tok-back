@@ -1,4 +1,4 @@
-BEGIN;
+ BEGIN;
 DROP TABLE IF EXISTS "user",
 "likes",
 "post",
