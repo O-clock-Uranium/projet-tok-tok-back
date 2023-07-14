@@ -15,8 +15,6 @@ User.init(
     },
     description: {
       type: DataTypes.VARCHAR(255),
-      //By default, null is an allowed value for every column of a model
-      //dans la table il n'y a rien de marqué on peut donc estimer que le user n'est pas obliger de mettre une descitpion right?
     },
     adress: {
       type: DataTypes.TEXT,

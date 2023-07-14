@@ -1,30 +1,31 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("./sequelize-connection");
 
-class Post extends Model {}
+class Like extends Model {}
 
-Post.init(
+Like.init(
   {
-    content: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    thumbnail: {
-      type: DataTypes.TEXT,
-    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: User,
-        key: "id",
-      },
+        key: 'id'
+      }
     },
+    post_id: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      references: {
+        model: Post,
+        key: 'id'
+      }
+    }
   },
   {
     sequelize,
-    tableName: "Post",
+    tableName: "like",
   }
 );
 
-module.exports = Post;
+module.exports = Like;

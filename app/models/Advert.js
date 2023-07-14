@@ -17,14 +17,21 @@ Advert.init(
       type: DataTypes.SMALLINT,
       allowNull: false,
     },
-    //besoin de mettre user id?
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: User,
+        key: 'id'
+      }
     },
     tag_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Tag,
+        key: 'id'
+      }
     }
   },
   {
