@@ -12,7 +12,7 @@ INSERT INTO "user" (
     )
 VALUES (
         'maxime',
-        'malandin',
+        'malandain',
         'le pire du monde',
         'normandie',
         'localization',

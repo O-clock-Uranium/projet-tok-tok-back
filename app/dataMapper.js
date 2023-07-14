@@ -11,7 +11,12 @@ const dataMapper = {
     const result = await database.query("SELECT * FROM advert JOIN tag ON advert.tag_id = tag.id");
     const results = result.rows;
     return results;
-  }
+  },
+  async getAllAdvert() {
+    const result = await database.query("SELECT * FROM advert");
+    const results = result.rows;
+    return results;
+  },
 
 };
 
