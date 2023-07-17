@@ -7,7 +7,7 @@ const userController = {
         include: {
           association: "liked",
           // order: [["posts", "created_at", "DESC"]],
-          
+
         },
       });
       res.status(200).json(posts);
