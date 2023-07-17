@@ -8,6 +8,7 @@ Like.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: 'user_id'
       // references: {
       //   model: User,
       //   key: 'id'
@@ -16,6 +17,7 @@ Like.init(
     post_id: {
       type: DataTypes.TEXT,
       allowNull: false,
+      field: 'post_id'
       // references: {
       //   model: Post,
       //   key: 'id'
@@ -25,6 +27,7 @@ Like.init(
   {
     sequelize,
     tableName: "like",
+    modelName: 'like'
   }
 );
 

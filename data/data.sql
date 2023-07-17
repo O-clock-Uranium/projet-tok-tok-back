@@ -109,7 +109,7 @@ VALUES (
         1,
         NOW()
     );
-INSERT INTO "favourites" ("advert_id", "user_id")
+INSERT INTO "favourite" ("advert_id", "user_id")
 VALUES (1, 2);
-INSERT INTO "likes" ("post_id", "user_id")
+INSERT INTO "like" ("post_id", "user_id")
 VALUES (1, 2);

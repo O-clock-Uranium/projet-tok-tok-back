@@ -1,21 +1,27 @@
 const {Router} = require("express");
-const mainController = require("./controllers/mainController");
 const postController = require("./controllers/postController");
+const advertsController = require("./controllers/advertsController");
+const messageController = require("./controllers/messageController");
+const userController = require("./controllers/UserControlleur");
 
 const router = Router();
-
-
-router.get("/",mainController.homepage);
-
-router.get("/Accueil_Membre", mainController.tag );
 
 /**
  * Routes de l'API
  */
+// router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
 
+/* Posts -----------------------------------------------------------------*/
 router.get('/posts', postController.getAllPosts);
-router.get('/users', postController.getAllUsers);
 
+/* Users -----------------------------------------------------------------*/
+router.get('/users', userController.getOneUser);
+
+/* Adverts ---------------------------------------------------------------*/
+router.get('/adverts', advertsController.getAllAdverts);
+
+/* Messages --------------------------------------------------------------*/
+// router.get('/messages', messageController.getAllMessage);
 
 // app.get("/Annonces", (req, res) => {
 //   res.render("Annonces.ejs", {});

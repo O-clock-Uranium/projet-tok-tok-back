@@ -1,12 +1,13 @@
- BEGIN;
+BEGIN;
 DROP TABLE IF EXISTS "user",
-"likes",
+"like",
 "post",
 "message",
-"favourites",
+"favourite",
 "advert",
 "advert_has_image",
 "tag";
+
 CREATE TABLE "user" (
   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   firstname VARCHAR(64) NOT NULL,
@@ -61,17 +62,18 @@ CREATE TABLE "message" (
   destinataire INTEGER NOT NULL,
   conversation_id INTEGER NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (expediteur) REFERENCES "user"(id),
   FOREIGN KEY (destinataire) REFERENCES "user"(id)
 );
-CREATE TABLE "favourites" (
+CREATE TABLE "favourite" (
   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   advert_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
   FOREIGN KEY (advert_id) REFERENCES "advert"(id),
   FOREIGN KEY (user_id) REFERENCES "user"(id)
 );
-CREATE TABLE "likes" (
+CREATE TABLE "like" (
   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   post_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
