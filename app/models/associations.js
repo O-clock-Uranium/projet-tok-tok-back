@@ -15,8 +15,12 @@ const Tag = require("./Tag");
 // - `hasMany` + `belongsTo`
 User.hasMany(Post, {
   foreignKey: "user_id",
+  as: "posts"
 });
-Post.belongsTo(User);
+Post.belongsTo(User, {
+  foreignKey: "user_id",
+  as: "user"
+});
 
 User.hasMany(Advert, {
   foreignKey: "user_id",
@@ -50,16 +54,18 @@ Post.belongsToMany(User, { through: Like });
 User.belongsToMany(Post, { through: Favourite });
 Post.belongsToMany(User, { through: Favourite });
 
-async function test() {
-  const res = await Advert.findAll();
-  console.log(res);
-}
 
-test();
 
-// module.exports = {
-//   Message,
-//   User,
-//   Advert,
-//   Advert_has_image,
-// };
+// async function test() {
+//   const res = await Advert.findAll();
+//   console.log(res);
+// }
+
+// test();
+
+module.exports = {
+  Message,
+  User,
+  Advert,
+  Advert_has_image,
+};

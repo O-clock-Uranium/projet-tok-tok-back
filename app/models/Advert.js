@@ -6,7 +6,7 @@ class Advert extends Model {}
 Advert.init(
   {
     title: {
-      type: DataTypes.VARCHAR(64),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     content: {
@@ -20,18 +20,18 @@ Advert.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: User,
-        key: 'id'
-      }
+      // references: {
+      //   model: User,
+      //   key: 'id'
+      // }
     },
     tag_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: Tag,
-        key: 'id'
-      }
+      // references: {
+      //   model: Tag,
+      //   key: 'id'
+      // }
     }
   },
   {

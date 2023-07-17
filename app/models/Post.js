@@ -15,15 +15,15 @@ Post.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: User,
-        key: "id",
-      },
+      // references: {
+      //   model: User,
+      //   key: "id",
+      // },
     },
   },
   {
     sequelize,
-    tableName: "Post",
+    tableName: "post",
   }
 );
 

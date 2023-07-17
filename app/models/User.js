@@ -6,26 +6,26 @@ class User extends Model {}
 User.init(
   {
     firstname: {
-      type: DataTypes.VARCHAR(64),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     lastname: {
-      type: DataTypes.VARCHAR(64),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     description: {
-      type: DataTypes.VARCHAR(255),
+      type: DataTypes.TEXT,
     },
-    adress: {
+    address: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
     email: {
-      type: DataTypes.VARCHAR(64),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     password: {
-      type: DataTypes.VARCHAR(64),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     thumbnail: {

@@ -1,5 +1,6 @@
 const {Router} = require("express");
 const mainController = require("./controllers/mainController");
+const postController = require("./controllers/postController");
 
 const router = Router();
 
@@ -7,6 +8,14 @@ const router = Router();
 router.get("/",mainController.homepage);
 
 router.get("/Accueil_Membre", mainController.tag );
+
+/**
+ * Routes de l'API
+ */
+
+router.get('/posts', postController.getAllPosts);
+router.get('/users', postController.getAllUsers);
+
 
 // app.get("/Annonces", (req, res) => {
 //   res.render("Annonces.ejs", {});

@@ -8,18 +8,18 @@ Like.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: User,
-        key: 'id'
-      }
+      // references: {
+      //   model: User,
+      //   key: 'id'
+      // }
     },
     post_id: {
       type: DataTypes.TEXT,
       allowNull: false,
-      references: {
-        model: Post,
-        key: 'id'
-      }
+      // references: {
+      //   model: Post,
+      //   key: 'id'
+      // }
     }
   },
   {

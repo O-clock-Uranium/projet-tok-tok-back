@@ -8,23 +8,23 @@ Favourite.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: User,
-        key: 'id'
-      }
+      // references: {
+      //   model: User,
+      //   key: 'id'
+      // }
     },
     advert_id: {
       type: DataTypes.TEXT,
       allowNull: false,
-      references: {
-        model: Advert,
-        key: 'id'
-      }
+      // references: {
+      //   model: Advert,
+      //   key: 'id'
+      // }
     }
   },
   {
     sequelize,
-    tableName: "Favourite",
+    tableName: "favourite",
   }
 );
 
