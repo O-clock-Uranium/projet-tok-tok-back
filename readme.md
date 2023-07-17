@@ -2,6 +2,8 @@
 
 - Sommaire
 
+[https://github.com/O-clock-Uranium/Projects/blob/master/README.md](https://github.com/O-clock-Uranium/Projects/blob/master/README.md)
+
 # Introduction
 
 **Tok-Tok : votre réseau social de proximité**
@@ -41,7 +43,7 @@ Tok-toK, le réseau social qui rapproche les voisins et renforce la communauté 
     
 - **Groupes** 🧑‍🤝‍🧑
     
-    Les groupes thématiques sont un moyen idéal de connecter avec des voisins partageant les mêmes intérêts ou passions. Vous pouvez rejoindre des groupes existants ou en créer de nouveaux pour discuter de sujets spécifiques, organiser des événements locaux, ou coordonner des initiatives communautaires. Les groupes favorisent la collaboration et renforcent les liens sociaux entre voisin
+    Les groupes thématiques sont un moyen idéal de connecter avec des voisins partageant les mêmes intérêts ou passions. Vous pouvez rejoindre des groupes existants ou en créer de nouveaux pour discuter de sujets spécifiques, organiser des événements locaux, ou coordonner des initiatives communautaires. Les groupes favorisent la collaboration et renforcent les liens sociaux entre voisin.
     
 
 # Public cible
@@ -77,19 +79,19 @@ Tok-toK, le réseau social qui rapproche les voisins et renforce la communauté 
 
 ## Minimal Viable Product (MVP) :
 
-- [ ]  Login
+- [ ]  Login / Inscription
+- [ ]  Géolocalisation
 - [ ]  Profil
-- [ ]  Écrire/Réagir/Répondre au messages (mur)
+- [ ]  Écrire/Répondre/Réagir au post (fil d’actualité)
+- [ ]  Messages Privées
 - [ ]  Petites Annonces (création et favoris)
 - [ ]  Recherche (annonces/posts/membres)
-- [ ]  Pop Up quand réaction à un msg
+- [ ]  Notifications
 
 ## Évolutions potentielles :
 
-- [ ]  Panel de modérateur
+- [ ]  Panel de modération
 - [ ]  Système de paiement
-- [ ]  Géolocalisation
-- [ ]  Messages Privées
 - [ ]  Groupes
 - [ ]  Badges de participation
 - [ ]  Créer des évènements
@@ -103,7 +105,7 @@ Tok-toK, le réseau social qui rapproche les voisins et renforce la communauté 
 - React/TypeScript
 - Redux-toolkit
 - Sass
-- (Tailwind)
+- Tailwind
 
 ### Librairies de composants :
 
@@ -119,6 +121,7 @@ Tok-toK, le réseau social qui rapproche les voisins et renforce la communauté 
 - Express
 - Postgres
 - Sequelize
+- graphql / MongoDB
 
 ## **APIs :**
 
@@ -128,18 +131,18 @@ Tok-toK, le réseau social qui rapproche les voisins et renforce la communauté 
 
 # Navigateur compatible
 
-Chrome / Firefox / Safari version desktop et mobile.
+Chrome / Firefox version desktop et mobile.
 
 # Arborescence de l’application
 
-![Untitled](Cahier%20des%20charges%20625640ec232d431ca73b2337a26b8806/Untitled.png)
+![Untitled](./assets/Arborescence.png)
 
 # User Story
 
 - Ouvrir le tableau
     
     Légende : 
-    - Noir : A faire
+    - Noir : MVP
     - Bleu : Optionnel
     - Violet : On sait pas
     
@@ -212,64 +215,120 @@ Chrome / Firefox / Safari version desktop et mobile.
 
 - PapaTom
     
-    ![Untitled](/assets/WireFrame%20Tom.png)
+    ![Untitled](./assets/WireFrames/PapaTom.png)
     
 - John
     
-    ![Untitled](./assets/WireFrame%20John.png)
+    ![Untitled](./assets/WireFrames/John.png)
     
 - Chloé
     
-    ![Untitled](./assets/Wireframe%20Chlo%C3%A9.png)
+    ![Untitled](./assets/WireFrames/Chloé.png)
     
 
 ## Pages définitives :
 
 ### Homepage (visiteur)
 
-![Untitled](./assets/Homepage-Visiteur.png)
+Desktop
+
+![Untitled](./assets/WireFrames/Homepage_Visiteur.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Homepage_Visiteur_mobile.png)
 
 ### Accueil (membre)
 
-![Untitled](./assets/Homepage-Membre.png)
+Desktop
+
+![Untitled](./assets/WireFrames/Homepage_membre.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Homepage_membre_mobile.png)
 
 ### Mon profil
 
-![Untitled](./assets/Profil.png)
+Desktop
+
+![Untitled](./assets/WireFrames/Profil.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Profil_mobile.png)
 
 ### Annonces
 
-![Untitled](./assets/Adverts.png)
+Desktop
+
+![Untitled](./assets/WireFrames/Adverts.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Adverts_mobile.png)
 
 ### Annonce
 
-![Untitled](./assets/Advert.png)
+Desktop
 
-### Favoris
+![Untitled](./assets/WireFrames/Advert.png)
 
-![Untitled](./assets/Favoris.png)
+Mobile
 
-### Messagerie
-
-![Untitled](./assets/MP.png)
+![Untitled](./assets/WireFrames/Advert_mobile.png)
 
 ### Créer une annonce
 
-![Untitled](./assets/Create%20advert.png)
+Desktop
+
+![Untitled](./assets/WireFrames/Create_an_advert.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Create_an_advert_mobile.png)
+
+### Favoris
+
+Desktop
+
+![Untitled](./assets/WireFrames/Favourites.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Favourites_mobile.png)
+
+### Messagerie
+
+Desktop
+
+![Untitled](./assets/WireFrames/MP.png)
+
+Mobile
+
+![Untitled](./assets/WireFrames/MP_mobile.png)
+
+### Settings (only mobile)
+
+Mobile
+
+![Untitled](./assets/WireFrames/Param_mobile.png)
+
+## Maquettes
+
+[https://www.figma.com/file/2KapFhQ5QVEZTUm39JTPBZ/Tok-Tok?type=design&node-id=0-1&mode=design&t=LzEFA7Ttq4wvyJeA-0](https://www.figma.com/file/2KapFhQ5QVEZTUm39JTPBZ/Tok-Tok?type=design&node-id=0-1&mode=design&t=LzEFA7Ttq4wvyJeA-0)
 
 # BDD
 
-### MCD
+## MCD
 
-[https://www.notion.so](https://www.notion.so)
+![MCD TOK-TOK.drawio(1).png](./assets/MCD.png)
 
-![Untitled](./assets/MCD.png)
+## MLD
 
-### MLD
+![MLD-TokTok.drawio(2).png](./assets/MLD.png)
 
-![Untitled](./assets/MLD.png)
-
-## Dico de données
+# Dico de données
 
 Table user
 
@@ -278,13 +337,14 @@ Table user
 | id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | I’identifiant de la personne |
 | firstname | VARCHAR(64) | NOT NULL | Le prénom de la personne |
 | lastname | VARCHAR(64) | NOT NULL | Le nom de la personne |
+| description | VARCHAR(255) |  | La description de la personne sur son profil |
 | adress | TEXT | NOT NULL | L’adresse de personne |
+| localisation | TEXT | NOT NULL | La position exact de l’utilisateur à son inscription |
 | email | VARCHAR(64) | NOT NULL | L’email de la personne |
 | password | VARCHAR(64) | NOT NULL | Le mot de passe de la personne |
-| profile_picture | TEXT |  | La photo de profil de la personne |
+| thumbnail | TEXT |  | La photo de profil de la personne |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | La date de création du profil |
 | updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | La date de dernière modification du profil |
-| description | VARCHAR(255) |  | La description de la personne sur son profil |
 
 Table annonce
 
@@ -293,12 +353,21 @@ Table annonce
 | id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | I’identifiant de l’annonce |
 | title | VARCHAR(64) | NOT NULL | Titre de l’Annonce |
 | content | TEXT | NOT NULL | Contenu de l’annonce |
-| image | TEXT | NOT NULL | Photo de l’objet de l’annonce |
 | price | SMALLINT | NOT NULL | Prix de l’objet |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Date de la création de l’annonce |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Date de la dernière modification |
 | user_id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | L’identifiant de la personne qui à crée l’annonce |
 | tag_id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | L’identifiant de la catégorie |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Date de la création de l’annonce |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Date de la dernière modification |
+
+Table annonce_image
+
+| Champ | Type | Spécificités | Description |
+| --- | --- | --- | --- |
+| id | INT  | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | L’identifiant de la relation |
+| annonce_id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | I’identifiant de l’annonce |
+| thumbnail | TEXT | NOT NULL | Photo de l’objet de l’annonce |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Date de la création de l’annonce |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Date de la dernière modification |
 
 Table post
 
@@ -306,10 +375,11 @@ Table post
 | --- | --- | --- | --- |
 | id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | L’identifiant du message |
 | content | TEXT | NOT NULL | Le texte du message |
+| thumbnail | TEXT |  | L’image du post |
+| reply_to | INT |  | L’id du post auquel ce post répond |
 | user_id | ENTITY | PRIMARY KEY, NOT NULL | Le nom de la personne qui a envoyé le message |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | La date de création/envoi du post |
 | updated_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | La date de modification du post |
-| image | TEXT |  | L’image du post |
 
 Table message 
 
@@ -317,18 +387,10 @@ Table message
 | --- | --- | --- | --- |
 | id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | L’identifiant du message |
 | content | TEXT | NOT NULL | Le texte du message |
-| user_id | ENTITY | PRIMARY KEY, NOT NULL | Le nom de la personne qui a envoyé le message |
-| conversation_id | ENTITY | PRIMARY KEY, NOT NULL | L’identifiant de la conversation |
+| expediteur | ENTITY | PRIMARY KEY, NOT NULL | L’id de la personne qui a envoyé le message |
+| destinataire | ENTITY | PRIMARY KEY, NOT NULL | L’id de la personne a qui le message est envoyé  |
+| conversation_id | SEQUENCE | NOT NULL | L’identifiant de la conversation |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | La date de création/envoi du message |
-
-Table conversation
-
-| Champ | Type | Spécificités | Description |
-| --- | --- | --- | --- |
-| id | INT | PRIMARY KEY, UNSIGNED, NOT NULL, AUTO_INCREMENT | I’identifiant de la conversation |
-| name | CHAR | ????????????????? | Nom de la Conversation |
-| user1_id | ENTITY | PRIMARY KEY, NOT NULL | Le nom du premier user |
-| user2_id | ENTITY | PRIMARY KEY, NOT NULL | Le nom du second user |
 
 Table tag
 
@@ -355,16 +417,54 @@ Table likes
 
 # Liste des routes
 
-- /
+- Routes front
     
-    /home
+    / ⇒ Route accueil non-loggué
     
-     /profil/:id
+    /home ⇒ Route accueil loggué
     
-    /annonces
+    /profil/:id  ⇒ Route profil paramétré
     
-    /annonces/:id
+    /annonces ⇒ Route toutes les annonces
     
-    /favoris
+    /annonces/:id ⇒ Route une annonce paramétré
     
-    /messagerie
+    /favoris ⇒ Route les favoris d’annonces
+    
+    /messagerie ⇒ Route messagerie
+    
+    /about  ⇒ Route à propos
+    
+    /contact ⇒ Route contact
+    
+    /search ⇒ Route de résultat des recherches
+    
+- Routes Back
+    
+    
+    | Méthode | nom de la route | paramètres | description | retour |
+    | --- | --- | --- | --- | --- |
+    | POST | /login |  | Authentifier un utilisateur | objet |
+    | POST | /register |  | Enregistrer un nouvel utilisateur | objet |
+    | GET | /posts |  | Obtenir tous les posts dans notre rayon, tri décroissant par date | tableau d’objets |
+    | POST | /posts |  | Créer un nouveau post | objet |
+    | PATCH | /posts/:id | L’id du post à modifier | Modifier une publication | objet |
+    | DELETE | /posts/:id | L’id du post à supprimer | Supprimer une publication | objet |
+    | GET | /profil/:id | L’identifiant du profil | Afficher le profil d’un utilisateur | objet |
+    | PATCH | /profil/:id | L’identifiant du profil | Modifier les informations d’un profil | objet |
+    | DELETE | /profil/:id | L’identifiant du profil | Supprimer un profil | objet |
+    | GET | /annonces |  | Afficher toutes les annonces dans notre rayon, tri décroissant par date (par défaut) | tableau d’objets |
+    | POST | /annonces |  | Créer une nouvelle annonce | objet |
+    | GET | /annonces/:id | L’id de l’annonce cliquée | Afficher les informations de l’annonce cliquée et ses photos | objet |
+    | PATCH | /annonces/:id | L’id de l’annonce cliquée | Modifier l’annonce cliquée et ses photos | objet |
+    | DELETE | /annonces/:id | L’id de l’annonce cliquée | Supprimer l’annonce cliquée et ses photos | objet |
+    | GET  | /annonces?category=category | category : La catégorie sélectionnée dans les filtres de recherche | Afficher les annonces dans notre rayon dont la catégorie est category | tableau d’objets |
+    | GET  | /annonces?distance=distance | distance : La distance sélectionnée dans les filtres de recherche | Afficher les annonces dans le rayon sélectionné | tableau d’objets |
+    | GET  | /annonces?orderby=date | distance : La distance sélectionnée dans les filtres de recherche | Afficher les annonces dans le rayon sélectionné | tableau d’objets |
+    | GET | /favourites |  | Afficher les annonces favorites du user loggué | tableau d’objets |
+    | POST | /favourites/:id/add | L’id de l’annonce à ajouter aux favoris | Ajouter une annonce aux favoris | objet |
+    | DELETE | /favourites/:id/remove | L’id de l’annonce à ajouter aux favoris | Supprimer une annonce des favoris | objet |
+    | GET | /search |  |  | tableau d’objets |
+    | GET | /messages |  | Afficher tous les messages de l’utilisateur | tableau d’objets |
+    | GET | /messages/:id | L’id de la conversation | Afficher tous les messages de la conversation | tableau d’objets |
+    | POST | /messages/:id | L’id de la conversation | Envoyer un message dans la conversation | objet |

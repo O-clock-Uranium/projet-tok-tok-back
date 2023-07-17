@@ -4,12 +4,17 @@
   "description": "Tok-toK, le réseau social qui rapproche les voisins et renforce la communauté de proximité. Notre plateforme en ligne offre un espace convivial et interactif où vous pouvez interagir avec vos voisins, partager des informations, échanger des services, et bien plus encore.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "pg": "^8.11.1",
+    "sequelize": "^6.32.1"
   }
 }
