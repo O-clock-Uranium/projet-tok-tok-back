@@ -3,6 +3,7 @@ const { User } = require("../models/index");
 const userController = {
   getOneUser: async (req, res) => {
     try {
+
       const { id } = req.params;
 
       const profile = await User.findByPk(id, {

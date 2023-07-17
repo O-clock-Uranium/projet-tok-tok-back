@@ -1,8 +1,5 @@
 const {Router} = require("express");
-const postController = require("./controllers/postController");
-const advertsController = require("./controllers/advertsController");
-const messageController = require("./controllers/messageController");
-const userController = require("./controllers/UserControlleur");
+const {controllers} = require("./controllers/index");
 
 const router = Router();
 
@@ -12,21 +9,19 @@ const router = Router();
 // router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
 
 /* Posts -----------------------------------------------------------------*/
-router.get('/posts', postController.getAllPosts);
+router.get('/posts', controllers.postController.getAllPosts);
 
 /* Users -----------------------------------------------------------------*/
+
 router.get('/users/:id', userController.getOneUser);
 router.patch('/users/:id', userController.updateUser);
 router.delete('/users/:id', userController.deleteUser);
 
-
-
-
 /* Adverts ---------------------------------------------------------------*/
-router.get('/adverts', advertsController.getAllAdverts);
+router.get('/adverts', controllers.advertsController.getAllAdverts);
 
 /* Messages --------------------------------------------------------------*/
-// router.get('/messages', messageController.getAllMessage);
+//router.get('/messages', messageController.getAllMessage);
 
 // app.get("/Annonces", (req, res) => {
 //   res.render("Annonces.ejs", {});
