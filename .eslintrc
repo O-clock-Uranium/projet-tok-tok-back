@@ -12,6 +12,10 @@
       "semi": ["error", "always"],
       "no-multi-spaces": "error",
       "no-trailing-spaces": "error",
-      "eol-last": "error"
+      "eol-last": "error",
+      "no-extra-semi": "error",
+      "no-multiple-empty-lines": ["error", { "max": 2 }],
+      "prefer-const": "error",
+      "no-var": "error"
     }
   }

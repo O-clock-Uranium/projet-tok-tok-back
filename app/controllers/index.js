@@ -4,7 +4,8 @@ const controllers = {
   postController: require("./postController.js"),
   userController: require("./UserController"),
   accueilController: require("./accueilController"),
-  favouriteController: require("./favouriteController")
+  favouriteController: require(".favouriteController"),
+  searchController: require("./searchController")
 };
 
 module.exports = controllers;

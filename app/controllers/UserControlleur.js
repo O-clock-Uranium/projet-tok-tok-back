@@ -36,6 +36,7 @@ const userController = {
       const { firstname, lastname, thumbnail, address, email, password } =
         req.body;
 
+      // eslint-disable-next-line prefer-const
       let newUser = User.build({
         firstname,
         lastname,
