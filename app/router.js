@@ -12,10 +12,7 @@ const router = Router();
 router.get('/posts', controllers.postController.getAllPosts);
 
 /* Users -----------------------------------------------------------------*/
-
-router.get('/users/:id', userController.getOneUser);
-router.patch('/users/:id', userController.updateUser);
-router.delete('/users/:id', userController.deleteUser);
+router.get('/users', controllers.userController.getOneUser);
 
 /* Adverts ---------------------------------------------------------------*/
 router.get('/adverts', controllers.advertsController.getAllAdverts);

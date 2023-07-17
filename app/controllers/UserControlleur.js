@@ -46,11 +46,11 @@ const userController = {
       });
 
       await newUser.save();
-      res.status(201).json(newUser)
+      res.status(201).json(newUser);
 
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({error:"Failed to create user"});
     }
   },
 

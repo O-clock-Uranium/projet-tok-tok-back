@@ -15,11 +15,28 @@ const advertsController = {
 
 createdAdvert: async (req, res) => {
    try {
-    const {title,content,}
+    const {title,content,price} = req.body
+    //rajouter user_id et annonce_id?
+
+let newAdvert = Advert.build({
+  title,
+  content,
+  price
+})
+
+await newAdvert.save()
+res.status(201).json(newAdvert)
+
+   } catch (error) {
+     console.log(error);
+     return res.status(500).json({ error:"Failed to create advert" });
    }
+
+   }
+
 }
 
-  },
+  }
 
 
 
