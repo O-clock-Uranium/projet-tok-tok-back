@@ -52,7 +52,7 @@ CREATE TABLE "post" (
   content TEXT NOT NULL,
   thumbnail TEXT,
   reply_to INTEGER REFERENCES "post"("id"),
-  user_id INTEGER NOT NULL ,
+  user_id INTEGER NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES "user"(id)
