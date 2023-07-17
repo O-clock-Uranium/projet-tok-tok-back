@@ -16,6 +16,7 @@ router.get('/posts', postController.getAllPosts);
 
 /* Users -----------------------------------------------------------------*/
 router.get('/users/:id', userController.getOneUser);
+router.post('/users', userController.createOne);
 router.patch('/users/:id', userController.updateUser);
 router.delete('/users/:id', userController.deleteUser);
 

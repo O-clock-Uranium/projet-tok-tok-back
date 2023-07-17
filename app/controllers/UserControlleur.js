@@ -8,19 +8,12 @@ const userController = {
       const profile = await User.findByPk(id, {
         include: ["liked", "posts", "adverts"],
         attributes: {
-          exclude: [
-            "address",
-            "password",
-            "email",
-            "description",
-            "createdAt",
-            "updatedAt",
-          ]
+          exclude: ["address", "password", "email", "updated_at"],
         },
         order: [
           ["posts", "created_at", "DESC"],
           ["liked", "created_at", "DESC"],
-        ]
+        ],
       });
       res.status(200).json(profile);
     } catch (error) {
@@ -32,21 +25,28 @@ const userController = {
   //CREATE	/users	Ajouter un utilisateur à la db
   createOne: async (req, res) => {
     try {
-      const { firstname, lastname, thumbnail, address, email, password } =
-        req.body;
+      const {
+        firstname,
+        lastname,
+        thumbnail,
+        address,
+        localization,
+        email,
+        password,
+      } = req.body;
 
       let newUser = User.build({
         firstname,
         lastname,
         thumbnail,
         address,
+        localization,
         email,
         password,
       });
 
       await newUser.save();
-      res.status(201).json(newUser)
-
+      res.status(201).json(newUser);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
@@ -59,33 +59,35 @@ const userController = {
       const { firstname, lastname, thumbnail, address, email, password } =
         req.body;
       const { id } = req.params;
+      console.log(id);
 
-      const user = User.findByPk(id);
+      const user = await User.findByPk(id);
 
-      if (user) {
-        if (firstname) {
-          user.firstname = firstname;
-        }
-        if (lastname) {
-          user.lastname = lastname;
-        }
-        if (thumbnail) {
-          user.thumbnail = thumbnail;
-        }
-        if (address) {
-          user.address = address;
-        }
-        if (email) {
-          user.email = email;
-        }
-        if (password) {
-          user.password = password;
-        }
-
-        await user.save();
-      } else {
+      //! TODO: voir pour factoriser
+      if (!user) {
         res.status(404).json("User not found");
       }
+      if (firstname) {
+        user.firstname = firstname;
+      }
+      if (lastname) {
+        user.lastname = lastname;
+      }
+      if (thumbnail) {
+        user.thumbnail = thumbnail;
+      }
+      if (address) {
+        user.address = address;
+      }
+      if (email) {
+        user.email = email;
+      }
+      if (password) {
+        user.password = password;
+      }
+
+      await user.save();
+      res.status(200).json(user);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
