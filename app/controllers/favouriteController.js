@@ -9,7 +9,10 @@ const favouriteController = {
       const favourites = await Favourite.findAll({
         where: { user_id: userId },
         // association: "favourite",
-        include: Advert
+        include:{
+          model: Advert,
+          as: "advert",
+        }
         //   as: "users_favourite",
         //   // attributes: ["id", "title", "content", "price", "thumbnail"],
         // },

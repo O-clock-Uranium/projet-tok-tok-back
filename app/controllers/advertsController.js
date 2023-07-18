@@ -1,8 +1,8 @@
 const { Advert } = require("../models/index");
 
 const advertsController = {
-    //* ce sera les résultats à afficher quand on clique sur "annonces" dans le menu fixed.
-    //* nb: pour le moment, on affiche touuuuutes les annonces mais par la suite on filtrera celles qui se trouvent dans tel rayon autour du user loggué
+  //* ce sera les résultats à afficher quand on clique sur "annonces" dans le menu fixed.
+  //* nb: pour le moment, on affiche touuuuutes les annonces mais par la suite on filtrera celles qui se trouvent dans tel rayon autour du user loggué
   getAll: async (_, res) => {
     try {
       const adverts = await Advert.findAll({
@@ -19,17 +19,17 @@ const advertsController = {
   //GET	/annonces/:id	L’id de l’annonce cliquée	Afficher les informations de l’annonce cliquée et ses photos
   getOne: async (req, res) => {
     try {
-        const {id} = req.params;
-        const advert = await Advert.findByPk(id);
+      const {id} = req.params;
+      const advert = await Advert.findByPk(id);
 
-        if(!advert) {
-            res.status(404).json({error: "Can't find this advert"});
-        }
+      if(!advert) {
+        res.status(404).json({error: "Can't find this advert"});
+      }
 
-        res.status(200).json(advert);
+      res.status(200).json(advert);
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error.toString());
+      console.log(error);
+      res.status(500).json(error.toString());
     }
   },
 
@@ -74,33 +74,33 @@ const advertsController = {
 
       advert.save();
 
-      res.status(200).json(advert)
+      res.status(200).json(advert);
 
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Failed to update advert" });
     }
   },
-  
+
   //DELETE	/annonces/:id	L’id de l’annonce cliquée	Supprimer l’annonce cliquée et ses photos
   deleteAdvert: async (req, res) => {
     try {
-        const {id} = req.params;
+      const {id} = req.params;
 
-        const advert = await Advert.findByPk(id);
+      const advert = await Advert.findByPk(id);
 
-        if(!advert) {
-            res.status(404).json({ error: "Cannot find this advert" })
-        }
-        //TODO: ici il faudra rajouter une boite de dialogue pour confirmer la suppression 
+      if(!advert) {
+        res.status(404).json({ error: "Cannot find this advert" });
+      }
+      //TODO: ici il faudra rajouter une boite de dialogue pour confirmer la suppression
 
-        advert.destroy()
-        
-        res.status(200).json(advert)
-        
+      advert.destroy();
+
+      res.status(200).json(advert);
+
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: "Failed to update advert" });
+      console.log(error);
+      return res.status(500).json({ error: "Failed to update advert" });
     }
   }
 };

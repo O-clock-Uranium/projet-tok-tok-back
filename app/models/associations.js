@@ -89,6 +89,16 @@ Advert.belongsToMany(User, {
   as: "users_favourited",
   through: Favourite
 });
+Advert.belongsToMany(User, {
+  foreignKey: "advert_id",
+  as: "favourited",
+  through: Favourite
+});
+User.belongsToMany(Advert, {
+  foreignKey: "user_id",
+  as: "users_favourited",
+  through: Favourite
+});
 
 module.exports = {
   Message,

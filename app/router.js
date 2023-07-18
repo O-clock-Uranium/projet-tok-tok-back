@@ -44,8 +44,6 @@ router.post('/users/:userId/likes/:postId', controllers.likeController.addToLike
 router.delete('/users/:userId/likes/:postId', controllers.likeController.removeFromLikes);
 
 
-
-
 // app.get("/Annonces", (req, res) => {
 //   res.render("Annonces.ejs", {});
 // });
