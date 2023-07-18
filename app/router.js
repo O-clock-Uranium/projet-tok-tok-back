@@ -17,12 +17,15 @@ router.get('/posts', controllers.postController.getAllPosts);
 
 /* Users -----------------------------------------------------------------*/
 router.get('/users/:id', controllers.userController.getOneUser);
-router.patch('/users/:id/edit-profile', controllers.userController.updateUser);
+router.patch('/users/:id/edit-profile', controllers.userController.updateUser); //-> pour la page "paramètres"
 router.delete('/users/:id/delete-account', controllers.userController.deleteUser);
 
 /* Adverts ---------------------------------------------------------------*/
-router.get('/adverts', controllers.advertController.getAllAdverts);
+router.get('/adverts/', controllers.advertController.getAll);
+router.get('/adverts/:id', controllers.advertController.getOne);
 router.post('/adverts', controllers.advertController.createAdvert);
+router.patch('/adverts/:id', controllers.advertController.updateAdvert);
+router.delete('/adverts/:id', controllers.advertController.deleteAdvert);
 
 /* Messages
 --------------------------------------------------------------*/
@@ -40,12 +43,7 @@ router.delete('/users/:userId/favourites/:advertId', controllers.favouriteContro
 router.post('/users/:userId/likes/:postId', controllers.likeController.addToLikes);
 router.delete('/users/:userId/likes/:postId', controllers.likeController.removeFromLikes);
 
-/* Adverts ---------------------------------------------------------------*/
-router.get('/adverts/', controllers.advertController.getAll);
-router.get('/adverts/:id', controllers.advertController.getOne);
-router.post('/adverts', controllers.advertController.createAdvert);
-router.patch('/adverts/:id', controllers.advertController.updateAdvert);
-router.delete('/adverts/:id', controllers.advertController.deleteAdvert);
+
 
 
 // app.get("/Annonces", (req, res) => {

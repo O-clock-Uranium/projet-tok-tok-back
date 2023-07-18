@@ -103,8 +103,7 @@ const advertsController = {
         return res.status(500).json({ error: "Failed to update advert" });
     }
   }
-  
-
+};
 //GET 	/annonces?distance=distance	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
 //GET 	/annonces?orderby=date	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
 
