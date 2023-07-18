@@ -1,12 +1,12 @@
 const controllers = {
   advertController: require("./advertsController"),
   messageController: require("./messageController"),
-  postController: require("./postController.js"),
-  userController: require("./UserController"),
-  accueilController: require("./accueilController"),
+  postController: require("./postController"),
+  userController: require("./userController"),
+  authController: require("./authController"),
   favouriteController: require("./favouriteController"),
   searchController: require("./searchController"),
-  likeController: require("./likeController"),
+  likeController: require("./likeController")
 };
 
 module.exports = controllers;
