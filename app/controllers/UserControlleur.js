@@ -36,6 +36,7 @@ const userController = {
       const { firstname, lastname, thumbnail, address, email, password } =
         req.body;
 
+      // eslint-disable-next-line prefer-const
       let newUser = User.build({
         firstname,
         lastname,
@@ -46,11 +47,11 @@ const userController = {
       });
 
       await newUser.save();
-      res.status(201).json(newUser)
+      res.status(201).json(newUser);
 
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({error:"Failed to create user"});
     }
   },
 
