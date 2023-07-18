@@ -8,6 +8,11 @@ const userController = {
 
       const profile = await User.findByPk(id, {
         include: ["liked", "posts", "adverts"],
+        //? toujours le même pb : comment afficher les infos du user des posts et posts likés
+        // include: [{
+        //   association: "liked",
+        //   include: ['post_creator']
+        //   }, "posts", "adverts"],
         attributes: {
           exclude: ["address", "password", "email", "updated_at"],
         },

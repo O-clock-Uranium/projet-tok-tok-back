@@ -14,15 +14,14 @@ User.init(
       allowNull: false,
     },
     description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.TEXT
     },
     address: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
     localization: {
-      type: DataTypes.TEXT,
-      allowNull: false,
+      type: DataTypes.TEXT
     },
     email: {
       type: DataTypes.TEXT,
@@ -33,7 +32,7 @@ User.init(
       allowNull: false,
     },
     thumbnail: {
-      type: DataTypes.TEXT,
+      type: DataTypes.TEXT
     },
   },
   {

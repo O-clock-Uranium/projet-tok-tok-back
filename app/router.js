@@ -1,5 +1,5 @@
 const {Router} = require("express");
-const {controllers} = require("./controllers/index");
+const controllers = require("./controllers/index");
 
 const router = Router();
 
@@ -8,20 +8,29 @@ const router = Router();
  */
 // router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
 
+/* login/signup -----------------------------------------------------------------*/
+router.post('/login', controllers.authController.handleLogin);
+router.post('/signup', controllers.authController.handleSignup);
+
+
 /* Posts -----------------------------------------------------------------*/
 router.get('/posts', controllers.postController.getAllPosts);
 
 /* Users -----------------------------------------------------------------*/
-router.get('/users/:id', userController.getOneUser);
-router.post('/users', userController.createOne);
-router.patch('/users/:id', userController.updateUser);
-router.delete('/users/:id', userController.deleteUser);
+router.get('/users/:id', controllers.userController.getOneUser);
+router.patch('/users/:id/edit-profile', controllers.userController.updateUser);
+router.delete('/users/:id/delete-account', controllers.userController.deleteUser);
 
 
 
 
 /* Adverts ---------------------------------------------------------------*/
-router.get('/adverts', controllers.advertsController.getAllAdverts);
+router.get('/adverts/', controllers.advertController.getAll);
+router.get('/adverts/:id', controllers.advertController.getOne);
+router.post('/adverts', controllers.advertController.createAdvert);
+router.patch('/adverts/:id', controllers.advertController.updateAdvert);
+router.delete('/adverts/:id', controllers.advertController.deleteAdvert);
+
 
 /* Messages --------------------------------------------------------------*/
 //router.get('/messages', messageController.getAllMessage);
