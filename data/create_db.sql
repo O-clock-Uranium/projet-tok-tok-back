@@ -14,7 +14,7 @@ CREATE TABLE "user" (
   lastname VARCHAR(64) NOT NULL,
   description VARCHAR(255),
   address TEXT NOT NULL,
-  localization TEXT NOT NULL,
+  localization TEXT,
   email VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
   thumbnail TEXT,

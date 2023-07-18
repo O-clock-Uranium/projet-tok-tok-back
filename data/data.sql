@@ -55,6 +55,15 @@ VALUES (
         1,
         NOW(),
         NOW()
+    ),
+    (
+        'Carte yu-gi-eh',
+        'extension 2028',
+        50,
+        1,
+        1,
+        NOW(),
+        NOW()
     );
 INSERT INTO "advert_has_image" (
         "advert_id",
@@ -110,6 +119,7 @@ VALUES (
         NOW()
     );
 INSERT INTO "favourite" ("advert_id", "user_id")
-VALUES (1, 2);
+VALUES (1, 2),
+    (2, 1);
 INSERT INTO "like" ("post_id", "user_id")
 VALUES (1, 2);

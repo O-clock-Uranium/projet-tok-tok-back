@@ -1,5 +1,5 @@
 const {Router} = require("express");
-const {controllers} = require("./controllers/index");
+const controllers = require("./controllers/index");
 
 const router = Router();
 
@@ -8,23 +8,40 @@ const router = Router();
  */
 // router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
 
+/* login/signup -----------------------------------------------------------------*/
+//router.post('/login', controllers.authController.handleLogin);
+//router.post('/signup', controllers.authController.handleSignup);
+
+
 /* Posts -----------------------------------------------------------------*/
 router.get('/posts', controllers.postController.getAllPosts);
 
 /* Users -----------------------------------------------------------------*/
-router.get('/users/:id', userController.getOneUser);
-router.post('/users', userController.createOne);
-router.patch('/users/:id', userController.updateUser);
-router.delete('/users/:id', userController.deleteUser);
-
-
-
+router.get('/users/:id', controllers.userController.getOneUser);
+router.patch('/users/:id/edit-profile', controllers.userController.updateUser);
+router.delete('/users/:id/delete-account', controllers.userController.deleteUser);
 
 /* Adverts ---------------------------------------------------------------*/
-router.get('/adverts', controllers.advertsController.getAllAdverts);
+router.get('/adverts', controllers.advertController.getAllAdverts);
+router.post('/adverts', controllers.advertController.createAdvert);
 
-/* Messages --------------------------------------------------------------*/
-//router.get('/messages', messageController.getAllMessage);
+/* Messages
+--------------------------------------------------------------*/
+router.get('/messages', controllers.messageController.getUserMessage);
+router.get('/messages/:id', controllers.messageController.displayAllConversation);
+router.post('/messages/:id', controllers.messageController.sendMessage);
+
+
+/* Favourites --------------------------------------------------------------*/
+router.get('/users/:id/favourites', controllers.favouriteController.getAllFavourites);
+router.post('/users/:userId/favourites/:advertId', controllers.favouriteController.addToFavourites);
+router.delete('/users/:userId/favourites/:advertId', controllers.favouriteController.removeFromFavourites);
+
+/*Likes
+-------------------------------------------------------------*/
+router.post('/users/:userId/likes/:postId', controllers.likeController.addToLikes);
+router.delete('/users/:userId/likes/:postId', controllers.likeController.removeFromLikes);
+
 
 // app.get("/Annonces", (req, res) => {
 //   res.render("Annonces.ejs", {});

@@ -71,23 +71,24 @@ Message.belongsTo(User, {
 User.belongsToMany(Post, {
   foreignKey: "user_id",
   as: "liked",
-  through: Like 
+  through: Like
 });
 Post.belongsToMany(User, {
   foreignKey: "post_id",
   as: "users_liked",
-  through: Like 
+  through: Like
 });
 
-User.belongsToMany(Post, { through: Favourite });
-Post.belongsToMany(User, { through: Favourite });
-
-// async function test() {
-//   const res = await Advert.findAll();
-//   console.log(res);
-// }
-
-// test();
+User.belongsToMany(Advert, {
+  foreignKey: "user_id",
+  as: "favourited",
+  through: Favourite
+});
+Advert.belongsToMany(User, {
+  foreignKey: "advert_id",
+  as: "users_favourited",
+  through: Favourite
+});
 
 module.exports = {
   Message,

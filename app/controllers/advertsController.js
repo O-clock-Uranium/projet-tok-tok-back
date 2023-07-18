@@ -11,42 +11,45 @@ const advertsController = {
       console.log(error);
       res.status(500).json(error.toString());
     }
-  //POST	/annonces		Créer une nouvelle annonce
   },
-createdAdvert: async (req, res) => {
-   try {
-    const {title,content,price} = req.body
-    //rajouter user_id et annonce_id?
+  //POST	/annonces		Créer une nouvelle annonce
 
-let newAdvert = Advert.build({
-  title,
-  content,
-  price
-})
+  createAdvert: async (req, res) => {
+    try {
+      const {title,content,price, user_id, tag_id} = req.body;
 
-await newAdvert.save()
+      const newAdvert = Advert.build({
+        title,
+        content,
+        price,
+        user_id,
+        tag_id
+      });
 
-res.status(201).json(newAdvert)
+      await newAdvert.save();
+      res.status(201).json(newAdvert);
 
-   } catch (error) {
-     console.log(error);
-     return res.status(500).json({ error:"Failed to create advert" });
-   }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error:"Failed to create advert" });
+    }
 
-   }
+  }
 
-
-  //GET	/annonces/:id	L’id de l’annonce cliquée	Afficher les informations de l’annonce cliquée et ses photos
-
-  //PATCH	/annonces/:id	L’id de l’annonce cliquée	Modifier l’annonce cliquée et ses photos
-
-  //DELETE	/annonces/:id	L’id de l’annonce cliquée	Supprimer l’annonce cliquée et ses photos
-
-  //GET 	/annonces?category=category	category : La catégorie sélectionnée dans les filtres de recherche	Afficher les annonces dans notre rayon dont la catégorie est category
-
-  //GET 	/annonces?distance=distance	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
-
-  //GET 	/annonces?orderby=date	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
 };
+
+
+//GET	/annonces/:id	L’id de l’annonce cliquée	Afficher les informations de l’annonce cliquée et ses photos
+
+//PATCH	/annonces/:id	L’id de l’annonce cliquée	Modifier l’annonce cliquée et ses photos
+
+//DELETE	/annonces/:id	L’id de l’annonce cliquée	Supprimer l’annonce cliquée et ses photos
+
+//GET 	/annonces?category=category	category : La catégorie sélectionnée dans les filtres de recherche	Afficher les annonces dans notre rayon dont la catégorie est category
+
+//GET 	/annonces?distance=distance	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
+
+//GET 	/annonces?orderby=date	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
+
 
 module.exports = advertsController;
