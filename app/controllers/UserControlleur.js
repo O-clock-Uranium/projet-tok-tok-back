@@ -3,6 +3,7 @@ const { User } = require("../models/index");
 const userController = {
   getOneUser: async (req, res) => {
     try {
+
       const { id } = req.params;
 
       const profile = await User.findByPk(id, {
@@ -35,6 +36,7 @@ const userController = {
         password,
       } = req.body;
 
+      // eslint-disable-next-line prefer-const
       let newUser = User.build({
         firstname,
         lastname,
@@ -49,7 +51,7 @@ const userController = {
       res.status(201).json(newUser);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({error:"Failed to create user"});
     }
   },
 
