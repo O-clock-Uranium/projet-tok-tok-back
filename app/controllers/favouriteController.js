@@ -5,7 +5,7 @@ const favouriteController = {
     try{
       const userId = req.params.id;
       //const userID = req.user.id;
-
+      //? Est ce qu'on ne peut pas mettre un try catch sur cette erreur le temps de la résoudre pour pas faire planter notre node?
       const favourites = await Favourite.findAll({
         where: { user_id: userId },
         // association: "favourite",
