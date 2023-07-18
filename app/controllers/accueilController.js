@@ -4,43 +4,38 @@ const zxcvbn = require('zxcvbn');
 const { User } = require('../models/index');
 
 const userAuthController = {
-  renderLoginPage(req, res) {
-    res.render("login");
-  },
-
-  renderSignupPage(req, res) {
-    res.render("signup");
-  },
 
   async handleSignupForm(req, res) {
 
-    //!On récupère son adress à son inscription ou sa localization?   et ducoup on demande à ce moment la le pseudo? Après je vois qu'il est pas encore en BDD donc je sais plus si on le met?
+    //! On récupère son address à son inscription et on verra ensuite pour récupérer sa localisation exacte
     const { firstname, lastname, address, email, password, confirmation } = req.body;
 
     if (! firstname || !lastname || !address || !email || !password || !confirmation) {
-      res.render("signup", { errorMessage: "Tous les champs doivent être renseignés." });
+      res.status(400).json({errorMessage: "Tous les champs doivent être renseignés."});
       return;
     }
-
+0
     if (password !== confirmation) {
-      res.render("signup", { errorMessage: "Les deux mots de passe ne correspondent pas." });
+      res.statut(400).json ({errorMessage: "Les deux mots de passe ne correspondent pas." });
       return;
     }
 
     if (! validator.validate(email)) {
-      res.render("signup", { errorMessage: "Le format de l'email est invalide." });
+      res.status(400).json({ errorMessage: "Le format de l'email est invalide." });
       return;
     }
 
     const passwordStrength = zxcvbn(password);
+    //TODO voir pour ajouter des indications à l'utilisateur lorsque son mot de passe n'est pas assez secure
     if (passwordStrength.score < 3) {
-      res.render("signup", { errorMessage: "Le mot de passe est trop faible." });
+      res.statut(400).json({ errorMessage: "Le mot de passe est trop faible." });
       return;
     }
 
     const alreadyExistingUser = await User.findOne({ where: { email: email }});
+    //! pas très secure et pb de confidentialité -> on le supprime ? 
     if (alreadyExistingUser) {
-      res.render("signup", { errorMessage: "Cet email est déjà utilisé par un autre utilisateur." });
+      res.statut(400).json({ errorMessage: "Le format de l'email est invalide." });
       return;
     }
 
@@ -56,8 +51,7 @@ const userAuthController = {
     });
     await user.save();
 
-
-    res.redirect("login");
+    res.status(201).json(user);
   },
 
   async handleLoginForm(req, res) {
@@ -66,27 +60,26 @@ const userAuthController = {
 
     const user = await User.findOne({ where: { email: email.toLowerCase() } });
 
-    if (!user) {
-      return res.render("login", { errorMessage: "Mauvais couple email/password." });
-    }
-
     const isMatching = await bcrypt.compare(password, user.password);
-
-    if (! isMatching) {
-      return res.render("login", { errorMessage: "Mauvais couple email/password." });
+    
+    if (!user || !isMatching) {
+      return res.status(400).json({ errorMessage: "Mauvais couple email/password." });
     }
+
+    // if (!isMatching) {
+    //   return res.render("login", { errorMessage: "Mauvais couple email/password." });
+    // }
 
     req.session.userId = user.id;
-
-    //le Accueil_Membre n'est pas bon ce sont des donnés en dur en attendant une solution de Chloé
-    res.redirect("/Accueil_Membre");
+    res.status(200).json(user);
   },
 
-  logoutAndRedirect(req, res) {
-    req.session.userId = null;
+  //! Pas besoin de cette route, ça se ferra en front
+  // logoutAndRedirect(req, res) {
+  //   req.session.userId = null;
 
-    res.redirect("/Accueil_Membre");
-  }
+  //   res.redirect("/Accueil_Membre");
+  // }
 };
 
 module.exports = userAuthController;

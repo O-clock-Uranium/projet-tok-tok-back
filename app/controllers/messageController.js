@@ -12,9 +12,7 @@ const messageController = {
     }
   },
 
-  //GET	/messages/:id	L’id de la conversation	Afficher tous les messages de la conversation
-
-
+//GET	/messages/:id	L’id de la conversation	Afficher tous les messages de la conversation
 //POST	/messages/:id	L’id de la conversation	Envoyer un message dans la conversation
 };
 

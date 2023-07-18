@@ -14,7 +14,8 @@ CREATE TABLE "user" (
   lastname VARCHAR(64) NOT NULL,
   description VARCHAR(255),
   address TEXT NOT NULL,
-  localization TEXT NOT NULL,
+  /*on passe la localisation en nulle pour le moment, à voir comment on la récupère avec l'API*/
+  localization TEXT,
   email VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
   thumbnail TEXT,

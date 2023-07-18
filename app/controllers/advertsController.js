@@ -4,6 +4,7 @@ const advertsController = {
   getAllAdverts: async (_, res) => {
     try {
       const adverts = await Advert.findAll({
+        // 
         order: [["created_at", "DESC"]],
       });
       res.status(200).json(adverts);
