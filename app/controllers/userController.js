@@ -92,7 +92,7 @@ const userController = {
       res.status(500).json(error.toString());
     }
   },
-  
+
   deleteUser: async (req, res) => {
     //! TODO : ajouter une sécurité (demander le mot de passe par exemple) avant de supprimer
     try {

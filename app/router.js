@@ -1,10 +1,12 @@
 const {Router} = require("express");
 const controllers = require("./controllers/index");
+const multer = require("./middlewares/multerConfig");
 const sanitize = require('./middlewares/sanitize');
 //* middleware pour vérifier si un user est loggué
 //const isAuthed = require("./middlewares/rights");
 //* middleware pour vérifier la présence et la validité d'un token
-const verifyJWT = require("./middlewares/verifyJWT");
+//!const verifyJWT = require("./middlewares/verifyJWT");
+//J'ai mis en commentaire le temps de refaire
 
 const router = Router();
 
@@ -13,8 +15,8 @@ const router = Router();
  router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
  */
 
-router.post('*', sanitize);
-router.patch('*', sanitize);
+router.post('*', multer, sanitize); //! fier de moi de réutiliser cette petite astuce!!
+router.patch('*',multer, sanitize);
 
 /* login/signup -----------------------------------------------------------------*/
 router.post('/login', controllers.authController.handleLogin);
