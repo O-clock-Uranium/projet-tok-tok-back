@@ -1,4 +1,4 @@
-const { Favourite, Advert } = require("../models/index");
+const { Favourite, Advert, User } = require("../models/index");
 
 const favouriteController = {
   getAllFavourites: async (req, res) => {
@@ -6,14 +6,17 @@ const favouriteController = {
       const userId = req.params.id;
       //const userID = req.user.id;
 
-      const favourites = await Favourite.findAll({
-        where: { user_id: userId },
-        // association: "favourite",
-        include: Advert
-        //   as: "users_favourite",
-        //   // attributes: ["id", "title", "content", "price", "thumbnail"],
-        // },
-      });
+      // const favourites = await Favourite.findAll({
+      //   where: { user_id: userId },
+      //   // association: "favourite",
+      //   include: Advert
+      //   //   as: "users_favourite",
+      //   //   // attributes: ["id", "title", "content", "price", "thumbnail"],
+      //   // },
+      // });
+
+      const user = await User.findByPk(userId);
+      const favourites = await user.getFavourites();
 
       res.status(200).json(favourites);
 
@@ -28,11 +31,17 @@ const favouriteController = {
       //const userID = req.user.id;
       const userId = req.params.userId;
       const advertId = req.params.advertId;
+      console.log(userId, advertId);
 
       const favourite = await Favourite.create({
         user_id: userId,
-        advert_id:advertId,
+        advert_id: advertId,
       });
+
+      //! trop de la balle aussi
+      // const user = await User.findByPk(userId);
+      // const advert = await Advert.findByPk(advertId);
+      // const favourite = user.addFavourites(advert)
 
       res.status(201).json(favourite);
     } catch (error) {
