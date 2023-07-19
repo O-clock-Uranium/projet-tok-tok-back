@@ -1,3 +1,4 @@
+const { associations } = require("../models/Message");
 const { Advert } = require("../models/index");
 
 const advertsController = {
@@ -6,7 +7,12 @@ const advertsController = {
   getAll: async (_, res) => {
     try {
       const adverts = await Advert.findAll({
-        //
+        include: [
+          "images", 
+          {
+            association: "advert_creator",
+            attributes: {exclude: ["email", "password", "description", "localization", "created_at", "updated_at"]} 
+          }],
         order: [["created_at", "DESC"]],
       });
       res.status(200).json(adverts);
@@ -20,7 +26,14 @@ const advertsController = {
   getOne: async (req, res) => {
     try {
         const {id} = req.params;
-        const advert = await Advert.findByPk(id);
+        const advert = await Advert.findByPk(id, {
+          include: [
+            "images", 
+            {
+              association: "advert_creator",
+              attributes: {exclude: ["email", "password", "description", "localization", "created_at", "updated_at"]} 
+            }]
+        });
 
         if(!advert) {
             res.status(404).json({error: "Can't find this advert"});
