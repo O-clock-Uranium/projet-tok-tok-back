@@ -20,18 +20,10 @@ Advert.init(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      // references: {
-      //   model: User,
-      //   key: 'id'
-      // }
     },
     tag_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      // references: {
-      //   model: Tag,
-      //   key: 'id'
-      // }
     }
   },
   {

@@ -1,4 +1,3 @@
-//GET	/search
 const { Op } = require("sequelize");
 const { Post, User, Advert } = require("../models/index");
 
@@ -14,7 +13,7 @@ const searchController = {
           },
         },
       });
-      //voir si on ajoute la recherche par pseudo également? à disctuter ensemble après discussion avec le patron
+      //?voir si on ajoute la recherche par pseudo également? à disctuter ensemble après discussion avec le patron
       const users = await User.findAll({
         where: {
           [Op.or]: [
@@ -25,7 +24,6 @@ const searchController = {
         },
       });
 
-      //recherche par prix? ou ce n'est pas ici je pense?
       const adverts = await Advert.findAll({
         where: {
           [Op.or]: [
@@ -35,7 +33,6 @@ const searchController = {
         },
       });
 
-      // Renvoyer les résultats de recherche à la vue
       res.render("searchResults", { posts, users, adverts });
     } catch (error) {
       console.error(error);

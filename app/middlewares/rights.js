@@ -2,9 +2,7 @@ function isAuthed(req, res, next) {
   if (req.user) {
     return next();
   }
-  //! voir avec la chef si /login suffit ou je dois importer le controlleur authController
-
-  res.redirect("/login");
-}
+  res.status(401).json({ auth: false, error: "You are not authorized to see this!" });
+};
 
 module.exports = isAuthed;
