@@ -3,6 +3,8 @@ const validator = require("email-validator");
 const zxcvbn = require("zxcvbn");
 const { User } = require("../models/index");
 
+const jwt = require('jsonwebtoken')
+
 const authController = {
   async handleSignup(req, res) {
     //? On récupère son addresse à son inscription et on verra ensuite pour récupérer sa localisation exacte
@@ -84,13 +86,17 @@ const authController = {
         .json({ errorMessage: "Mauvais couple email/password." });
     }
 
-    //? est-ce qu'on va utiliser des sessions ?
-    // if (!req.session) {
-    //   req.session.userId = undefined;
-    // }
+    // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
+    const token = jwt.sign({id: user.id}, "thisIsASecretToPutInDotEnv", { expiresIn: 60 * 60 })
 
-    // req.session.userId = user.id;
-    res.status(200).json(user);
+    //? on le stock dans la session ?
+    req.session.token = token;
+
+    console.log(req.session);
+    console.log(req.headers);
+
+    // ou au lieu de le stocker dans la session, on le transmet en json au login et on le stockera dans le store côté front à ce moment ?
+    res.status(200).json({auth: true, token: token, user: user});
   },
 
   //! Pas besoin de cette route, ça se ferra en front
