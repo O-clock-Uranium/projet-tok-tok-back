@@ -6,6 +6,7 @@ const favouriteController = {
       const userId = req.params.id;
       //const userID = req.user.id;
 
+
       // const favourites = await Favourite.findAll({
       //   where: { user_id: userId },
       //   // association: "favourite",
@@ -34,6 +35,7 @@ const favouriteController = {
           },
         ],
         order: [["created_at", "DESC"]]
+
       });
 
       res.status(200).json(favourites);

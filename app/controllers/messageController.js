@@ -39,7 +39,7 @@ const messageController = {
       res.status(500).json(error.toString());
     }
   },
-  
+
   //POST	/messages/:id	L’id de la conversation	Envoyer un message dans la conversation
   sendMessage :async (req, res) => {
     try {
