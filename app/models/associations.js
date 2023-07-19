@@ -24,11 +24,11 @@ Post.belongsTo(User, {
 Post.hasMany(Post, {
   foreignKey: "reply_to",
   as: "replies"
-})
+});
 Post.belongsTo(Post, {
   foreignKey: "reply_to",
   as: "original_post"
-})
+});
 
 User.hasMany(Advert, {
   foreignKey: "user_id",
