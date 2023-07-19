@@ -1,12 +1,20 @@
 const {Router} = require("express");
 const controllers = require("./controllers/index");
+const sanitize = require('./middlewares/sanitize');
+//* middleware pour vérifier si un user est loggué
+//const isAuthed = require("./middlewares/rights");
+//* middleware pour vérifier la présence et la validité d'un token
+const verifyJWT = require("./middlewares/verifyJWT");
 
 const router = Router();
 
 /**
- * Routes de l'API
+ *! Routes de l'API
+ router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
  */
-// router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
+
+router.post('*', sanitize);
+router.patch('*', sanitize);
 
 /* login/signup -----------------------------------------------------------------*/
 router.post('/login', controllers.authController.handleLogin);
@@ -14,6 +22,10 @@ router.post('/signup', controllers.authController.handleSignup);
 
 /* Posts -----------------------------------------------------------------*/
 router.get('/posts', controllers.postController.getAllPosts);
+router.post('/posts', controllers.postController.createPost);
+router.patch('/posts/:id', controllers.postController.updatePost);
+router.delete('/posts/:id', controllers.postController.deletePost);
+
 
 /* Users -----------------------------------------------------------------*/
 router.get('/users/:id', controllers.userController.getOneUser);
@@ -43,29 +55,5 @@ router.delete('/users/:userId/favourites/:advertId', controllers.favouriteContro
 router.post('/users/:userId/likes/:postId', controllers.likeController.addToLikes);
 router.delete('/users/:userId/likes/:postId', controllers.likeController.removeFromLikes);
 
-
-// app.get("/Annonces", (req, res) => {
-//   res.render("Annonces.ejs", {});
-// });
-
-// app.get("/Annonce", (req, res) => {
-//   res.render("Annonce.ejs", {});
-// });
-
-// app.get("/Creer_une_Annonce", (req, res) => {
-//   res.render("Creer_une_Annonce.ejs", {});
-// });
-
-// app.get("/Favoris", (req, res) => {
-//   res.render("Favoris.ejs", {});
-// });
-
-// app.get("/Messagerie", (req, res) => {
-//   res.render("Messagerie.ejs", {});
-// });
-
-// app.get("/Settings(mobile)", (req, res) => {
-//   res.render("Settings(mobile).ejs", {});
-// });
 
 module.exports = router;

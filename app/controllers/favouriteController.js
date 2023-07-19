@@ -1,41 +1,52 @@
-const { Favourite, Advert } = require("../models/index");
+const { Favourite, Advert, User } = require("../models/index");
 
 const favouriteController = {
   getAllFavourites: async (req, res) => {
-    try{
+    try {
       const userId = req.params.id;
+      //! voir pour déchiffrer l'id dans le token et le transmettre à la place de userId
       //const userID = req.user.id;
 
-      const favourites = await Favourite.findAll({
-        where: { user_id: userId },
-        // association: "favourite",
-        include:{
-          model: Advert,
-          as: "advert",
-        }
-        //   as: "users_favourite",
-        //   // attributes: ["id", "title", "content", "price", "thumbnail"],
-        // },
+      const user = await User.findByPk(userId);
+      const favourites = await user.getFavourites({
+        include: [
+          "images",
+          {
+            association: "advert_creator",
+            attributes: {
+              exclude: [
+                "email",
+                "password",
+                "description",
+                "localization",
+                "created_at",
+                "updated_at",
+              ],
+            },
+          },
+        ],
+        order: [["created_at", "DESC"]]
+
       });
 
       res.status(200).json(favourites);
-
-    } catch(error){
+    } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
     }
-
   },
   addToFavourites: async (req, res) => {
-    try{
+    try {
       //const userID = req.user.id;
       const userId = req.params.userId;
       const advertId = req.params.advertId;
+      console.log(userId, advertId);
 
       const favourite = await Favourite.create({
         user_id: userId,
-        advert_id:advertId,
+        advert_id: advertId,
       });
+
 
       res.status(201).json(favourite);
     } catch (error) {
@@ -43,7 +54,6 @@ const favouriteController = {
       res.status(500).json(error.toString());
     }
   },
-
 
   removeFromFavourites: async (req, res) => {
     try {
@@ -65,9 +75,4 @@ const favouriteController = {
   },
 };
 
-//GET	/favourites		Afficher les annonces favorites du user loggué
-//POST	/favourites/:id/add	L’id de l’annonce à ajouter aux favoris	Ajouter une annonce aux favoris
-//DELETE	/favourites/:id/remove	L’id de l’annonce à ajouter aux favoris	Supprimer une annonce des favoris
-
 module.exports = favouriteController;
-

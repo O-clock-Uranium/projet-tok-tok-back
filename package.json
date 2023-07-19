@@ -6,17 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "db:create": "psql -U tok -d tok -f ./data/create_db.sql",
+    "db:populate": "psql -U tok -d tok -f ./data/data.sql",
+    "db:reset": "npm run db:create && npm run db:populate",
+    "db:connect": "psql -U tok -d tok"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "dotenv": "^16.3.1",
-    "ejs": "^3.1.9",
     "email-validator": "^2.0.4",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
     "pg": "^8.11.1",
+    "sanitize-html": "^2.11.0",
     "sequelize": "^6.32.1",
     "zxcvbn": "^4.4.2"
   }

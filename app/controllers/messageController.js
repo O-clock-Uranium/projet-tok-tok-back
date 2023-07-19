@@ -1,7 +1,6 @@
 const { Message } = require("../models/index");
 const { Op } = require("sequelize");
 
-// GET | /messages |  | Afficher tous les messages de l’utilisateur |
 const messageController = {
   getUserMessage: async (_, res) => {
     try {
@@ -22,7 +21,6 @@ const messageController = {
     }
   },
 
-  //GET	/messages/:id	L’id de la conversation	Afficher tous les messages de la conversation
   displayAllConversation : async (req, res) => {
     try{
       const conversationId = req.params.id;
@@ -40,7 +38,6 @@ const messageController = {
     }
   },
 
-  //POST	/messages/:id	L’id de la conversation	Envoyer un message dans la conversation
   sendMessage :async (req, res) => {
     try {
       const conversationId = req.params.id;

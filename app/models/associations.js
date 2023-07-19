@@ -21,6 +21,15 @@ Post.belongsTo(User, {
   as: "post_creator",
 });
 
+Post.hasMany(Post, {
+  foreignKey: "reply_to",
+  as: "replies"
+});
+Post.belongsTo(Post, {
+  foreignKey: "reply_to",
+  as: "original_post"
+});
+
 User.hasMany(Advert, {
   foreignKey: "user_id",
   as: "adverts",
@@ -74,19 +83,19 @@ User.belongsToMany(Post, {
   through: Like
 });
 Post.belongsToMany(User, {
-  foreignKey: "post_id",
+  // foreignKey: "post_id",
   as: "users_liked",
   through: Like
 });
 
 User.belongsToMany(Advert, {
   foreignKey: "user_id",
-  as: "favourited",
+  as: "favourites",
   through: Favourite
 });
 Advert.belongsToMany(User, {
   foreignKey: "advert_id",
-  as: "users_favourited",
+  as: "favorited_by",
   through: Favourite
 });
 Advert.belongsToMany(User, {

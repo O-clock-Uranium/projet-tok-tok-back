@@ -23,7 +23,6 @@ const userController = {
     }
   },
 
-  //CREATE	/users	Ajouter un utilisateur à la db
   createOne: async (req, res) => {
     try {
       const {
@@ -54,8 +53,6 @@ const userController = {
       res.status(500).json({error:"Failed to create user"});
     }
   },
-
-  //PATCH	/profil/:id	L’identifiant du profil	Modifier les informations d’un profil
   updateUser: async (req, res) => {
     try {
       const { firstname, lastname, thumbnail, address, email, password } =
@@ -95,8 +92,7 @@ const userController = {
       res.status(500).json(error.toString());
     }
   },
-
-  //DELETE	/profil/:id	L’identifiant du profil	Supprimer un profil
+  
   deleteUser: async (req, res) => {
     //! TODO : ajouter une sécurité (demander le mot de passe par exemple) avant de supprimer
     try {

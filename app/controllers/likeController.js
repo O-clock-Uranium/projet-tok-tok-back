@@ -1,5 +1,5 @@
 const { Like } = require("../models/index");
-//POST	/favourites/:id/add	L’id de l’annonce à ajouter aux favoris	Ajouter une annonce aux favoris
+
 const likeController = {
   addToLikes: async (req, res) => {
     try{
@@ -19,7 +19,6 @@ const likeController = {
     }
   },
 
-  //DELETE	/favourites/:id/remove	L’id de l’annonce à ajouter aux favoris	Supprimer une annonce des favoris
   removeFromLikes: async (req, res) => {
     try {
       const userId = req.params.userId;
