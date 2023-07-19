@@ -1,20 +1,24 @@
 require("dotenv").config();
 const express = require("express");
-const app = express();
-
+const session = require('express-session');
+// const jwt = require('jsonwebtoken');
 const router = require("./app/router");
+
+const app = express();
 
 const PORT = process.env.PORT || 5000;
 console.log(PORT);
 
-app.set('view engine', 'ejs');
-app.set('views', 'app/views');
+app.use(express.urlencoded({extended: true}));
 
-app.use(express.static('public'));
-app.use(express.urlencoded({extended: true}))
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { expires: 60 * 60 *24}
+}))
 
 app.use(router);
-
 
 
 app.listen(PORT, () => {
