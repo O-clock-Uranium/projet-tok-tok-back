@@ -1,7 +1,7 @@
 const { Post } = require("../models/index");
 
 const postController = {
-  getAllPosts: async (_, res) => {
+  getAll: async (_, res) => {
     try {
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
@@ -32,10 +32,10 @@ const postController = {
               ],
             },
           },
-          "replies"
+          "replies",
         ],
       });
-      res.status(200).json(posts);
+      res.json(posts);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
@@ -60,7 +60,7 @@ const postController = {
     }
   },
 
-  updatePost: async (req, res) => {
+  update: async (req, res) => {
     try {
       const { content, thumbnail } = req.body;
 
@@ -78,7 +78,7 @@ const postController = {
 
       await post.save();
 
-      return res.status(200).json(post);
+      return res.json(post);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Failed to update post" });
@@ -86,14 +86,14 @@ const postController = {
   },
 
   //!Voir si on ne demande pas une confirmation de l'utilisateur avant la suppresion???
-  deletePost: async (req, res) => {
+  remove: async (req, res) => {
     try {
       const post = await Post.findByPk(req.params.id);
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
       }
       await post.destroy();
-      return res.status(200).json(post);
+      return res.json(post);
     } catch (error) {
       return res.status(500).json({ error: "Failed to delete post" });
     }

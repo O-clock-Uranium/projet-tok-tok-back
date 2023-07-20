@@ -83,7 +83,7 @@ User.belongsToMany(Post, {
   through: Like
 });
 Post.belongsToMany(User, {
-  // foreignKey: "post_id",
+  foreignKey: "post_id",
   as: "users_liked",
   through: Like
 });

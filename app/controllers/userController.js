@@ -1,9 +1,8 @@
 const { User } = require("../models/index");
 
 const userController = {
-  getOneUser: async (req, res) => {
+  getOne: async (req, res) => {
     try {
-
       const { id } = req.params;
 
       const profile = await User.findByPk(id, {
@@ -16,7 +15,7 @@ const userController = {
           ["liked", "created_at", "DESC"],
         ],
       });
-      res.status(200).json(profile);
+      res.json(profile);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
@@ -50,10 +49,10 @@ const userController = {
       res.status(201).json(newUser);
     } catch (error) {
       console.log(error);
-      res.status(500).json({error:"Failed to create user"});
+      res.status(500).json({ error: "Failed to create user" });
     }
   },
-  updateUser: async (req, res) => {
+  update: async (req, res) => {
     try {
       const { firstname, lastname, thumbnail, address, email, password } =
         req.body;
@@ -86,13 +85,13 @@ const userController = {
       }
 
       await user.save();
-      res.status(200).json(user);
+      res.json(user);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
     }
   },
-  
+
   deleteUser: async (req, res) => {
     //! TODO : ajouter une sécurité (demander le mot de passe par exemple) avant de supprimer
     try {
@@ -101,7 +100,7 @@ const userController = {
 
       if (user) {
         await user.destroy();
-        res.status(200).json("User deleted from database successfully");
+        res.json("User deleted from database successfully");
       } else {
         res.status(404).json("Can't find user with id " + id);
       }
