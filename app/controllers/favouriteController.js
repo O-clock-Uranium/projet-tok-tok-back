@@ -36,12 +36,11 @@ const favouriteController = {
       const { user } = req;
       const advertId = req.params.advertId;
 
-      // const favourite = await Favourite.create({
-      //   user_id: user.id,
-      //   advert_id: advertId,
-      // });
-
       const advert = await Advert.findByPk(advertId)
+
+      if(!advert) {
+        return res.status(404).json({error: "Cannot find this advert."})
+      }
       user.addFavourites(advert)
 
       res.status(201).json({ message: "Added to favourites", advert: advert});

@@ -97,7 +97,7 @@ router.delete("/favourites/:advertId", verifyJWT, favouriteController.remove);
 
 /*Likes
 -------------------------------------------------------------*/
-router.post("/users/likes/:postId", verifyJWT, likeController.add);
-router.delete("/users/likes/:postId", verifyJWT, likeController.remove);
+router.post("/likes/:postId", verifyJWT, likeController.add);
+router.delete("/likes/:postId", verifyJWT, likeController.remove);
 
 module.exports = router;
