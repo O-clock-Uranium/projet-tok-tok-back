@@ -2,7 +2,7 @@ const { Router } = require("express");
 
 //const sanitize = require("./middlewares/sanitize");
 const sanitizeNew = require("./middlewares/sanitizeNew");
-const verifyJWT = require('./middlewares/verifyJWT');
+const verifyJWT = require("./middlewares/verifyJWT");
 //* middleware pour vérifier la présence et la validité d'un token
 
 const {
@@ -18,7 +18,7 @@ const {
 const router = Router();
 
 /**
- * TODO: 
+ * TODO:
  * - Routes de l'API : router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
  * - regrouper les routes similaires en routers
  */
@@ -61,11 +61,7 @@ router.patch(
   sanitizeNew("description"),
   userController.update
 ); //-> pour la page "paramètres"
-router.delete(
-  "/my-profile/delete",
-  verifyJWT,
-  userController.deleteUser
-);
+router.delete("/my-profile/delete", verifyJWT, userController.deleteUser);
 
 /* Adverts ---------------------------------------------------------------*/
 router.get("/adverts", verifyJWT, advertController.getAll);
@@ -97,11 +93,7 @@ router.post("/messages/:id", verifyJWT, messageController.sendMessage);
 /* Favourites --------------------------------------------------------------*/
 router.get("/favourites", verifyJWT, favouriteController.getAll);
 router.post("/favourites/:advertId", verifyJWT, favouriteController.add);
-router.delete(
-  "/favourites/:advertId",
-  verifyJWT,
-  favouriteController.remove
-);
+router.delete("/favourites/:advertId", verifyJWT, favouriteController.remove);
 
 /*Likes
 -------------------------------------------------------------*/

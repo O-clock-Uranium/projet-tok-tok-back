@@ -133,7 +133,6 @@ const advertsController = {
       }
 
       advert.destroy();
-
       res.json({message: "Advert deleted"});
     } catch (error) {
       console.log(error);

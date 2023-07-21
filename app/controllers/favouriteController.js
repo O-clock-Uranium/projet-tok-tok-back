@@ -1,4 +1,4 @@
-const { Favourite } = require("../models/index");
+const { Favourite, Advert } = require("../models/index");
 
 const favouriteController = {
   getAll: async (req, res) => {
@@ -34,15 +34,17 @@ const favouriteController = {
   add: async (req, res) => {
     try {
       const { user } = req;
-
       const advertId = req.params.advertId;
 
-      const favourite = await Favourite.create({
-        user_id: user.id,
-        advert_id: advertId,
-      });
+      // const favourite = await Favourite.create({
+      //   user_id: user.id,
+      //   advert_id: advertId,
+      // });
 
-      res.status(201).json(favourite);
+      const advert = await Advert.findByPk(advertId)
+      user.addFavourites(advert)
+
+      res.status(201).json({ message: "Added to favourites", advert: advert});
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
@@ -54,14 +56,14 @@ const favouriteController = {
       const { user } = req;
       const advertId = req.params.advertId;
 
-      const favourite = await Favourite.destroy({
+      Favourite.destroy({
         where: {
           user_id: user.id,
           advert_id: advertId,
         },
       });
 
-      res.json(favourite);
+      res.json({message: "Removed from favourites"});
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
