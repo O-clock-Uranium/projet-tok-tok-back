@@ -1,5 +1,4 @@
 const { Router } = require("express");
-
 //const sanitize = require("./middlewares/sanitize");
 const sanitizeNew = require("./middlewares/sanitizeNew");
 const verifyJWT = require("./middlewares/verifyJWT");
