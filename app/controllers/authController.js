@@ -3,10 +3,10 @@ const validator = require("email-validator");
 const zxcvbn = require("zxcvbn");
 const { User } = require("../models/index");
 
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 const authController = {
-  async handleSignup(req, res) {
+  async signup(req, res) {
     //? On récupère son addresse à son inscription et on verra ensuite pour récupérer sa localisation exacte
     //! Ne pas oublier le champs confirmation en front et reprendre exactement les mêmes names
     const { firstname, lastname, address, email, password, confirmation } =
@@ -25,7 +25,7 @@ const authController = {
         .json({ errorMessage: "Tous les champs doivent être renseignés." });
       return;
     }
-    0;
+    
     if (password !== confirmation) {
       res
         .statut(400)
@@ -40,14 +40,14 @@ const authController = {
       return;
     }
 
-    const passwordStrength = zxcvbn(password);
-    //!TODO voir pour ajouter des indications à l'utilisateur lorsque son mot de passe n'est pas assez secure
-    if (passwordStrength.score < 1) {
-      res
-        .status(400)
-        .json({ errorMessage: "Le mot de passe est trop faible." });
-      return;
-    }
+    //* on le retire tant qu'on ne sait pas à quoi correspond le score (pas cool pour l'ux si pas d'indications), voire on fait notre propre fonction
+    // const passwordStrength = zxcvbn(password);
+    // if (passwordStrength.score < 1) {
+    //   res
+    //     .status(400)
+    //     .json({ errorMessage: "Le mot de passe est trop faible." });
+    //   return;
+    // }
 
     const saltRounds = parseInt(process.env.SALT_ROUNDS);
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -61,10 +61,11 @@ const authController = {
     });
     await user.save();
 
-    res.status(201).json(user);
+    // ne pas renvoyer tout user, il contient le pwd et autres données sensibles !!
+    res.status(201).json({message: "User added"});
   },
 
-  async handleLogin(req, res) {
+  async login(req, res) {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email: email.toLowerCase() } });
@@ -78,16 +79,11 @@ const authController = {
     }
 
     // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
-    const token = jwt.sign({userId: user.id, firstname: user.firstname, lastname: user.lastname}, "thisIsASecretToPutInDotEnv", { expiresIn: 1000*60 * 60 })
+    const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
+      expiresIn: process.env.EXPIREDATETOKEN
+    });
 
-    // //? on le stock dans la session ?
-    // req.session.token = token;
-
-    // console.log(req.session);
-    // console.log(req.headers);
-
-    // ou au lieu de le stocker dans la session, on le transmet en json au login et on le stockera dans le store côté front à ce moment ?
-    res.status(200).json({auth: true, token: token, user: user});
+    res.json({ auth: true, token: token });
   },
 };
 

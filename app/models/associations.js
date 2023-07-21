@@ -83,7 +83,7 @@ User.belongsToMany(Post, {
   through: Like
 });
 Post.belongsToMany(User, {
-  // foreignKey: "post_id",
+  foreignKey: "post_id",
   as: "users_liked",
   through: Like
 });
@@ -98,16 +98,18 @@ Advert.belongsToMany(User, {
   as: "favorited_by",
   through: Favourite
 });
-Advert.belongsToMany(User, {
-  foreignKey: "advert_id",
-  as: "favourited",
-  through: Favourite
-});
-User.belongsToMany(Advert, {
-  foreignKey: "user_id",
-  as: "users_favourited",
-  through: Favourite
-});
+
+//! doublon ? 
+// Advert.belongsToMany(User, {
+//   foreignKey: "advert_id",
+//   as: "favourited",
+//   through: Favourite
+// });
+// User.belongsToMany(Advert, {
+//   foreignKey: "user_id",
+//   as: "users_favourited",
+//   through: Favourite
+// });
 
 module.exports = {
   Message,

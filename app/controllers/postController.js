@@ -1,7 +1,7 @@
-const { Post } = require("../models/index");
+const { Post, User } = require("../models/index");
 
 const postController = {
-  getAllPosts: async (_, res) => {
+  getAll: async (_, res) => {
     try {
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
@@ -32,10 +32,10 @@ const postController = {
               ],
             },
           },
-          "replies"
+          "replies",
         ],
       });
-      res.status(200).json(posts);
+      res.json(posts);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
@@ -44,13 +44,13 @@ const postController = {
 
   createPost: async (req, res) => {
     try {
-      const { content, thumbnail, reply_to, user_id } = req.body;
+      const { content, thumbnail, reply_to } = req.body;
 
       const newPost = await Post.create({
         content,
         thumbnail,
         reply_to,
-        user_id,
+        user_id: req.user.id,
       });
 
       res.status(201).json(newPost);
@@ -60,13 +60,22 @@ const postController = {
     }
   },
 
-  updatePost: async (req, res) => {
+  update: async (req, res) => {
     try {
       const { content, thumbnail } = req.body;
+
+      console.log('coucou');
 
       const post = await Post.findByPk(req.params.id);
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
+      }
+
+      const { user } = req;
+      if (user.id !== post.user_id) {
+        return res
+          .status(401)
+          .json({ error: "You are not allowed to do this." });
       }
 
       if (!content) {
@@ -78,22 +87,30 @@ const postController = {
 
       await post.save();
 
-      return res.status(200).json(post);
+      return res.json(post);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Failed to update post" });
     }
   },
 
-  //!Voir si on ne demande pas une confirmation de l'utilisateur avant la suppresion???
-  deletePost: async (req, res) => {
+  //! En front -> popup de confirmation
+  remove: async (req, res) => {
     try {
       const post = await Post.findByPk(req.params.id);
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
       }
+
+      const { user } = req;
+      if (user.id !== post.user_id) {
+        return res
+          .status(401)
+          .json({ error: "You are not allowed to do this." });
+      }
+
       await post.destroy();
-      return res.status(200).json(post);
+      return res.json({ message: "Post deleted" });
     } catch (error) {
       return res.status(500).json({ error: "Failed to delete post" });
     }

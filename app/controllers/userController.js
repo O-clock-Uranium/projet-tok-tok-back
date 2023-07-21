@@ -1,9 +1,8 @@
 const { User } = require("../models/index");
 
 const userController = {
-  getOneUser: async (req, res) => {
+  getOne: async (req, res) => {
     try {
-
       const { id } = req.params;
 
       const profile = await User.findByPk(id, {
@@ -16,51 +15,25 @@ const userController = {
           ["liked", "created_at", "DESC"],
         ],
       });
-      res.status(200).json(profile);
+      res.json(profile);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
     }
   },
 
-  createOne: async (req, res) => {
+  update: async (req, res) => {
     try {
       const {
         firstname,
         lastname,
+        description,
         thumbnail,
         address,
-        localization,
         email,
         password,
       } = req.body;
-
-      // eslint-disable-next-line prefer-const
-      let newUser = User.build({
-        firstname,
-        lastname,
-        thumbnail,
-        address,
-        localization,
-        email,
-        password,
-      });
-
-      await newUser.save();
-      res.status(201).json(newUser);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({error:"Failed to create user"});
-    }
-  },
-  updateUser: async (req, res) => {
-    try {
-      const { firstname, lastname, thumbnail, address, email, password } =
-        req.body;
-      const { id } = req.params;
-      console.log(id);
-
-      const user = await User.findByPk(id);
+      const { user } = req;
 
       //! TODO: voir pour factoriser
       if (!user) {
@@ -71,6 +44,9 @@ const userController = {
       }
       if (lastname) {
         user.lastname = lastname;
+      }
+      if (description) {
+        user.description = description;
       }
       if (thumbnail) {
         user.thumbnail = thumbnail;
@@ -86,7 +62,7 @@ const userController = {
       }
 
       await user.save();
-      res.status(200).json(user);
+      res.json(user);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
@@ -96,14 +72,12 @@ const userController = {
   deleteUser: async (req, res) => {
     //! TODO : ajouter une sécurité (demander le mot de passe par exemple) avant de supprimer
     try {
-      const { id } = req.params;
-      const user = await User.findByPk(id);
-
+      const { user } = req;
       if (user) {
         await user.destroy();
-        res.status(200).json("User deleted from database successfully");
+        res.json("User deleted from database successfully");
       } else {
-        res.status(404).json("Can't find user with id " + id);
+        res.status(404).json("Can't find user with id " + user.id);
       }
     } catch (error) {
       console.log(error);

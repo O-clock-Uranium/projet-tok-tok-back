@@ -1,61 +1,102 @@
-const {Router} = require("express");
-const controllers = require("./controllers/index");
-const multer = require("./middlewares/multerConfig");
-const sanitize = require('./middlewares/sanitize');
-//* middleware pour vérifier si un user est loggué
-//const isAuthed = require("./middlewares/rights");
+const { Router } = require("express");
+//const sanitize = require("./middlewares/sanitize");
+const sanitizeNew = require("./middlewares/sanitizeNew");
+const verifyJWT = require("./middlewares/verifyJWT");
 //* middleware pour vérifier la présence et la validité d'un token
-//!const verifyJWT = require("./middlewares/verifyJWT");
-//J'ai mis en commentaire le temps de refaire
+
+const {
+  authController,
+  postController,
+  userController,
+  advertController,
+  messageController,
+  favouriteController,
+  likeController,
+} = require("./controllers/index");
 
 const router = Router();
 
 /**
- *! Routes de l'API
- router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
+ * TODO:
+ * - Routes de l'API : router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
+ * - regrouper les routes similaires en routers
  */
 
-router.post('*', multer, sanitize); //! fier de moi de réutiliser cette petite astuce!!
-router.patch('*',multer, sanitize);
+/**
+ * ! Not a good practice
+ * Toutes les requêtes passent par ce middleware qui sanitize toutes les données même si elles ne sont pas sensibles.
+ * On peut donc le mettre sur les routes qui en ont besoin.
+ * Exemple: POST /posts
+ * sanitizeNew
+ */
+// router.post("*", sanitize);
+// router.patch("*", sanitize);
 
 /* login/signup -----------------------------------------------------------------*/
-router.post('/login', controllers.authController.handleLogin);
-router.post('/signup', controllers.authController.handleSignup);
+router.post("/login", authController.login);
+router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
-router.get('/posts', controllers.postController.getAllPosts);
-router.post('/posts', controllers.postController.createPost);
-router.patch('/posts/:id', controllers.postController.updatePost);
-router.delete('/posts/:id', controllers.postController.deletePost);
-
+router.get("/posts", verifyJWT, postController.getAll);
+router.post(
+  "/posts",
+  verifyJWT,
+  sanitizeNew("content"),
+  postController.createPost
+);
+router.patch(
+  "/posts/:id",
+  verifyJWT,
+  sanitizeNew("content"),
+  postController.update
+);
+router.delete("/posts/:id", verifyJWT, postController.remove);
 
 /* Users -----------------------------------------------------------------*/
-router.get('/users/:id', controllers.userController.getOneUser);
-router.patch('/users/:id/edit-profile', controllers.userController.updateUser); //-> pour la page "paramètres"
-router.delete('/users/:id/delete-account', controllers.userController.deleteUser);
+router.get("/profile/:id", verifyJWT, userController.getOne); //TODO route pour MON profil ?
+router.patch(
+  "/my-profile/edit",
+  verifyJWT,
+  sanitizeNew("description"),
+  userController.update
+); //-> pour la page "paramètres"
+router.delete("/my-profile/delete", verifyJWT, userController.deleteUser);
 
 /* Adverts ---------------------------------------------------------------*/
-router.get('/adverts/', controllers.advertController.getAll);
-router.get('/adverts/:id', controllers.advertController.getOne);
-router.post('/adverts', controllers.advertController.createAdvert);
-router.patch('/adverts/:id', controllers.advertController.updateAdvert);
-router.delete('/adverts/:id', controllers.advertController.deleteAdvert);
+router.get("/adverts", verifyJWT, advertController.getAll);
+router.get("/adverts/:id", verifyJWT, advertController.getOne);
+router.post(
+  "/adverts",
+  verifyJWT,
+  sanitizeNew("content"),
+  advertController.create
+);
+router.patch(
+  "/adverts/:id",
+  verifyJWT,
+  sanitizeNew("content"),
+  advertController.update
+);
+router.delete("/adverts/:id", verifyJWT, advertController.remove);
 
 /* Messages
 --------------------------------------------------------------*/
-router.get('/messages', controllers.messageController.getUserMessage);
-router.get('/messages/:id', controllers.messageController.displayAllConversation);
-router.post('/messages/:id', controllers.messageController.sendMessage);
+router.get("/messages", verifyJWT, messageController.getMessages);
+router.get(
+  "/messages/:id",
+  verifyJWT,
+  messageController.displayAllConversation
+);
+router.post("/messages/:id", verifyJWT, messageController.sendMessage);
 
 /* Favourites --------------------------------------------------------------*/
-router.get('/users/:id/favourites', controllers.favouriteController.getAllFavourites);
-router.post('/users/:userId/favourites/:advertId', controllers.favouriteController.addToFavourites);
-router.delete('/users/:userId/favourites/:advertId', controllers.favouriteController.removeFromFavourites);
+router.get("/favourites", verifyJWT, favouriteController.getAll);
+router.post("/favourites/:advertId", verifyJWT, favouriteController.add);
+router.delete("/favourites/:advertId", verifyJWT, favouriteController.remove);
 
 /*Likes
 -------------------------------------------------------------*/
-router.post('/users/:userId/likes/:postId', controllers.likeController.addToLikes);
-router.delete('/users/:userId/likes/:postId', controllers.likeController.removeFromLikes);
-
+router.post("/likes/:postId", verifyJWT, likeController.add);
+router.delete("/likes/:postId", verifyJWT, likeController.remove);
 
 module.exports = router;

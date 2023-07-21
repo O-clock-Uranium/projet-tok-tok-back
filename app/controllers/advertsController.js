@@ -10,53 +10,71 @@ const advertsController = {
           "images",
           {
             association: "advert_creator",
-            attributes: {exclude: ["email", "password", "description", "localization", "created_at", "updated_at"]}
-          }],
+            attributes: {
+              exclude: [
+                "email",
+                "password",
+                "description",
+                "localization",
+                "created_at",
+                "updated_at",
+              ],
+            },
+          },
+        ],
         order: [["created_at", "DESC"]],
       });
-      res.status(200).json(adverts);
+      res.json(adverts);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
     }
   },
 
-  //GET	/annonces/:id	L’id de l’annonce cliquée	Afficher les informations de l’annonce cliquée et ses photos
   getOne: async (req, res) => {
     try {
-
-      const {id} = req.params;
+      const { id } = req.params;
       const advert = await Advert.findByPk(id, {
         include: [
           "images",
           {
             association: "advert_creator",
-            attributes: {exclude: ["email", "password", "description", "localization", "created_at", "updated_at"]}
-          }]
+            attributes: {
+              exclude: [
+                "email",
+                "password",
+                "description",
+                "localization",
+                "created_at",
+                "updated_at",
+              ],
+            },
+          },
+        ],
       });
 
-
-      if(!advert) {
-        res.status(404).json({error: "Can't find this advert"});
+      if (!advert) {
+        res.status(404).json({ error: "Can't find this advert" });
       }
 
-      res.status(200).json(advert);
+      res.json(advert);
     } catch (error) {
       console.log(error);
       res.status(500).json(error.toString());
     }
   },
 
-  //POST	/annonces		Créer une nouvelle annonce
-  createAdvert: async (req, res) => {
+  create: async (req, res) => {
     try {
-      const { title, content, price, user_id, tag_id } = req.body;
+      //TODO ajouter les images à upload
+      const { title, content, price, tag_id } = req.body;
+      const { user } = req;
 
       const newAdvert = Advert.build({
         title,
         content,
         price,
-        user_id,
+        user_id: user.id,
         tag_id,
       });
 
@@ -68,58 +86,56 @@ const advertsController = {
     }
   },
 
-  //PATCH	/annonces/:id	L’id de l’annonce cliquée	Modifier l’annonce cliquée et ses photos
-  updateAdvert: async (req, res) => {
+  update: async (req, res) => {
     try {
-      // on pourra modifier tous les champs sauf le user_id
       //? est-ce qu'on laisse la possibilité de modifier les images ? nb: les images sont dans la tables "advert_has_image"
       const { title, content, price, tag_id } = req.body;
 
       const advert = await Advert.findByPk(req.params.id);
 
       if (!advert) {
-        return res.status(404).json({ error: "Post not found" });
+        return res.status(404).json({ error: "Advert not found" });
       }
 
-      advert.title = title;
-      advert.content = content;
-      advert.price = price;
-      advert.tag_id = tag_id;
+      title ? (advert.title = title) : false;
+      content ? (advert.content = content) : false;
+      price ? (advert.price = price) : false;
+      tag_id ? (advert.tag_id = tag_id) : false;
 
       advert.save();
 
-      res.status(200).json(advert);
-
+      res.json(advert);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Failed to update advert" });
     }
   },
 
-  //DELETE	/annonces/:id	L’id de l’annonce cliquée	Supprimer l’annonce cliquée et ses photos
-  deleteAdvert: async (req, res) => {
+  remove: async (req, res) => {
+    //TODO: ici il faudra rajouter une boite de dialogue pour confirmer la suppression
     try {
-      const {id} = req.params;
+      const { id } = req.params;
 
       const advert = await Advert.findByPk(id);
 
-      if(!advert) {
+      if (!advert) {
         res.status(404).json({ error: "Cannot find this advert" });
       }
-      //TODO: ici il faudra rajouter une boite de dialogue pour confirmer la suppression
+
+      const { user } = req;
+      if (user.id !== advert.user_id) {
+        return res
+          .status(401)
+          .json({ error: "You are not allowed to do this." });
+      }
 
       advert.destroy();
-
-      res.status(200).json(advert);
-
+      res.json({message: "Advert deleted"});
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Failed to update advert" });
     }
-  }
+  },
 };
-//GET 	/annonces?distance=distance	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
-//GET 	/annonces?orderby=date	distance : La distance sélectionnée dans les filtres de recherche	Afficher les annonces dans le rayon sélectionné
-
 
 module.exports = advertsController;
