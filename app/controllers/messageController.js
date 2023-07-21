@@ -2,60 +2,76 @@ const { Message } = require("../models/index");
 const { Op } = require("sequelize");
 
 const messageController = {
-  getUserMessage: async (_, res) => {
+  getConversations: async (req, res) => {
     try {
-      const userId=1;
+      const { user } = req;
 
       const message = await Message.findAll({
         where: {
-          [Op.or]: [
-            { destinataire: userId },
-            {expediteur: userId }
-          ]
+          expediteur: user.id,
+        },
+        group: ["destinataire"],
+        attributes: {
+          exclude: ["content", "updated_at"],
         },
         order: [["created_at", "DESC"]],
       });
-      res.status(200).json(message);
+      res.json(message);
     } catch (error) {
       res.status(500).json(error.toString());
     }
   },
 
-  displayAllConversation : async (req, res) => {
-    try{
-      const conversationId = req.params.id;
+  getMessages: async (req, res) => {
+    try {
+      const { user } = req;
 
-      const messages = await Message.findAll({
+      const message = await Message.findAll({
         where: {
-          conversation_id: conversationId
+          [Op.or]: [{ destinataire: user.id }, { expediteur: user.id }],
         },
-        order: [["created_at", "DESC"]]
+        order: [["created_at", "DESC"]],
       });
-
-      res.status(200).json(messages);}
-    catch (error) {
+      res.json(message);
+    } catch (error) {
       res.status(500).json(error.toString());
     }
   },
 
-  sendMessage :async (req, res) => {
+  displayAllConversation: async (req, res) => {
     try {
       const conversationId = req.params.id;
-      const {content,expediteur,destinataire} = req.body;
+
+      const messages = await Message.findAll({
+        where: {
+          conversation_id: conversationId,
+        },
+        order: [["created_at", "DESC"]],
+      });
+
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json(error.toString());
+    }
+  },
+
+  sendMessage: async (req, res) => {
+    try {
+      const conversationId = req.params.id;
+      const { content, expediteur, destinataire } = req.body;
 
       const message = await Message.create({
-        content:content,
-        expediteur:expediteur,
-        destinataire:destinataire,
-        conversation_id:conversationId
+        content: content,
+        expediteur: expediteur,
+        destinataire: destinataire,
+        conversation_id: conversationId,
       });
 
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json(error.toString());
     }
-  }
+  },
 };
-
 
 module.exports = messageController;
