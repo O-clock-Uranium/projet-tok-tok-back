@@ -2,11 +2,8 @@ const multer = require('multer');
 
 // Bibliothèque des types de fichiers qu'un utilisateur peut nous envoyer
 // Pour les images
-
-//? J'ai du mal à savoir si je dois faire tout le chemin vers le dossier imagesBackMulter avec les ../../?
 const IMAGE_MIME_TYPES = {
-  'image/jpg': 'jpg', //? pas nécessaire?
-  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg', 
   'image/png': 'png',
 };
 
@@ -17,16 +14,16 @@ const VIDEO_MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
+  destination: (_, file, callback) => {
     if (IMAGE_MIME_TYPES[file.mimetype]) {
-      callback(null, '../../imagesBackMulter'); // Destination pour les images
+      callback(null, 'images'); // Destination pour les images
     } else if (VIDEO_MIME_TYPES[file.mimetype]) {
-      callback(null, '../../videosBackMulter'); // Destination pour les vidéos
+      callback(null, 'videos'); // Destination pour les vidéos
     } else {
       callback(new Error('Format de fichier invalide'));
     }
   },
-  filename: (req, file, callback) => {
+  filename: (_, file, callback) => {
     const name = file.originalname.split(' ').join('_'); // Remplacement potentiel d'espaces par des underscores
     const extension = IMAGE_MIME_TYPES[file.mimetype] || VIDEO_MIME_TYPES[file.mimetype];
     callback(null, name + Date.now() + '.' + extension); // Nom du fichier stocké + timestamp pour éviter le risque de doublon

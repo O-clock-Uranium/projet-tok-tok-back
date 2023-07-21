@@ -43,6 +43,11 @@ const postController = {
   },
 
   createPost: async (req, res) => {
+    const image = JSON.parse(req.body.thumbnail);
+    // console.log(req.body.thumbnail);
+    delete image._id;
+    delete image._userId;
+
     try {
       const { content, thumbnail, reply_to } = req.body;
 
