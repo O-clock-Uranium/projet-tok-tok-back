@@ -18,6 +18,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 
+//* clean -> décomposer le router en sous-router
 app.use(router);
 
 app.use(middleware404);

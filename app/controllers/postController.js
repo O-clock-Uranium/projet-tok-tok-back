@@ -1,4 +1,4 @@
-const { Post } = require("../models/index");
+const { Post, User } = require("../models/index");
 
 const postController = {
   getAll: async (_, res) => {
@@ -44,13 +44,13 @@ const postController = {
 
   createPost: async (req, res) => {
     try {
-      const { content, thumbnail, reply_to, user_id } = req.body;
+      const { content, thumbnail, reply_to } = req.body;
 
       const newPost = await Post.create({
         content,
         thumbnail,
         reply_to,
-        user_id,
+        user_id: req.user.id,
       });
 
       res.status(201).json(newPost);
@@ -64,9 +64,18 @@ const postController = {
     try {
       const { content, thumbnail } = req.body;
 
+      console.log('coucou');
+
       const post = await Post.findByPk(req.params.id);
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
+      }
+
+      const { user } = req;
+      if (user.id !== post.user_id) {
+        return res
+          .status(401)
+          .json({ error: "You are not allowed to do this." });
       }
 
       if (!content) {
@@ -85,15 +94,23 @@ const postController = {
     }
   },
 
-  //!Voir si on ne demande pas une confirmation de l'utilisateur avant la suppresion???
+  //! En front -> popup de confirmation
   remove: async (req, res) => {
     try {
       const post = await Post.findByPk(req.params.id);
       if (!post) {
         return res.status(404).json({ error: "Post not found" });
       }
+
+      const { user } = req;
+      if (user.id !== post.user_id) {
+        return res
+          .status(401)
+          .json({ error: "You are not allowed to do this." });
+      }
+
       await post.destroy();
-      return res.json(post);
+      return res.json({ message: "Post deleted" });
     } catch (error) {
       return res.status(500).json({ error: "Failed to delete post" });
     }
