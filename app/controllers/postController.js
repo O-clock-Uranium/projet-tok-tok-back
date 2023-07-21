@@ -1,4 +1,4 @@
-const { Post, User } = require("../models/index");
+const { Post } = require("../models/index");
 
 const postController = {
   getAll: async (_, res) => {
@@ -43,17 +43,13 @@ const postController = {
   },
 
   createPost: async (req, res) => {
-    const image = JSON.parse(req.body.thumbnail);
-    // console.log(req.body.thumbnail);
-    delete image._id;
-    delete image._userId;
-
     try {
-      const { content, thumbnail, reply_to } = req.body;
+      const { content, reply_to } = req.body;
+      console.log(req.file);
 
       const newPost = await Post.create({
         content,
-        thumbnail,
+        thumbnail : req.file.filename,
         reply_to,
         user_id: req.user.id,
       });
@@ -69,7 +65,7 @@ const postController = {
     try {
       const { content, thumbnail } = req.body;
 
-      console.log('coucou');
+      console.log("coucou");
 
       const post = await Post.findByPk(req.params.id);
       if (!post) {
