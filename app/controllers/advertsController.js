@@ -31,7 +31,6 @@ const advertsController = {
     }
   },
 
-  //GET	/annonces/:id	L’id de l’annonce cliquée	Afficher les informations de l’annonce cliquée et ses photos
   getOne: async (req, res) => {
     try {
       const { id } = req.params;
@@ -65,7 +64,6 @@ const advertsController = {
     }
   },
 
-  //POST	/annonces		Créer une nouvelle annonce
   create: async (req, res) => {
     try {
       //TODO ajouter les images à upload
@@ -88,7 +86,6 @@ const advertsController = {
     }
   },
 
-  //PATCH	/annonces/:id	L’id de l’annonce cliquée	Modifier l’annonce cliquée et ses photos
   update: async (req, res) => {
     try {
       //? est-ce qu'on laisse la possibilité de modifier les images ? nb: les images sont dans la tables "advert_has_image"
