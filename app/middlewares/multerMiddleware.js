@@ -16,9 +16,9 @@ const VIDEO_MIME_TYPES = {
 const storage = multer.diskStorage({
   destination: (_, file, callback) => {
     if (IMAGE_MIME_TYPES[file.mimetype]) {
-      callback(null, "images"); // Destination pour les images
+      callback(null, "public/images"); // Destination pour les images
     } else if (VIDEO_MIME_TYPES[file.mimetype]) {
-      callback(null, "videos"); // Destination pour les vidéos
+      callback(null, "public/videos"); // Destination pour les vidéos
     } else {
       callback(new Error("Format de fichier invalide"));
     }
@@ -33,4 +33,7 @@ const storage = multer.diskStorage({
 });
 
 // Dans l'exports, le premier storage est pour définir les settings et l'autre pour configurer l'instance du middleware multer.
-module.exports = multer({ storage: storage }).single("file"); //* .array() quand on reçoit plusieurs fichiers
+module.exports = multer({ storage: storage })
+//* Sur la route : multer +
+//* .single("thumbnail") quand on reçoit un fichier -> retourne obj 
+//* .array() quand on reçoit plusieurs fichiers -> retourne tableau d'obj

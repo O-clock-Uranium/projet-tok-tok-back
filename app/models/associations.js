@@ -1,5 +1,5 @@
 const Message = require("./Message");
-const User = require("./user");
+const User = require("./User");
 const Advert = require("./Advert");
 const Advert_has_image = require("./Advert_has_image");
 const Favourite = require("./Favourite");

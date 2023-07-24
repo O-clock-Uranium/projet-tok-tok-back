@@ -3,7 +3,6 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const middleware404 = require("./app/middlewares/404Middleware");
-const path = require('path')
 const router = require("./app/router");
 
 const app = express();
@@ -18,10 +17,13 @@ app.use(
   })
 );
 
-app.use(express.urlencoded({ extended: true }));
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-//* clean -> décomposer le router en sous-router
+
+app.use(express.static('public'));
+
+//TODO clean -> décomposer le router en sous-router
 app.use(router);
 
 app.use(middleware404);

@@ -26,22 +26,28 @@ const router = Router();
  * sanitizeMiddleware
  */
 
+
+
+
 /* login/signup -----------------------------------------------------------------*/
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
 router.get("/posts", verifyAuthMiddleware, postController.getAll);
+router.get("/post/:id", verifyAuthMiddleware, postController.getOne)    //!!! A faire vérifier par la patronne
 router.post(
   "/posts",
   verifyAuthMiddleware,
   sanitizeMiddleware("content"),
+  multer.single("thumbnail"),
   postController.createPost
 );
 router.patch(
   "/posts/:id",
   verifyAuthMiddleware,
   sanitizeMiddleware("content"),
+  multer.single("thumbnail"),
   postController.update
 );
 router.delete("/posts/:id", verifyAuthMiddleware, postController.remove);
@@ -52,6 +58,7 @@ router.patch(
   "/my-profile/edit",
   verifyAuthMiddleware,
   sanitizeMiddleware("description"),
+  multer.single("thumbnail"),
   userController.update
 ); //-> pour la page "paramètres"
 router.delete("/my-profile/delete", verifyAuthMiddleware, userController.deleteUser);
@@ -63,12 +70,14 @@ router.post(
   "/adverts",
   verifyAuthMiddleware,
   sanitizeMiddleware("content"),
+  multer.array("thumbnails"),
   advertController.create
 );
 router.patch(
   "/adverts/:id",
   verifyAuthMiddleware,
   sanitizeMiddleware("content"),
+  multer.array("thumbnails"),
   advertController.update
 );
 router.delete("/adverts/:id", verifyAuthMiddleware, advertController.remove);
