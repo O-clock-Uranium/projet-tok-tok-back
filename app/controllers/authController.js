@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const validator = require("email-validator");
-const zxcvbn = require("zxcvbn");
+//const zxcvbn = require("zxcvbn");
 const { User } = require("../models/index");
 
 const jwt = require("jsonwebtoken");
@@ -25,7 +25,7 @@ const authController = {
         .json({ errorMessage: "Tous les champs doivent être renseignés." });
       return;
     }
-    
+
     if (password !== confirmation) {
       res
         .statut(400)
