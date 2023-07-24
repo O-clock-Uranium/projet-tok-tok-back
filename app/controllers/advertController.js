@@ -27,7 +27,7 @@ const advertsController = {
       res.json(adverts);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json(error.toString("Erreur Serveur!!"));
     }
   },
 
@@ -54,22 +54,21 @@ const advertsController = {
       });
 
       if (!advert) {
-        res.status(404).json({ error: "Can't find this advert" });
+        res.status(404).json({ error: "Annonce introuvable" });
       }
 
       res.json(advert);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json(error.toString("Erreur Serveur!!"));
     }
   },
 
   create: async (req, res) => {
     try {
-      //TODO ajouter les images à upload
       const { title, content, price, tag_id } = req.body;
       const { user } = req;
-      console.log(req.files)
+      console.log(req.files);
       const images = req.files;
 
       const newAdvert = Advert.build({
@@ -86,22 +85,16 @@ const advertsController = {
         const image = Advert_has_image.build({
           advert_id: newAdvert.id,
           thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
-        })
+        });
 
-        //! Remplacera le code du dessus en cas d'erreur
-        // for (let index = 0; index < images.length; index++) {
-        //   const image = Advert_has_image.build({
-        //     advert_id: newAdvert.id,
-        //     thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
-        //   });
 
-        await image.save()
-      });      
+        await image.save();
+      });
 
       res.status(201).json(newAdvert);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Failed to create advert" });
+      return res.status(500).json({ error: "Erreur Serveur!!" });
     }
   },
 
@@ -113,16 +106,15 @@ const advertsController = {
       const advert = await Advert.findByPk(req.params.id);
 
       if (!advert) {
-        return res.status(404).json({ error: "Advert not found" });
+        return res.status(404).json({ error: "Annonce introuvable" });
       }
 
       const { user } = req;
       if (user.id !== advert.user_id) {
         return res
           .status(401)
-          .json({ error: "You are not allowed to do this." });
+          .json({ error: "Vous n'êtes pas autorisé à voir ceci" });
       }
-
       title ? (advert.title = title) : false;
       content ? (advert.content = content) : false;
       price ? (advert.price = price) : false;
@@ -132,18 +124,11 @@ const advertsController = {
 
       images.forEach(async (e, index) => {
         const image = Advert_has_image.build({
-          advert_id: newAdvert.id,
+          advert_id: advert.id,
           thumbnail: `${req.protocol}://${req.get("host")}/images/${
             req.files[index].filename
           }`,
         });
-
-        //! Remplacera le code du dessus en cas d'erreur
-        // for (let index = 0; index < images.length; index++) {
-        //   const image = Advert_has_image.build({
-        //     advert_id: newAdvert.id,
-        //     thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
-        //   });
 
         await image.save();
       });
@@ -151,7 +136,7 @@ const advertsController = {
       res.json(advert);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Failed to update advert" });
+      return res.status(500).json({ error: "Erreur Serveur!!" });
     }
   },
 
@@ -177,7 +162,7 @@ const advertsController = {
       res.json({message: "Advert deleted"});
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Failed to update advert" });
+      return res.status(500).json({ error: "Erreur Serveur!!" });
     }
   },
 };

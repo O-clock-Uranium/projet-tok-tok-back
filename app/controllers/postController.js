@@ -43,7 +43,7 @@ const postController = {
   },
 
 
-  getOne: async (req, res) => {     //! A faire vérifier par la patronne
+  getOne: async (req, res) => {
     try {
       const { id } = req.params;
       const post = await Post.findByPk(id, {

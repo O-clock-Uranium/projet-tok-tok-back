@@ -1,16 +1,8 @@
 const { Router } = require("express");
 const sanitizeMiddleware = require("./middlewares/sanitizeMiddleware");
 const verifyAuthMiddleware = require("./middlewares/verifyAuthMiddleware");
-//const multer = require("./middlewares/multerMiddleware");
-const {
-  authController,
-  postController,
-  userController,
-  advertController,
-  messageController,
-  favouriteController,
-  likeController,
-} = require("./controllers/index");
+const multer = require("./middlewares/multerMiddleware");
+const {authController,postController,userController,advertController,messageController,favouriteController,likeController,} = require("./controllers/index");
 
 const router = Router();
 
@@ -27,15 +19,13 @@ const router = Router();
  */
 
 
-
-
 /* login/signup -----------------------------------------------------------------*/
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
 router.get("/posts", verifyAuthMiddleware, postController.getAll);
-router.get("/post/:id", verifyAuthMiddleware, postController.getOne)    //!!! A faire vérifier par la patronne
+router.get("/post/:id", verifyAuthMiddleware, postController.getOne); //!!! A faire vérifier par la patronne
 router.post(
   "/posts",
   verifyAuthMiddleware,
