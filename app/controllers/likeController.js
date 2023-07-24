@@ -9,7 +9,7 @@ const likeController = {
       const post = await Post.findByPk(postId);
 
       if(!post) {
-        return res.status(404).json({error: "Cannot find this post"})
+        return res.status(404).json({error: "Cannot find this post"});
       }
 
       await Like.create({
