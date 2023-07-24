@@ -24,15 +24,8 @@ const userController = {
 
   update: async (req, res) => {
     try {
-      const {
-        firstname,
-        lastname,
-        description,
-        thumbnail,
-        address,
-        email,
-        password,
-      } = req.body;
+      const { firstname, lastname, description, address, email, password } =
+        req.body;
       const { user } = req;
 
       //! TODO: voir pour factoriser
@@ -48,8 +41,10 @@ const userController = {
       if (description) {
         user.description = description;
       }
-      if (thumbnail) {
-        user.thumbnail = thumbnail;
+      if (req.file) {
+        user.thumbnail = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`;
       }
       if (address) {
         user.address = address;

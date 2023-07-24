@@ -1,10 +1,7 @@
 const { Router } = require("express");
-
-//const sanitize = require("./middlewares/sanitize");
-const sanitizeNew = require("./middlewares/sanitizeNew");
-const verifyJWT = require("./middlewares/verifyJWT");
-//* middleware pour vérifier la présence et la validité d'un token
-
+const sanitizeMiddleware = require("./middlewares/sanitizeMiddleware");
+const verifyAuthMiddleware = require("./middlewares/verifyAuthMiddleware");
+//const multer = require("./middlewares/multerMiddleware");
 const {
   authController,
   postController,
@@ -17,87 +14,92 @@ const {
 
 const router = Router();
 
-/**
- * TODO:
- * - Routes de l'API : router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
- * - regrouper les routes similaires en routers
- */
+//TODO: Routes de l'API : router.get('/'); -> une page de 'doc' listant toutes nos routes. On renderera un fichier html.
 
+// router.post("*", sanitize);
+// router.patch("*", sanitize);
 /**
  * ! Not a good practice
  * Toutes les requêtes passent par ce middleware qui sanitize toutes les données même si elles ne sont pas sensibles.
  * On peut donc le mettre sur les routes qui en ont besoin.
  * Exemple: POST /posts
- * sanitizeNew
+ * sanitizeMiddleware
  */
-// router.post("*", sanitize);
-// router.patch("*", sanitize);
+
+
+
 
 /* login/signup -----------------------------------------------------------------*/
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
-router.get("/posts", verifyJWT, postController.getAll);
+router.get("/posts", verifyAuthMiddleware, postController.getAll);
+router.get("/post/:id", verifyAuthMiddleware, postController.getOne)    //!!! A faire vérifier par la patronne
 router.post(
   "/posts",
-  verifyJWT,
-  sanitizeNew("content"),
+  verifyAuthMiddleware,
+  sanitizeMiddleware("content"),
+  multer.single("thumbnail"),
   postController.createPost
 );
 router.patch(
   "/posts/:id",
-  verifyJWT,
-  sanitizeNew("content"),
+  verifyAuthMiddleware,
+  sanitizeMiddleware("content"),
+  multer.single("thumbnail"),
   postController.update
 );
-router.delete("/posts/:id", verifyJWT, postController.remove);
+router.delete("/posts/:id", verifyAuthMiddleware, postController.remove);
 
 /* Users -----------------------------------------------------------------*/
-router.get("/profile/:id", verifyJWT, userController.getOne); //TODO route pour MON profil ?
+router.get("/profile/:id", verifyAuthMiddleware, userController.getOne); //? route pour MON profil ?
 router.patch(
   "/my-profile/edit",
-  verifyJWT,
-  sanitizeNew("description"),
+  verifyAuthMiddleware,
+  sanitizeMiddleware("description"),
+  multer.single("thumbnail"),
   userController.update
 ); //-> pour la page "paramètres"
-router.delete("/my-profile/delete", verifyJWT, userController.deleteUser);
+router.delete("/my-profile/delete", verifyAuthMiddleware, userController.deleteUser);
 
 /* Adverts ---------------------------------------------------------------*/
-router.get("/adverts", verifyJWT, advertController.getAll);
-router.get("/adverts/:id", verifyJWT, advertController.getOne);
+router.get("/adverts", verifyAuthMiddleware, advertController.getAll);
+router.get("/adverts/:id", verifyAuthMiddleware, advertController.getOne);
 router.post(
   "/adverts",
-  verifyJWT,
-  sanitizeNew("content"),
+  verifyAuthMiddleware,
+  sanitizeMiddleware("content"),
+  multer.array("thumbnails"),
   advertController.create
 );
 router.patch(
   "/adverts/:id",
-  verifyJWT,
-  sanitizeNew("content"),
+  verifyAuthMiddleware,
+  sanitizeMiddleware("content"),
+  multer.array("thumbnails"),
   advertController.update
 );
-router.delete("/adverts/:id", verifyJWT, advertController.remove);
+router.delete("/adverts/:id", verifyAuthMiddleware, advertController.remove);
 
 /* Messages
 --------------------------------------------------------------*/
-router.get("/messages", verifyJWT, messageController.getMessages);
+router.get("/messages", verifyAuthMiddleware, messageController.getMessages);
 router.get(
   "/messages/:id",
-  verifyJWT,
+  verifyAuthMiddleware,
   messageController.displayAllConversation
 );
-router.post("/messages/:id", verifyJWT, messageController.sendMessage);
+router.post("/messages/:id", verifyAuthMiddleware, messageController.sendMessage);
 
 /* Favourites --------------------------------------------------------------*/
-router.get("/favourites", verifyJWT, favouriteController.getAll);
-router.post("/favourites/:advertId", verifyJWT, favouriteController.add);
-router.delete("/favourites/:advertId", verifyJWT, favouriteController.remove);
+router.get("/favourites", verifyAuthMiddleware, favouriteController.getAll);
+router.post("/favourites/:advertId", verifyAuthMiddleware, favouriteController.add);
+router.delete("/favourites/:advertId", verifyAuthMiddleware, favouriteController.remove);
 
 /*Likes
 -------------------------------------------------------------*/
-router.post("/likes/:postId", verifyJWT, likeController.add);
-router.delete("/likes/:postId", verifyJWT, likeController.remove);
+router.post("/likes/:postId", verifyAuthMiddleware, likeController.add);
+router.delete("/likes/:postId", verifyAuthMiddleware, likeController.remove);
 
 module.exports = router;

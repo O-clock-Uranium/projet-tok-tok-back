@@ -1,4 +1,4 @@
-const { Advert } = require("../models/index");
+const { Advert, Advert_has_image } = require("../models/index");
 
 const advertsController = {
   //* ce sera les résultats à afficher quand on clique sur "annonces" dans le menu fixed.
@@ -69,6 +69,8 @@ const advertsController = {
       //TODO ajouter les images à upload
       const { title, content, price, tag_id } = req.body;
       const { user } = req;
+      console.log(req.files)
+      const images = req.files;
 
       const newAdvert = Advert.build({
         title,
@@ -79,6 +81,23 @@ const advertsController = {
       });
 
       await newAdvert.save();
+
+      images.forEach(async (e, index) => {
+        const image = Advert_has_image.build({
+          advert_id: newAdvert.id,
+          thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
+        })
+
+        //! Remplacera le code du dessus en cas d'erreur
+        // for (let index = 0; index < images.length; index++) {
+        //   const image = Advert_has_image.build({
+        //     advert_id: newAdvert.id,
+        //     thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
+        //   });
+
+        await image.save()
+      });      
+
       res.status(201).json(newAdvert);
     } catch (error) {
       console.log(error);
@@ -88,13 +107,20 @@ const advertsController = {
 
   update: async (req, res) => {
     try {
-      //? est-ce qu'on laisse la possibilité de modifier les images ? nb: les images sont dans la tables "advert_has_image"
       const { title, content, price, tag_id } = req.body;
+      const images = req.files;
 
       const advert = await Advert.findByPk(req.params.id);
 
       if (!advert) {
         return res.status(404).json({ error: "Advert not found" });
+      }
+
+      const { user } = req;
+      if (user.id !== advert.user_id) {
+        return res
+          .status(401)
+          .json({ error: "You are not allowed to do this." });
       }
 
       title ? (advert.title = title) : false;
@@ -103,6 +129,24 @@ const advertsController = {
       tag_id ? (advert.tag_id = tag_id) : false;
 
       advert.save();
+
+      images.forEach(async (e, index) => {
+        const image = Advert_has_image.build({
+          advert_id: newAdvert.id,
+          thumbnail: `${req.protocol}://${req.get("host")}/images/${
+            req.files[index].filename
+          }`,
+        });
+
+        //! Remplacera le code du dessus en cas d'erreur
+        // for (let index = 0; index < images.length; index++) {
+        //   const image = Advert_has_image.build({
+        //     advert_id: newAdvert.id,
+        //     thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
+        //   });
+
+        await image.save();
+      });
 
       res.json(advert);
     } catch (error) {
