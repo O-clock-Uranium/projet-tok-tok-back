@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const middleware404 = require("./app/middlewares/404Middleware");
-const path = require('path')
+const path = require('path');
 const router = require("./app/router");
 
 const app = express();

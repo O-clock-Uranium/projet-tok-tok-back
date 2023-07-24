@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const sanitizeMiddleware = require("./middlewares/sanitizeMiddleware");
 const verifyAuthMiddleware = require("./middlewares/verifyAuthMiddleware");
-const multer = require("./middlewares/multerMiddleware");
+//const multer = require("./middlewares/multerMiddleware");
 const {
   authController,
   postController,
