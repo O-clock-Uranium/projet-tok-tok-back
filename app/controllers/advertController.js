@@ -71,7 +71,7 @@ const advertsController = {
       console.log(req.files);
       const images = req.files;
 
-      // const slug = title.split(" ").join("-")
+      const slug = `${title.split(" ").join("-")}-${Date.now()}`;
 
       const newAdvert = Advert.build({
         title,
@@ -79,7 +79,7 @@ const advertsController = {
         price,
         user_id: user.id,
         tag_id,
-        slug: "un-slug"
+        slug: slug,
       });
 
       await newAdvert.save();
