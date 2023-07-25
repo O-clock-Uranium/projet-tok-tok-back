@@ -9,6 +9,7 @@ INSERT INTO "user" (
         "email",
         "password",
         "thumbnail",
+        "slug",
         "created_at",
         "updated_at"
     )
@@ -23,20 +24,22 @@ VALUES (
         'max@gmail.com',
         'tok',
         'image.png',
+        'maxime-malandin',
         NOW(),
         NOW()
     ),
     (
-        'chloe',
-        'batillet',
-        'la pire du monde',
+        'maxime',
+        'malandain',
+        'le pire du monde',
         'adresse',
-        'city'
+        'city',
         'longitude',
         'latitude',
-        'looser@gmail.com',
-        'la clodo',
+        'max@gmail.com',
+        'tok',
         'image.png',
+        'maxime-malandin',
         NOW(),
         NOW()
     );
@@ -50,6 +53,7 @@ INSERT INTO "advert" (
         "price",
         "user_id",
         "tag_id",
+        "slug",
         "created_at",
         "updated_at"
     )
@@ -59,6 +63,7 @@ VALUES (
         50,
         1,
         1,
+        'carte-yu-gi-oh',
         NOW(),
         NOW()
     ),
@@ -68,6 +73,7 @@ VALUES (
         50,
         1,
         1,
+        'carte-yu-gi-eh',
         NOW(),
         NOW()
     );

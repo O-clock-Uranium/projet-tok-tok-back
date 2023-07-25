@@ -14,14 +14,23 @@ User.init(
       allowNull: false,
     },
     description: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
     },
     address: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    localization: {
-      type: DataTypes.TEXT
+    city: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    longitude: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    latitude: {
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
     email: {
       type: DataTypes.TEXT,
@@ -32,7 +41,11 @@ User.init(
       allowNull: false,
     },
     thumbnail: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+    },
+    slug: {
+      type: DataTypes.TEXT,
+      allowNull: false,
     },
   },
   {
