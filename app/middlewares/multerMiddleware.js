@@ -1,6 +1,5 @@
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
-const {format} = require("date-fns");
 
 // Bibliothèque des types de fichiers qu'un utilisateur peut nous envoyer
 // Pour les images
@@ -26,13 +25,10 @@ const storage = multer.diskStorage({
     }
   },
   filename: (_, file, callback) => {
-    const name = file.originalname.split(" ").join("_").split(".")[0];
     const extension =
       IMAGE_MIME_TYPES[file.mimetype] || VIDEO_MIME_TYPES[file.mimetype];
-    const dateFormatted = format(new Date(), "dd/MM/yyyy-HH'h'mm ss's'"); //? Est ce que le format convient à la Patronne?
-    const uniqueFilename = `${name}_${dateFormatted}${uuidv4()}"."${extension}`;
+    const uniqueFilename = `${uuidv4()}.${extension}`;
     callback(null, uniqueFilename);
-    //? on pourrait aussi mettre un UUID pour éviter les noms de fichier bizarres
   },
 });
 
