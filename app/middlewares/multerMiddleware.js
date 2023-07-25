@@ -1,4 +1,5 @@
 const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 
 // Bibliothèque des types de fichiers qu'un utilisateur peut nous envoyer
 // Pour les images
@@ -24,16 +25,15 @@ const storage = multer.diskStorage({
     }
   },
   filename: (_, file, callback) => {
-    const name = file.originalname.split(" ").join("_").split(".")[0];
     const extension =
       IMAGE_MIME_TYPES[file.mimetype] || VIDEO_MIME_TYPES[file.mimetype];
-    callback(null, name + Date.now() + "." + extension);
-    //? on pourrait aussi mettre un UUID pour éviter les noms de fichier bizarres
+    const uniqueFilename = `${uuidv4()}.${extension}`;
+    callback(null, uniqueFilename);
   },
 });
 
 // Dans l'exports, le premier storage est pour définir les settings et l'autre pour configurer l'instance du middleware multer.
-module.exports = multer({ storage: storage })
+module.exports = multer({ storage: storage });
 //* Sur la route : multer +
-//* .single("thumbnail") quand on reçoit un fichier -> retourne obj 
+//* .single("thumbnail") quand on reçoit un fichier -> retourne obj
 //* .array() quand on reçoit plusieurs fichiers -> retourne tableau d'obj

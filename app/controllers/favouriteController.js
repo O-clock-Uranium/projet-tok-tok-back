@@ -28,7 +28,7 @@ const favouriteController = {
       res.json(favourites);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({error: "Erreur Serveur !"});
     }
   },
   add: async (req, res) => {
@@ -36,17 +36,17 @@ const favouriteController = {
       const { user } = req;
       const advertId = req.params.advertId;
 
-      const advert = await Advert.findByPk(advertId)
+      const advert = await Advert.findByPk(advertId);
 
       if(!advert) {
-        return res.status(404).json({error: "Cannot find this advert."})
+        return res.status(404).json({error: "Page introuvable !"});
       }
-      user.addFavourites(advert)
+      user.addFavourites(advert);
 
-      res.status(201).json({ message: "Added to favourites", advert: advert});
+      res.status(201).json({ message: "Ajouté aux favoris !", advert: advert});
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({error: "Erreur Serveur !"});
     }
   },
 
@@ -62,10 +62,10 @@ const favouriteController = {
         },
       });
 
-      res.json({message: "Removed from favourites"});
+      res.json({message: "Supprimé des favoris !"});
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({error: "Erreur Serveur !"});
     }
   },
 };

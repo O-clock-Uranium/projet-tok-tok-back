@@ -2,7 +2,7 @@ const controllers = {
   advertController: require("./advertController"),
   messageController: require("./messageController"),
   postController: require("./postController"),
-  userController: require("./UserController"),
+  userController: require("./userController"),
   authController: require("./authController"),
   favouriteController: require("./favouriteController"),
   searchController: require("./searchController"),

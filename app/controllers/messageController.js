@@ -18,7 +18,7 @@ const messageController = {
       });
       res.json(message);
     } catch (error) {
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -34,7 +34,7 @@ const messageController = {
       });
       res.json(message);
     } catch (error) {
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -51,7 +51,7 @@ const messageController = {
 
       res.json(messages);
     } catch (error) {
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -69,7 +69,7 @@ const messageController = {
 
       res.status(201).json(message);
     } catch (error) {
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 };

@@ -38,12 +38,12 @@ const postController = {
       res.json(posts);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
 
-  getOne: async (req, res) => {     //! A faire vérifier par la patronne
+  getOne: async (req, res) => {
     try {
       const { id } = req.params;
       const post = await Post.findByPk(id, {
@@ -80,7 +80,7 @@ const postController = {
       res.json(post); // Utiliser "post" au lieu de "posts" car nous obtenons un seul post
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -121,7 +121,7 @@ const postController = {
       res.status(201).json(newPost);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error: "Failed to create post" });
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -131,18 +131,18 @@ const postController = {
 
       const post = await Post.findByPk(req.params.id);
       if (!post) {
-        return res.status(404).json({ error: "Post not found" });
+        return res.status(404).json({ error: "Page Introuvable !" });
       }
 
       const { user } = req;
       if (user.id !== post.user_id) {
         return res
           .status(401)
-          .json({ error: "You are not allowed to do this." });
+          .json({ error: "Vous n'êtes pas autorisés à faire ceci !" });
       }
 
       if (!content) {
-        return res.status(400).json({ error: "Content is required" });
+        return res.status(400).json({ error: "Le contenu est obligatoire" });
       }
 
       post.content = content;
@@ -158,7 +158,7 @@ const postController = {
       return res.json(post);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error: "Failed to update post" });
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -167,20 +167,20 @@ const postController = {
     try {
       const post = await Post.findByPk(req.params.id);
       if (!post) {
-        return res.status(404).json({ error: "Post not found" });
+        return res.status(404).json({ error: "Page introuvable !" });
       }
 
       const { user } = req;
       if (user.id !== post.user_id) {
         return res
           .status(401)
-          .json({ error: "You are not allowed to do this." });
+          .json({ error: "Vous n'êtes pas autorisés à faire ceci !" });
       }
 
       await post.destroy();
-      return res.json({ message: "Post deleted" });
+      return res.json({ message: "Post supprimé !" });
     } catch (error) {
-      return res.status(500).json({ error: "Failed to delete post" });
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 };

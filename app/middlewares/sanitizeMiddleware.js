@@ -7,9 +7,10 @@ const sanitize = require("sanitize-html");
 
 module.exports =
   (...key) =>
-  (req, _, next) => {
-    key.forEach((k) => {
-      req.body[k] = sanitize(req.body[k]);
-    });
-    next();
-  };
+    (req, _, next) => {
+      console.log('coucou');
+      key.forEach((k) => {
+        req.body[k] = sanitize(req.body[k]);
+      });
+      next();
+    };
