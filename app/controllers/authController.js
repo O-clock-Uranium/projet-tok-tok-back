@@ -1,9 +1,11 @@
 const bcrypt = require("bcrypt");
 const validator = require("email-validator");
+const { v4: uuidv4 } = require("uuid");
 //const zxcvbn = require("zxcvbn");
-const { User } = require("../models/index");
 
 const jwt = require("jsonwebtoken");
+
+const { User } = require("../models/index");
 
 const authController = {
   signup: async (req, res) => {
@@ -87,7 +89,7 @@ const authController = {
         latitude,
         email: email.toLowerCase(),
         password: hashedPassword,
-        slug: `${firstname.toLowerCase()}-${lastname.toLowerCase()}`,
+        slug: `${firstname.toLowerCase()}-${lastname.toLowerCase()}-${uuidv4()}`,
       });
       await user.save();
 
