@@ -1,19 +1,33 @@
 const { Post } = require("../models/index");
+const radius_calc = require('../../public/radius_calc');
+const { Op } = require("sequelize");
 
 const postController = {
-  getAll: async (_, res) => {
+  getAll: async (req, res) => {
     try {
+      const radius = radius_calc(req.user.latitude, req.user.longitude);
+      
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
         include: [
           {
             association: "post_creator",
+            where: {
+              longitude: {
+                [Op.between]: [radius.longitude.min, radius.longitude.max],
+              },
+              latitude: {
+                [Op.between]: [radius.latitude.min, radius.latitude.max],
+              },
+            },
             attributes: {
               exclude: [
                 "email",
                 "password",
                 "description",
-                "localization",
+                "adress",
+                "longitude",
+                "latitude",
                 "created_at",
                 "updated_at",
               ],
@@ -25,8 +39,9 @@ const postController = {
               exclude: [
                 "email",
                 "password",
-                "description",
-                "localization",
+                "adress",
+                "longitude",
+                "latitude",
                 "created_at",
                 "updated_at",
               ],
@@ -42,7 +57,7 @@ const postController = {
     }
   },
 
-
+  //* on ne l'utilisera pas finalement 
   getOne: async (req, res) => {
     try {
       const { id } = req.params;

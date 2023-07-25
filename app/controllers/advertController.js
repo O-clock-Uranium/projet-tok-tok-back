@@ -1,15 +1,25 @@
 const { Advert, Advert_has_image } = require("../models/index");
+const radius_calc = require("../../public/radius_calc");
+const { Op } = require("sequelize");
 
 const advertsController = {
-  //* ce sera les résultats à afficher quand on clique sur "annonces" dans le menu fixed.
-  //* nb: pour le moment, on affiche touuuuutes les annonces mais par la suite on filtrera celles qui se trouvent dans tel rayon autour du user loggué
-  getAll: async (_, res) => {
+  getAll: async (req, res) => {
     try {
+      const radius = radius_calc(req.user.latitude, req.user.longitude);
+
       const adverts = await Advert.findAll({
         include: [
           "images",
           {
             association: "advert_creator",
+            where: {
+              longitude: {
+                [Op.between]: [radius.longitude.min, radius.longitude.max],
+              },
+              latitude: {
+                [Op.between]: [radius.latitude.min, radius.latitude.max],
+              },
+            },
             attributes: {
               exclude: [
                 "email",
@@ -87,9 +97,10 @@ const advertsController = {
       images.forEach(async (e, index) => {
         const image = Advert_has_image.build({
           advert_id: newAdvert.id,
-          thumbnail: `${req.protocol}://${req.get("host")}/images/${req.files[index].filename}`,
+          thumbnail: `${req.protocol}://${req.get("host")}/images/${
+            req.files[index].filename
+          }`,
         });
-
 
         await image.save();
       });
@@ -162,7 +173,7 @@ const advertsController = {
       }
 
       advert.destroy();
-      res.json({message: "Annonce supprimée !"});
+      res.json({ message: "Annonce supprimée !" });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Erreur Serveur !" });

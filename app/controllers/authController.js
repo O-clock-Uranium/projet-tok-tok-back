@@ -104,6 +104,8 @@ const authController = {
         lastname: user.lastname,
         address: user.address,
         city: user.city,
+        longitude: user.longitude,
+        latitude: user.latitude,
         thumbnail: user.thumbnail,
         slug: user.slug
       };
