@@ -27,7 +27,7 @@ const advertsController = {
       res.json(adverts);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString("Erreur Serveur!!"));
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -60,7 +60,7 @@ const advertsController = {
       res.json(advert);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString("Erreur Serveur!!"));
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -94,7 +94,7 @@ const advertsController = {
       res.status(201).json(newAdvert);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erreur Serveur!!" });
+      return res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -113,7 +113,7 @@ const advertsController = {
       if (user.id !== advert.user_id) {
         return res
           .status(401)
-          .json({ error: "Vous n'êtes pas autorisé à voir ceci" });
+          .json({ error: "Vous n'êtes pas autorisé à faire ceci" });
       }
       title ? (advert.title = title) : false;
       content ? (advert.content = content) : false;
@@ -136,7 +136,7 @@ const advertsController = {
       res.json(advert);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erreur Serveur!!" });
+      return res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -148,21 +148,21 @@ const advertsController = {
       const advert = await Advert.findByPk(id);
 
       if (!advert) {
-        res.status(404).json({ error: "Cannot find this advert" });
+        res.status(404).json({ error: "Page introuvable" });
       }
 
       const { user } = req;
       if (user.id !== advert.user_id) {
         return res
           .status(401)
-          .json({ error: "You are not allowed to do this." });
+          .json({ error: "Vous n'êtes pas autorisé à faire ceci !" });
       }
 
       advert.destroy();
-      res.json({message: "Advert deleted"});
+      res.json({message: "Annonce supprimée !"});
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ error: "Erreur Serveur!!" });
+      return res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 };

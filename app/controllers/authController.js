@@ -22,21 +22,21 @@ const authController = {
     ) {
       res
         .status(400)
-        .json({ errorMessage: "Tous les champs doivent être renseignés." });
+        .json({ errorMessage: "Tous les champs doivent être renseignés !" });
       return;
     }
 
     if (password !== confirmation) {
       res
         .statut(400)
-        .json({ errorMessage: "Les deux mots de passe ne correspondent pas." });
+        .json({ errorMessage: "Les deux mots de passe ne correspondent pas !" });
       return;
     }
 
     if (!validator.validate(email)) {
       res
         .status(400)
-        .json({ errorMessage: "Le format de l'email est invalide." });
+        .json({ errorMessage: "Le format de l'email est invalide !" });
       return;
     }
 
@@ -61,8 +61,14 @@ const authController = {
     });
     await user.save();
 
-    // ne pas renvoyer tout user, il contient le pwd et autres données sensibles !!
-    res.status(201).json({message: "User added"});
+    const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
+      expiresIn: process.env.EXPIREDATETOKEN
+    });
+
+    console.log(user);
+
+    //TODO: ne pas renvoyer tout user, il contient le pwd et autres données sensibles !!
+    res.status(201).json({message: "Compte crée", auth: true, token: token, user: user});
   },
 
   async login(req, res) {
@@ -75,7 +81,7 @@ const authController = {
     if (!user || !isMatching) {
       return res
         .status(400)
-        .json({ errorMessage: "Mauvais couple email/password." });
+        .json({ errorMessage: "Mauvais couple email/password !" });
     }
 
     // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
@@ -83,7 +89,7 @@ const authController = {
       expiresIn: process.env.EXPIREDATETOKEN
     });
 
-    res.json({ auth: true, token: token });
+    res.json({ auth: true, token: token, user: user});
   },
 };
 

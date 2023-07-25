@@ -18,7 +18,7 @@ const userController = {
       res.json(profile);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -30,7 +30,7 @@ const userController = {
 
       //! TODO: voir pour factoriser
       if (!user) {
-        res.status(404).json("User not found");
+        res.status(404).json("Page Introuvable !");
       }
       if (firstname) {
         user.firstname = firstname;
@@ -60,7 +60,7 @@ const userController = {
       res.json(user);
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 
@@ -70,13 +70,13 @@ const userController = {
       const { user } = req;
       if (user) {
         await user.destroy();
-        res.json("User deleted from database successfully");
+        res.json({message: "L'utilisateur a été supprimé de la base de données avec succès"}); //? comme cela?
       } else {
-        res.status(404).json("Can't find user with id " + user.id);
+        res.status(404).json({error: "Page introuvable"}); //! et la on met quoi?
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json(error.toString());
+      res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
 };

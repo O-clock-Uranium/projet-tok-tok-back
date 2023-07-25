@@ -21,7 +21,7 @@ const verifyJWT = async (req, res, next) => {
     if (err)
       res.status(403).json({ auth: false, error: "Your token is not valid" });
 
-      console.log(decoded);
+    console.log(decoded);
     const user = await User.findOne({ where: { id: decoded.userId } });
 
     if (!user)
