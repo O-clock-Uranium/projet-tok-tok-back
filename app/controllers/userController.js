@@ -31,7 +31,7 @@ const userController = {
       if (!user) {
         res.status(404).json("Page Introuvable !");
       }
-      
+
       //! TODO: voir pour factoriser
       if (firstname) {
         user.firstname = firstname;
@@ -60,6 +60,20 @@ const userController = {
         user.latitude = latitude;
       }
       if (email) {
+        //! NOUVEAU
+        const existingEmail = await User.findOne({
+          where: {
+            email: email,
+          },
+        });
+
+        if (existingEmail) {
+          res
+            .status(400)
+            .json({ error: "Cet email est déjà associé à un compte" });
+          return;
+        }
+        
         user.email = email;
       }
       if (password) {
