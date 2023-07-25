@@ -7,36 +7,49 @@ const jwt = require("jsonwebtoken");
 
 const authController = {
   async signup(req, res) {
-    //? On récupère son addresse à son inscription et on verra ensuite pour récupérer sa localisation exacte
     //! Ne pas oublier le champs confirmation en front et reprendre exactement les mêmes names
-    const { firstname, lastname, address, email, password, confirmation } =
+    const { firstname, lastname, address, city, longitude, latitude, email, password, confirmation } =
       req.body;
 
+    //! NOUVEAU 
     if (
       !firstname ||
       !lastname ||
       !address ||
+      !city ||
+      !longitude ||
+      !latitude ||
       !email ||
       !password ||
       !confirmation
     ) {
       res
         .status(400)
-        .json({ errorMessage: "Tous les champs doivent être renseignés !" });
+        .json({ error: "Tous les champs doivent être renseignés !" });
       return;
     }
 
     if (password !== confirmation) {
       res
         .statut(400)
-        .json({ errorMessage: "Les deux mots de passe ne correspondent pas !" });
+        .json({ error: "Les deux mots de passe ne correspondent pas !" });
       return;
     }
 
     if (!validator.validate(email)) {
-      res
-        .status(400)
-        .json({ errorMessage: "Le format de l'email est invalide !" });
+      res.status(400).json({ error: "Le format de l'email est invalide !" });
+      return;
+    }
+
+    //! NOUVEAU
+    const existingEmail = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existingEmail) {
+      res.status(400).json({ error: "Cet email est déjà associé à un compte" });
       return;
     }
 
@@ -62,13 +75,25 @@ const authController = {
     await user.save();
 
     const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
-      expiresIn: process.env.EXPIREDATETOKEN
+      expiresIn: process.env.EXPIREDATETOKEN,
     });
 
-    console.log(user);
+    //! NOUVEAU
+    const userObj = {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      address: user.address,
+      city: user.city,
+      thumbnail: user.thumbnail,
+    };
 
-    //TODO: ne pas renvoyer tout user, il contient le pwd et autres données sensibles !!
-    res.status(201).json({message: "Compte crée", auth: true, token: token, user: user});
+    res.status(201).json({
+      message: "Compte crée",
+      auth: true,
+      token: token,
+      user: userObj,
+    });
   },
 
   async login(req, res) {
@@ -86,10 +111,20 @@ const authController = {
 
     // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
     const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
-      expiresIn: process.env.EXPIREDATETOKEN
+      expiresIn: process.env.EXPIREDATETOKEN,
     });
 
-    res.json({ auth: true, token: token, user: user});
+    //! NOUVEAU
+    const userObj = {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      address: user.address,
+      city: user.city,
+      thumbnail: user.thumbnail,
+    };
+
+    res.json({ auth: true, token: token, user: userObj });
   },
 };
 
