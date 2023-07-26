@@ -53,7 +53,6 @@ const authController = {
         return;
       }
 
-      //! NOUVEAU
       const existingEmail = await User.findOne({
         where: {
           email: email,
@@ -79,10 +78,11 @@ const authController = {
       const saltRounds = parseInt(process.env.SALT_ROUNDS);
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      //! NOUVEAU : slug, city, lon, lat
+      //! NOUVEAU : description et thumbnail
       const user = new User({
         firstname,
         lastname,
+        description: "",
         address,
         city,
         longitude,
@@ -90,6 +90,7 @@ const authController = {
         email: email.toLowerCase(),
         password: hashedPassword,
         slug: `${firstname.toLowerCase()}-${lastname.toLowerCase()}-${uuidv4()}`,
+        thumbnail: `${req.protocol}://${req.get("host")}/images/default-profile-picture.png`,
       });
       await user.save();
 
@@ -97,11 +98,11 @@ const authController = {
         expiresIn: process.env.EXPIREDATETOKEN,
       });
 
-      //! NOUVEAU
       const userObj = {
         id: user.id,
         firstname: user.firstname,
         lastname: user.lastname,
+        description: user.description,
         address: user.address,
         city: user.city,
         longitude: user.longitude,
@@ -136,7 +137,7 @@ const authController = {
       if (!user || !isMatching) {
         return res
           .status(400)
-          .json({ errorMessage: "Mauvais couple email/password !" });
+          .json({ error: "Mauvais couple email/password !" });
       }
 
       // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
@@ -149,9 +150,13 @@ const authController = {
         id: user.id,
         firstname: user.firstname,
         lastname: user.lastname,
+        description: user.description,
         address: user.address,
         city: user.city,
+        longitude: user.longitude,
+        latitude: user.latitude,
         thumbnail: user.thumbnail,
+        slug: user.slug,
       };
 
       res.json({ auth: true, token: token, user: userObj });
