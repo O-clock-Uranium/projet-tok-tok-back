@@ -10,7 +10,6 @@ const { User } = require("../models/index");
 const authController = {
   signup: async (req, res) => {
     try {
-      //! Ne pas oublier le champ confirmation en front et reprendre exactement les mêmes names
       const {
         firstname,
         lastname,
@@ -43,7 +42,7 @@ const authController = {
 
       if (password !== confirmation) {
         res
-          .statut(400)
+          .status(400)
           .json({ error: "Les deux mots de passe ne correspondent pas !" });
         return;
       }
@@ -79,7 +78,7 @@ const authController = {
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       //! NOUVEAU : description et thumbnail
-      const user = new User({
+      const user = await User.create({
         firstname,
         lastname,
         description: "",
@@ -90,9 +89,12 @@ const authController = {
         email: email.toLowerCase(),
         password: hashedPassword,
         slug: `${firstname.toLowerCase()}-${lastname.toLowerCase()}-${uuidv4()}`,
-        thumbnail: `${req.protocol}://${req.get("host")}/images/default-profile-picture.png`,
+        thumbnail: `${req.protocol}://${req.get(
+          "host"
+        )}/images/default-profile-picture.png`,
       });
-      await user.save();
+      //await user.save();
+      console.log(user);
 
       const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
         expiresIn: process.env.EXPIREDATETOKEN,
