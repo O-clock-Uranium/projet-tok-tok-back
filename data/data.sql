@@ -3,10 +3,13 @@ INSERT INTO "user" (
         "lastname",
         "description",
         "address",
-        "localization",
+        "city",
+        "longitude",
+        "latitude",
         "email",
         "password",
         "thumbnail",
+        "slug",
         "created_at",
         "updated_at"
     )
@@ -14,23 +17,29 @@ VALUES (
         'maxime',
         'malandain',
         'le pire du monde',
-        'normandie',
-        'localization',
+        'adresse',
+        'city',
+        'longitude',
+        'latitude',
         'max@gmail.com',
         'tok',
         'image.png',
+        'maxime-malandin',
         NOW(),
         NOW()
     ),
     (
-        'chloe',
-        'batillet',
-        'la pire du monde',
-        'paris',
-        'localization',
-        'looser@gmail.com',
-        'la clodo',
+        'maxime',
+        'malandain',
+        'le pire du monde',
+        'adresse',
+        'city',
+        'longitude',
+        'latitude',
+        'max@gmail.com',
+        'tok',
         'image.png',
+        'maxime-malandin',
         NOW(),
         NOW()
     );
@@ -44,6 +53,7 @@ INSERT INTO "advert" (
         "price",
         "user_id",
         "tag_id",
+        "slug",
         "created_at",
         "updated_at"
     )
@@ -53,6 +63,7 @@ VALUES (
         50,
         1,
         1,
+        'carte-yu-gi-oh',
         NOW(),
         NOW()
     ),
@@ -62,6 +73,7 @@ VALUES (
         50,
         1,
         1,
+        'carte-yu-gi-eh',
         NOW(),
         NOW()
     );

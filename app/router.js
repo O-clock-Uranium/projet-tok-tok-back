@@ -2,7 +2,16 @@ const { Router } = require("express");
 const sanitize = require("./middlewares/sanitize");
 const verifyAuthMiddleware = require("./middlewares/verifyAuthMiddleware");
 const multer = require("./middlewares/multerMiddleware");
-const {authController,postController,userController,advertController,messageController,favouriteController,likeController,} = require("./controllers/index");
+const {
+  advertController,
+  authController,
+  categoriesController,
+  favouriteController,
+  likeController,
+  messageController,
+  postController,
+  userController,
+} = require("./controllers/index");
 
 const router = Router();
 
@@ -10,7 +19,6 @@ const router = Router();
 
 router.post("*", sanitize);
 router.patch("*", sanitize);
-
 
 /* login/signup -----------------------------------------------------------------*/
 router.post("/login", authController.login);
@@ -41,7 +49,11 @@ router.patch(
   multer.single("thumbnail"),
   userController.update
 ); //-> pour la page "paramètres"
-router.delete("/my-profile/delete", verifyAuthMiddleware, userController.deleteUser);
+router.delete(
+  "/my-profile/delete",
+  verifyAuthMiddleware,
+  userController.deleteUser
+);
 
 /* Adverts ---------------------------------------------------------------*/
 router.get("/adverts", verifyAuthMiddleware, advertController.getAll);
@@ -68,16 +80,31 @@ router.get(
   verifyAuthMiddleware,
   messageController.displayAllConversation
 );
-router.post("/messages/:id", verifyAuthMiddleware, messageController.sendMessage);
+router.post(
+  "/messages/:id",
+  verifyAuthMiddleware,
+  messageController.sendMessage
+);
 
 /* Favourites --------------------------------------------------------------*/
 router.get("/favourites", verifyAuthMiddleware, favouriteController.getAll);
-router.post("/favourites/:advertId", verifyAuthMiddleware, favouriteController.add);
-router.delete("/favourites/:advertId", verifyAuthMiddleware, favouriteController.remove);
+router.post(
+  "/favourites/:advertId",
+  verifyAuthMiddleware,
+  favouriteController.add
+);
+router.delete(
+  "/favourites/:advertId",
+  verifyAuthMiddleware,
+  favouriteController.remove
+);
 
 /*Likes
 -------------------------------------------------------------*/
 router.post("/likes/:postId", verifyAuthMiddleware, likeController.add);
 router.delete("/likes/:postId", verifyAuthMiddleware, likeController.remove);
+
+/* Categories -----------------------------------------------*/
+router.get("/categories", verifyAuthMiddleware, categoriesController.getAll);
 
 module.exports = router;

@@ -24,14 +24,15 @@ const userController = {
 
   update: async (req, res) => {
     try {
-      const { firstname, lastname, description, address, email, password } =
+      const { firstname, lastname, description, address, city, longitude, latitude, email, password } =
         req.body;
       const { user } = req;
 
-      //! TODO: voir pour factoriser
       if (!user) {
         res.status(404).json("Page Introuvable !");
       }
+
+      //! TODO: voir pour factoriser
       if (firstname) {
         user.firstname = firstname;
       }
@@ -49,7 +50,30 @@ const userController = {
       if (address) {
         user.address = address;
       }
+      if (city) {
+        user.city = city;
+      }
+      if (longitude) {
+        user.longitude = longitude;
+      }
+      if (latitude) {
+        user.latitude = latitude;
+      }
       if (email) {
+        //! NOUVEAU
+        const existingEmail = await User.findOne({
+          where: {
+            email: email,
+          },
+        });
+
+        if (existingEmail) {
+          res
+            .status(400)
+            .json({ error: "Cet email est déjà associé à un compte" });
+          return;
+        }
+        
         user.email = email;
       }
       if (password) {
@@ -70,9 +94,9 @@ const userController = {
       const { user } = req;
       if (user) {
         await user.destroy();
-        res.json({message: "L'utilisateur a été supprimé de la base de données avec succès"}); //? comme cela?
+        res.json({message: "L'utilisateur a été supprimé de la base de données avec succès"});
       } else {
-        res.status(404).json({error: "Page introuvable"}); //! et la on met quoi?
+        res.status(404).json({error: "Page introuvable"});
       }
     } catch (error) {
       console.log(error);

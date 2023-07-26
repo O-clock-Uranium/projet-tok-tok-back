@@ -14,11 +14,13 @@ CREATE TABLE "user" (
   lastname VARCHAR(64) NOT NULL,
   description VARCHAR(255),
   address TEXT NOT NULL,
-  /*on passe la localisation à null pour le moment, à voir comment on la récupère avec l'API*/
-  localization TEXT,
+  city TEXT NOT NULL,
+  longitude TEXT NOT NULL,
+  latitude TEXT NOT NULL,
   email VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
   thumbnail TEXT,
+  slug TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -35,6 +37,7 @@ CREATE TABLE "advert" (
   price SMALLINT NOT NULL,
   user_id INTEGER NOT NULL,
   tag_id INTEGER NOT NULL,
+  slug TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE,

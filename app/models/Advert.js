@@ -24,7 +24,11 @@ Advert.init(
     tag_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    }
+    },
+    slug: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
   {
     sequelize,
