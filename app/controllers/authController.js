@@ -36,19 +36,19 @@ const authController = {
       ) {
         res
           .status(400)
-          .json({ error: "Tous les champs doivent être renseignés !" });
+          .json({ error: "Tous les champs doivent être renseignés" });
         return;
       }
 
       if (password !== confirmation) {
         res
           .status(400)
-          .json({ error: "Les deux mots de passe ne correspondent pas !" });
+          .json({ error: "Les deux mots de passe ne correspondent pas" });
         return;
       }
 
       if (!validator.validate(email)) {
-        res.status(400).json({ error: "Le format de l'email est invalide !" });
+        res.status(400).json({ error: "Le format de l'email est invalide" });
         return;
       }
 
@@ -139,7 +139,7 @@ const authController = {
       if (!user || !isMatching) {
         return res
           .status(400)
-          .json({ error: "Mauvais couple email/password !" });
+          .json({ error: "Mauvais couple email/password" });
       }
 
       // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié

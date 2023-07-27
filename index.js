@@ -2,9 +2,9 @@ require("dotenv").config();
 
 const cors = require("cors");
 const express = require("express");
-const middleware404 = require("./app/middlewares/404Middleware");
+const middleware404 = require("./app/middlewares/middleware404");
 const router = require("./app/router");
-const socket = require('./socket/server');
+//const socket = require('./socket/server');
 
 const app = express();
 
