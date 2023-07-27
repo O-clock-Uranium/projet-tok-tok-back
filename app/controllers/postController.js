@@ -9,9 +9,13 @@ const postController = {
       
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
+        where: {
+          reply_to: null
+        },
         include: [
           {
             association: "post_creator",
+            // masquer pour la pres
             where: {
               longitude: {
                 [Op.between]: [radius.longitude.min, radius.longitude.max],
