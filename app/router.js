@@ -82,6 +82,7 @@ router.get(
 );
 router.post(
   "/messages/:id",
+  // "/channels/:channelid/messages/:messageid"
   verifyAuthMiddleware,
   messageController.sendMessage
 );

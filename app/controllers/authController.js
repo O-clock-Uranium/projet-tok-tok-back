@@ -118,9 +118,9 @@ const authController = {
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({error: "Erreur Serveur !"})
+      res.status(500).json({error: "Erreur Serveur !"});
     }
-    
+
   },
 
   login: async (req, res) => {
@@ -131,13 +131,20 @@ const authController = {
         where: { email: email.toLowerCase() },
       });
 
-      const isMatching = await bcrypt.compare(password, user.password);
-
-      if (!user || !isMatching) {
+      if (!user) {
         return res
           .status(400)
           .json({ errorMessage: "Mauvais couple email/password !" });
       }
+
+      const isMatching = await bcrypt.compare(password, user.password);
+
+      if (!isMatching) {
+        return res
+          .status(400)
+          .json({ errorMessage: "Mauvais couple email/password !" });
+      }
+
 
       // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
       const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
@@ -157,7 +164,7 @@ const authController = {
       res.json({ auth: true, token: token, user: userObj });
     } catch (error) {
       console.log(error);
-      res.status(500).json({error: "Erreur Serveur !"})
+      res.status(500).json({error: "Erreur Serveur !"});
     }
   },
 };

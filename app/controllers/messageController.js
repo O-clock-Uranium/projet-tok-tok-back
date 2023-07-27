@@ -1,5 +1,6 @@
 const { Message } = require("../models/index");
 const { Op } = require("sequelize");
+const { io } = require('../../');
 
 const messageController = {
   getConversations: async (req, res) => {
@@ -60,12 +61,16 @@ const messageController = {
       const conversationId = req.params.id;
       const { content, expediteur, destinataire } = req.body;
 
+      console.log("content", content);
+
       const message = await Message.create({
         content: content,
         expediteur: expediteur,
         destinataire: destinataire,
         conversation_id: conversationId,
       });
+
+      io.emit("messages/send", message); //! Voir si vraiment utile
 
       res.status(201).json(message);
     } catch (error) {
