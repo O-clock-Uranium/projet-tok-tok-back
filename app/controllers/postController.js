@@ -10,12 +10,11 @@ const postController = {
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
         where: {
-          reply_to: null
+          reply_to: null,
         },
         include: [
           {
             association: "post_creator",
-            // masquer pour la pres
             where: {
               longitude: {
                 [Op.between]: [radius.longitude.min, radius.longitude.max],
@@ -51,7 +50,11 @@ const postController = {
               ],
             },
           },
-          "replies",
+          {
+            association: "replies",
+            order: [["replies", "created_at", "DESC"]],
+            include: "post_creator",
+          },
         ],
       });
       res.json(posts);
@@ -93,7 +96,11 @@ const postController = {
               ],
             },
           },
-          "replies",
+          {
+            association: "replies",
+            order: [["replies", "created_at", "DESC"]],
+            include: "post_creator",
+          },
         ],
       });
       res.json(post); // Utiliser "post" au lieu de "posts" car nous obtenons un seul post
@@ -197,6 +204,7 @@ const postController = {
       }
 
       await post.destroy();
+      
       return res.json({ message: "Post supprimé !" });
     } catch (error) {
       res.status(500).json({ error: "Erreur Serveur !" });
