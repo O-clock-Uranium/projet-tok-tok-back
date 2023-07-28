@@ -1,4 +1,5 @@
 const { User } = require("../models/index");
+const { v4: uuidv4 } = require("uuid");
 
 const userController = {
   getOne: async (req, res) => {
@@ -35,9 +36,11 @@ const userController = {
       //! TODO: voir pour factoriser
       if (firstname) {
         user.firstname = firstname;
+        user.slug= `${firstname.toLowerCase()}-${user.lastname.toLowerCase()}-${uuidv4()}`;
       }
       if (lastname) {
         user.lastname = lastname;
+        user.slug = `${user.firstname.toLowerCase()}-${lastname.toLowerCase()}-${uuidv4()}`;
       }
       if (description) {
         user.description = description;
