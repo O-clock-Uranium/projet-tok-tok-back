@@ -47,44 +47,44 @@ INSERT INTO "tag" ("name")
 VALUES ('maison'),
     ('jardin'),
     ('vetements');
-INSERT INTO "advert" (
-        "title",
-        "content",
-        "price",
-        "user_id",
-        "tag_id",
-        "slug",
-        "created_at",
-        "updated_at"
-    )
-VALUES (
-        'Carte yu-gi-oh',
-        'extension 2022',
-        50,
-        1,
-        1,
-        'carte-yu-gi-oh',
-        NOW(),
-        NOW()
-    ),
-    (
-        'Carte yu-gi-eh',
-        'extension 2028',
-        50,
-        1,
-        1,
-        'carte-yu-gi-eh',
-        NOW(),
-        NOW()
-    );
-INSERT INTO "advert_has_image" (
-        "advert_id",
-        "thumbnail",
-        "created_at",
-        "updated_at"
-    )
-VALUES (1, 'carte_yu_gi_oh_1.png', NOW(), NOW()),
-    (1, 'carte_yu_gi_oh_2.png', NOW(), NOW());
+-- INSERT INTO "advert" (
+--         "title",
+--         "content",
+--         "price",
+--         "user_id",
+--         "tag_id",
+--         "slug",
+--         "created_at",
+--         "updated_at"
+--     )
+-- VALUES (
+--         'Carte yu-gi-oh',
+--         'extension 2022',
+--         50,
+--         1,
+--         1,
+--         'carte-yu-gi-oh',
+--         NOW(),
+--         NOW()
+--     ),
+--     (
+--         'Carte yu-gi-eh',
+--         'extension 2028',
+--         50,
+--         1,
+--         1,
+--         'carte-yu-gi-eh',
+--         NOW(),
+--         NOW()
+--     );
+-- INSERT INTO "advert_has_image" (
+--         "advert_id",
+--         "thumbnail",
+--         "created_at",
+--         "updated_at"
+--     )
+-- VALUES (1, 'carte_yu_gi_oh_1.png', NOW(), NOW()),
+--     (1, 'carte_yu_gi_oh_2.png', NOW(), NOW());
 INSERT INTO "post" (
         "content",
         "thumbnail",
@@ -130,8 +130,8 @@ VALUES (
         1,
         NOW()
     );
-INSERT INTO "favourite" ("advert_id", "user_id")
-VALUES (1, 2),
-    (2, 1);
+-- INSERT INTO "favourite" ("advert_id", "user_id")
+-- VALUES (1, 2),
+--     (2, 1);
 INSERT INTO "like" ("post_id", "user_id")
 VALUES (1, 2);
