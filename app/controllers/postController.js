@@ -132,7 +132,7 @@ const postController = {
       const { content, reply_to } = req.body;
       console.log(req.file);
 
-      const newPost = await Post.create({
+      const newPost = Post.build({
         content,
         reply_to,
         user_id: req.user.id,
@@ -143,6 +143,8 @@ const postController = {
           req.file.filename
         }`;
       }
+
+      await newPost.save();
 
       res.status(201).json(newPost);
     } catch (error) {
@@ -204,7 +206,7 @@ const postController = {
       }
 
       await post.destroy();
-      
+
       return res.json({ message: "Post supprimé !" });
     } catch (error) {
       res.status(500).json({ error: "Erreur Serveur !" });
