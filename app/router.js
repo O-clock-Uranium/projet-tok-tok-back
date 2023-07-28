@@ -26,7 +26,7 @@ router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
 router.get("/posts", verifyAuthMiddleware, postController.getAll);
-router.get("/post/:id", verifyAuthMiddleware, postController.getOne); //!!! A faire vérifier par la patronne
+router.get("/post/:id", verifyAuthMiddleware, postController.getOne);
 router.post(
   "/posts",
   verifyAuthMiddleware,
@@ -85,7 +85,6 @@ router.post(
   verifyAuthMiddleware,
   messageController.sendMessage
 );
-
 /* Favourites --------------------------------------------------------------*/
 router.get("/favourites", verifyAuthMiddleware, favouriteController.getAll);
 router.post(

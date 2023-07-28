@@ -1,3 +1,4 @@
+BEGIN;
 INSERT INTO "user" (
         "firstname",
         "lastname",
@@ -24,7 +25,7 @@ VALUES (
         'max@gmail.com',
         'tok',
         'image.png',
-        'maxime-malandin',
+        'maxime-malandain',
         NOW(),
         NOW()
     ),
@@ -39,7 +40,7 @@ VALUES (
         'max@gmail.com',
         'tok',
         'image.png',
-        'maxime-malandin',
+        'maxime-malandain',
         NOW(),
         NOW()
     );
@@ -135,3 +136,5 @@ VALUES (1, 2),
     (2, 1);
 INSERT INTO "like" ("post_id", "user_id")
 VALUES (1, 2);
+
+COMMIT;
