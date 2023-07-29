@@ -7,7 +7,30 @@ const userController = {
       const { id } = req.params;
 
       const profile = await User.findByPk(id, {
-        include: ["liked", "posts", "adverts"],
+        include: [
+          "liked",
+          "posts",
+          {
+            association: "adverts",
+            include: [
+              "images",
+              {
+                association: "advert_creator",
+                attributes: {
+                  exclude: [
+                    "email",
+                    "password",
+                    "adress",
+                    "longitude",
+                    "latitude",
+                    "created_at",
+                    "updated_at",
+                  ],
+                },
+              },
+            ],
+          },
+        ],
         attributes: {
           exclude: ["address", "password", "email", "updated_at"],
         },
@@ -25,8 +48,17 @@ const userController = {
 
   update: async (req, res) => {
     try {
-      const { firstname, lastname, description, address, city, longitude, latitude, email, password } =
-        req.body;
+      const {
+        firstname,
+        lastname,
+        description,
+        address,
+        city,
+        longitude,
+        latitude,
+        email,
+        password,
+      } = req.body;
       const { user } = req;
 
       if (!user) {
@@ -36,7 +68,7 @@ const userController = {
       //! TODO: voir pour factoriser
       if (firstname) {
         user.firstname = firstname;
-        user.slug= `${firstname.toLowerCase()}-${user.lastname.toLowerCase()}-${uuidv4()}`;
+        user.slug = `${firstname.toLowerCase()}-${user.lastname.toLowerCase()}-${uuidv4()}`;
       }
       if (lastname) {
         user.lastname = lastname;
@@ -76,7 +108,7 @@ const userController = {
             .json({ error: "Cet email est déjà associé à un compte" });
           return;
         }
-        
+
         user.email = email;
       }
       if (password) {
@@ -97,9 +129,12 @@ const userController = {
       const { user } = req;
       if (user) {
         await user.destroy();
-        res.json({message: "L'utilisateur a été supprimé de la base de données avec succès"});
+        res.json({
+          message:
+            "L'utilisateur a été supprimé de la base de données avec succès",
+        });
       } else {
-        res.status(404).json({error: "Page introuvable"});
+        res.status(404).json({ error: "Page introuvable" });
       }
     } catch (error) {
       console.log(error);
