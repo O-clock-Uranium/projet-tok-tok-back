@@ -110,7 +110,8 @@ const authController = {
         longitude: user.longitude,
         latitude: user.latitude,
         thumbnail: user.thumbnail,
-        slug: user.slug
+        slug: user.slug,
+        email: user.email
       };
 
       res.status(201).json({
@@ -159,6 +160,7 @@ const authController = {
         latitude: user.latitude,
         thumbnail: user.thumbnail,
         slug: user.slug,
+        email: user.email,
       };
 
       res.json({ auth: true, token: token, user: userObj });
