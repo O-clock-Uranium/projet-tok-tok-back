@@ -42,7 +42,7 @@ router.patch(
 router.delete("/posts/:id", verifyAuthMiddleware, postController.remove);
 
 /* Users -----------------------------------------------------------------*/
-router.get("/profile/:id", verifyAuthMiddleware, userController.getOne); //? route pour MON profil ?
+router.get("/profile/:slug", verifyAuthMiddleware, userController.getOne); //? route pour MON profil ?
 router.patch(
   "/my-profile/edit",
   verifyAuthMiddleware,
@@ -57,7 +57,7 @@ router.delete(
 
 /* Adverts ---------------------------------------------------------------*/
 router.get("/adverts", verifyAuthMiddleware, advertController.getAll);
-router.get("/adverts/:id", verifyAuthMiddleware, advertController.getOne);
+router.get("/adverts/:slug", verifyAuthMiddleware, advertController.getOne);
 router.post(
   "/adverts",
   verifyAuthMiddleware,

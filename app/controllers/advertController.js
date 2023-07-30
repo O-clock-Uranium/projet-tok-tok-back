@@ -43,25 +43,30 @@ const advertsController = {
 
   getOne: async (req, res) => {
     try {
-      const { id } = req.params;
-      const advert = await Advert.findByPk(id, {
-        include: [
-          "images",
-          {
-            association: "advert_creator",
-            attributes: {
-              exclude: [
-                "email",
-                "password",
-                "description",
-                "localization",
-                "created_at",
-                "updated_at",
-              ],
+      const { slug } = req.params;
+      const advert = await Advert.findOne(
+        {
+          where: { slug: slug },
+        },
+        {
+          include: [
+            "images",
+            {
+              association: "advert_creator",
+              attributes: {
+                exclude: [
+                  "email",
+                  "password",
+                  "description",
+                  "localization",
+                  "created_at",
+                  "updated_at",
+                ],
+              },
             },
-          },
-        ],
-      });
+          ],
+        }
+      );
 
       if (!advert) {
         res.status(404).json({ error: "Annonce introuvable" });

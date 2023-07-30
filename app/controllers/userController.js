@@ -1,54 +1,29 @@
+const { where } = require("sequelize");
 const { User } = require("../models/index");
 const { v4: uuidv4 } = require("uuid");
 
 const userController = {
   getOne: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { slug } = req.params;
 
-      const profile = await User.findByPk(id, {
-        include: [
-          "liked",
-          {
-            association: "posts",
-            where: {
-              reply_to: null,
-            },
-            include: [
-              {
-                association: "post_creator",
-                attributes: {
-                  exclude: [
-                    "email",
-                    "password",
-                    "adress",
-                    "longitude",
-                    "latitude",
-                    "created_at",
-                    "updated_at",
-                  ],
-                },
+      const profile = await User.findOne(
+        {
+          where: {
+            slug: slug,
+          },
+        },
+        {
+          include: [
+            "liked",
+            {
+              association: "posts",
+              where: {
+                reply_to: null,
               },
-              {
-                association: "users_liked",
-                attributes: {
-                  exclude: [
-                    "email",
-                    "password",
-                    "adress",
-                    "longitude",
-                    "latitude",
-                    "created_at",
-                    "updated_at",
-                  ],
-                },
-              },
-              {
-                association: "replies",
-                order: [["replies", "created_at", "DESC"]],
-                include: {
+              include: [
+                {
                   association: "post_creator",
-                  //! Corriger l'exclure, il renvoie tous les champs
                   attributes: {
                     exclude: [
                       "email",
@@ -61,38 +36,71 @@ const userController = {
                     ],
                   },
                 },
-              },
-            ],
-          },
-          {
-            association: "adverts",
-            include: [
-              "images",
-              {
-                association: "advert_creator",
-                attributes: {
-                  exclude: [
-                    "email",
-                    "password",
-                    "adress",
-                    "longitude",
-                    "latitude",
-                    "created_at",
-                    "updated_at",
-                  ],
+                {
+                  association: "users_liked",
+                  attributes: {
+                    exclude: [
+                      "email",
+                      "password",
+                      "adress",
+                      "longitude",
+                      "latitude",
+                      "created_at",
+                      "updated_at",
+                    ],
+                  },
                 },
-              },
-            ],
+                {
+                  association: "replies",
+                  order: [["replies", "created_at", "DESC"]],
+                  include: {
+                    association: "post_creator",
+                    //! Corriger l'exclure, il renvoie tous les champs
+                    attributes: {
+                      exclude: [
+                        "email",
+                        "password",
+                        "adress",
+                        "longitude",
+                        "latitude",
+                        "created_at",
+                        "updated_at",
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              association: "adverts",
+              include: [
+                "images",
+                {
+                  association: "advert_creator",
+                  attributes: {
+                    exclude: [
+                      "email",
+                      "password",
+                      "adress",
+                      "longitude",
+                      "latitude",
+                      "created_at",
+                      "updated_at",
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+          attributes: {
+            exclude: ["address", "password", "email", "updated_at"],
           },
-        ],
-        attributes: {
-          exclude: ["address", "password", "email", "updated_at"],
-        },
-        order: [
-          ["posts", "created_at", "DESC"],
-          ["liked", "created_at", "DESC"],
-        ],
-      });
+          order: [
+            ["posts", "created_at", "DESC"],
+            ["liked", "created_at", "DESC"],
+          ],
+        }
+      );
       res.json(profile);
     } catch (error) {
       console.log(error);
