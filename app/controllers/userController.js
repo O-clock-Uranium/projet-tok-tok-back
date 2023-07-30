@@ -9,7 +9,61 @@ const userController = {
       const profile = await User.findByPk(id, {
         include: [
           "liked",
-          "posts",
+          {
+            association: "posts",
+            where: {
+              reply_to: null,
+            },
+            include: [
+              {
+                association: "post_creator",
+                attributes: {
+                  exclude: [
+                    "email",
+                    "password",
+                    "adress",
+                    "longitude",
+                    "latitude",
+                    "created_at",
+                    "updated_at",
+                  ],
+                },
+              },
+              {
+                association: "users_liked",
+                attributes: {
+                  exclude: [
+                    "email",
+                    "password",
+                    "adress",
+                    "longitude",
+                    "latitude",
+                    "created_at",
+                    "updated_at",
+                  ],
+                },
+              },
+              {
+                association: "replies",
+                order: [["replies", "created_at", "DESC"]],
+                include: {
+                  association: "post_creator",
+                  //! Corriger l'exclure, il renvoie tous les champs
+                  attributes: {
+                    exclude: [
+                      "email",
+                      "password",
+                      "adress",
+                      "longitude",
+                      "latitude",
+                      "created_at",
+                      "updated_at",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
           {
             association: "adverts",
             include: [
