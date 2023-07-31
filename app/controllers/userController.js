@@ -12,8 +12,6 @@ const userController = {
           where: {
             slug: slug,
           },
-        },
-        {
           include: [
             "liked",
             {
@@ -28,7 +26,7 @@ const userController = {
                     exclude: [
                       "email",
                       "password",
-                      "adress",
+                      "address",
                       "longitude",
                       "latitude",
                       "created_at",
@@ -42,7 +40,7 @@ const userController = {
                     exclude: [
                       "email",
                       "password",
-                      "adress",
+                      "address",
                       "longitude",
                       "latitude",
                       "created_at",
@@ -60,7 +58,7 @@ const userController = {
                       exclude: [
                         "email",
                         "password",
-                        "adress",
+                        "address",
                         "longitude",
                         "latitude",
                         "created_at",
