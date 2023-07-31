@@ -57,6 +57,8 @@ router.delete(
 
 /* Adverts ---------------------------------------------------------------*/
 router.get("/adverts", verifyAuthMiddleware, advertController.getAll);
+router.get("/profile/:id/adverts", verifyAuthMiddleware, advertController.getAllFromUser);
+
 router.get("/adverts/:slug", verifyAuthMiddleware, advertController.getOne);
 router.post(
   "/adverts",

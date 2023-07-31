@@ -1,4 +1,4 @@
-const { Advert, Advert_has_image } = require("../models/index");
+const { Advert, Advert_has_image, User } = require("../models/index");
 const radius_calc = require("../../public/radius_calc");
 const { Op } = require("sequelize");
 
@@ -40,6 +40,29 @@ const advertsController = {
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Erreur Serveur !" });
+    }
+  },
+
+  getAllFromUser: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const userAdverts = await Advert.findAll({
+        where: {
+          user_id: id,
+        },
+        include: [
+          {
+            association: "advert_creator",
+            attributes: ["id", "firstname", "lastname", "thumbnail", "slug"],
+          },
+          { association: "images", attributes: ["thumbnail"] },
+        ],
+      });
+
+      res.json(userAdverts);
+    } catch (error) {
+      res.status(500).json('Erreur serveur')
     }
   },
 
