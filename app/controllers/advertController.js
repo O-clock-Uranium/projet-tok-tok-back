@@ -10,6 +10,8 @@ const advertsController = {
       const adverts = await Advert.findAll({
         include: [
           "images",
+          //* pour le bouton 'Ajouté aux favoris'
+          { association: "favorited_by", attributes: ["id"] },
           {
             association: "advert_creator",
             // where: {
