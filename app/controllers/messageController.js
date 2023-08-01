@@ -2,7 +2,7 @@ const { Message } = require("../models/index");
 const { Op } = require("sequelize");
 
 const messageController = {
-  getConversations: async (req, res) => {
+  getConversations: async (req, res) => { //! à faire sur le router
     try {
       const { user } = req;
 

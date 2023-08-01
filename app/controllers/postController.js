@@ -13,29 +13,29 @@ const postController = {
           reply_to: null,
         },
         include: [
-          {
-            association: "post_creator",
-            where: {
-              longitude: {
-                [Op.between]: [radius.longitude.min, radius.longitude.max],
-              },
-              latitude: {
-                [Op.between]: [radius.latitude.min, radius.latitude.max],
-              },
-            },
-            attributes: {
-              exclude: [
-                "email",
-                "password",
-                "description",
-                "adress",
-                "longitude",
-                "latitude",
-                "created_at",
-                "updated_at",
-              ],
-            },
-          },
+          // {
+          //   association: "post_creator",
+          //   where: {
+          //     longitude: {
+          //       [Op.between]: [radius.longitude.min, radius.longitude.max],
+          //     },
+          //     latitude: {
+          //       [Op.between]: [radius.latitude.min, radius.latitude.max],
+          //     },
+          //   },
+          //   attributes: {
+          //     exclude: [
+          //       "email",
+          //       "password",
+          //       "description",
+          //       "adress",
+          //       "longitude",
+          //       "latitude",
+          //       "created_at",
+          //       "updated_at",
+          //     ],
+          //   },
+          // },
           {
             association: "users_liked",
             attributes: {
