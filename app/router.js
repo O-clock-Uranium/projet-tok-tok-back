@@ -47,8 +47,9 @@ router.patch(
   "/my-profile/edit",
   verifyAuthMiddleware,
   multer.single("thumbnail"),
+  multer.single("banner"), // A vérifier 
   userController.update
-); //-> pour la page "paramètres"
+);
 router.delete(
   "/my-profile/delete",
   verifyAuthMiddleware,
