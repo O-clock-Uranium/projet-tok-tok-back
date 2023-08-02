@@ -89,6 +89,7 @@ router.delete("/adverts/:id", verifyAuthMiddleware, advertController.remove);
 router.get("/contacts", verifyAuthMiddleware, messageController.getContacts); //* OK
 router.get("/messages/:destId", verifyAuthMiddleware, messageController.getMessages); // mettre une limite 50
 router.post("/messages", verifyAuthMiddleware, messageController.sendMessage); // envoyer un message avec dans le formdata roomId en facultatif
+
 //router.patch("/message/:id", verifyAuthMiddleware); // corriger un message
 // router.delete("/message/:id", verifyAuthMiddleware); // supprimer un message
 

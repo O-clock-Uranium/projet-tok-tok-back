@@ -109,24 +109,29 @@ VALUES (
         NOW(),
         NOW()
     );
+INSERT INTO "conversation" (
+    "user1",
+    "user2"
+)
+VALUES (
+    1,
+    2
+);
 INSERT INTO "message" (
         "content",
-        "expediteur",
-        "destinataire",
+        "sender",
         "conversation_id",
         "created_at"
     )
 VALUES (
         'Je ne veux pas faire de back',
         1,
-        2,
         1,
         NOW()
     ),
     (
         'Je veux adopter Praveen',
         2,
-        1,
         1,
         NOW()
     );

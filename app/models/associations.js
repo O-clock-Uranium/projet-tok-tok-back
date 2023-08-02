@@ -6,6 +6,7 @@ const Favourite = require("./Favourite");
 const Like = require("./Like");
 const Post = require("./Post");
 const Tag = require("./Tag");
+const Conversation = require("./Conversation");
 
 // One-To-One
 // - `hasOne` + `belongsTo`
@@ -57,23 +58,65 @@ Advert.belongsTo(Tag, {
   as: "tag",
 });
 
+// Messages
+Conversation.hasMany(Message, {
+  foreignKey: "conversation_id",
+  as: "messages"
+});
+
+Message.belongsTo(Conversation, {
+  foreignKey: "conversation_id",
+  as: "conv"
+});
+
+User.hasMany(Message, {
+  foreignKey: "sender",
+  as: "messages_sent"
+});
+
+Message.belongsTo(User, {
+  foreignKey: "sender",
+  as: "message_sender",
+});
+
+User.hasMany(Conversation, {
+  foreignKey: "user1",
+  as: "user_one_conversations"
+});
+
+Conversation.belongsTo(User, {
+  foreignKey: "user1",
+  as: "user_one_info",
+});
+
+User.hasMany(Conversation, {
+  foreignKey: "user2",
+  as: "user_two_conversations",
+});
+
+Conversation.belongsTo(User, {
+  foreignKey: "user2",
+  as: "user_two_info",
+});
+
+
 //Messages
-User.hasMany(Message, {
-  foreignKey: "expediteur",
-  as: "messages_sent",
-});
-User.hasMany(Message, {
-  foreignKey: "destinataire",
-  as: "messages_received",
-});
-Message.belongsTo(User, {
-  foreignKey: "expediteur",
-  as: "info_expediteur",
-});
-Message.belongsTo(User, {
-  foreignKey: "destinataire",
-  as: "info_destinataire",
-});
+// User.hasMany(Message, {
+//   foreignKey: "expediteur",
+//   as: "messages_sent",
+// });
+// User.hasMany(Message, {
+//   foreignKey: "destinataire",
+//   as: "messages_received",
+// });
+// Message.belongsTo(User, {
+//   foreignKey: "expediteur",
+//   as: "info_expediteur",
+// });
+// Message.belongsTo(User, {
+//   foreignKey: "destinataire",
+//   as: "info_destinataire",
+// });
 
 // Many-To-Many
 // - `belongsToMany` + `belongsToMany`
