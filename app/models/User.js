@@ -43,6 +43,9 @@ User.init(
     thumbnail: {
       type: DataTypes.TEXT,
     },
+    banner: {
+      type: DataTypes.TEXT,
+    },
     slug: {
       type: DataTypes.TEXT,
       allowNull: false,

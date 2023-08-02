@@ -53,7 +53,7 @@ const userController = {
                   order: [["replies", "created_at", "DESC"]],
                   include: {
                     association: "post_creator",
-                    //! Corriger l'exclure, il renvoie tous les champs
+                    //! Corriger l'exclude, il renvoie tous les champs
                     attributes: {
                       exclude: [
                         "email",
@@ -80,8 +80,9 @@ const userController = {
                       "email",
                       "password",
                       "adress",
-                      "longitude",
-                      "latitude",
+                      //*Pour ajouter la distance 
+                      // "longitude",
+                      // "latitude",
                       "created_at",
                       "updated_at",
                     ],

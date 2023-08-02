@@ -50,7 +50,7 @@ Advert_has_image.belongsTo(Advert, {
 
 Tag.hasMany(Advert, {
   foreignKey: "tag_id",
-  as: "advert",
+  as: "adverts",
 });
 Advert.belongsTo(Tag, {
   foreignKey: "tag_id",

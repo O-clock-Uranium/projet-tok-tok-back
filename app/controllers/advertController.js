@@ -33,6 +33,10 @@ const advertsController = {
               ],
             },
           },
+          {
+            association: "tag",
+            attributes: ["id", "name"],
+          },
         ],
         order: [["created_at", "DESC"]],
       });
@@ -57,12 +61,16 @@ const advertsController = {
             attributes: ["id", "firstname", "lastname", "thumbnail", "slug"],
           },
           { association: "images", attributes: ["thumbnail"] },
+          {
+            association: "tag",
+            attributes: ["id", "name"],
+          },
         ],
       });
 
       res.json(userAdverts);
     } catch (error) {
-      res.status(500).json('Erreur serveur')
+      res.status(500).json("Erreur serveur");
     }
   },
 
@@ -89,6 +97,10 @@ const advertsController = {
                 ],
               },
             },
+            {
+              association: "tag",
+              attributes: ["id", "name"],
+            }
           ],
         }
       );
