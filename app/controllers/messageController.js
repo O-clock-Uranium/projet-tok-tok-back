@@ -2,22 +2,22 @@ const { Message } = require("../models/index");
 const { Op } = require("sequelize");
 
 const messageController = {
-  getConversations: async (req, res) => { //! à faire sur le router
+  getContacts: async (req, res) => {
     try {
       const { user } = req;
 
-      const message = await Message.findAll({
-        where: {
-          expediteur: user.id,
-        },
-        group: ["destinataire"],
-        attributes: {
-          exclude: ["content", "updated_at"],
-        },
-        order: [["created_at", "DESC"]],
-      });
+      // const message = await Message.findAll({
+      //   where: {
+      //     [Op.or]: [{ expediteur: user.id }, { destinataire: user.id }],
+      //   },
+      //   include: ["info_destinataire", "info_expediteur"]
+      // });
+
+      const contactExp = await 
+
       res.json(message);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
@@ -25,12 +25,22 @@ const messageController = {
   getMessages: async (req, res) => {
     try {
       const { user } = req;
+      const { destId } = req.params;
 
       const message = await Message.findAll({
         where: {
-          [Op.or]: [{ destinataire: user.id }, { expediteur: user.id }],
+          destinataire: {
+            [Op.or]: [user.id, destId],
+          },
+          expediteur: {
+            [Op.or]: [user.id, destId],
+          },
+        },
+        attributes: {
+          exclude: ["conversation_id"],
         },
         order: [["created_at", "DESC"]],
+        limit: 50,
       });
       res.json(message);
     } catch (error) {
@@ -38,37 +48,38 @@ const messageController = {
     }
   },
 
-  displayAllConversation: async (req, res) => {
-    try {
-      const conversationId = req.params.id;
-
-      const messages = await Message.findAll({
-        where: {
-          conversation_id: conversationId,
-        },
-        order: [["created_at", "DESC"]],
-      });
-
-      res.json(messages);
-    } catch (error) {
-      res.status(500).json({ error: "Erreur Serveur !" });
-    }
-  },
-
   sendMessage: async (req, res) => {
     try {
-      const conversationId = req.params.id;
-      const { content, expediteur, destinataire } = req.body;
+      //const roomId = req.params.id;
+      const { user } = req;
+      const { content, destinataire } = req.body;
 
-      const message = await Message.create({
-        content: content,
-        expediteur: expediteur,
-        destinataire: destinataire,
-        conversation_id: conversationId,
+      const conversation = await Message.findOne({
+        where: {
+          destinataire: {
+            [Op.or]: [user.id, destinataire],
+          },
+          expediteur: {
+            [Op.or]: [user.id, destinataire],
+          },
+        },
       });
+
+      const message = Message.build({
+        content: content,
+        expediteur: req.user.id,
+        destinataire: destinataire,
+      });
+
+      conversation
+        ? (message.conversation_id = conversation.conversation_id)
+        : (message.conversation_id = 123);
+
+      await message.save();
 
       res.status(201).json(message);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Erreur Serveur !" });
     }
   },

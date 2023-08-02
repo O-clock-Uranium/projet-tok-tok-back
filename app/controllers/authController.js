@@ -99,6 +99,7 @@ const authController = {
       const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
         expiresIn: process.env.EXPIREDATETOKEN,
       });
+      console.log(token);
 
       const userObj = {
         id: user.id,
@@ -163,6 +164,7 @@ const authController = {
         email: user.email,
       };
 
+      console.log(token);
       res.json({ auth: true, token: token, user: userObj });
     } catch (error) {
       console.log(error);

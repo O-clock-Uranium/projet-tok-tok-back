@@ -68,11 +68,11 @@ User.hasMany(Message, {
 });
 Message.belongsTo(User, {
   foreignKey: "expediteur",
-  as: "message_expediteur",
+  as: "info_expediteur",
 });
 Message.belongsTo(User, {
   foreignKey: "destinataire",
-  as: "message_destinataire",
+  as: "info_destinataire",
 });
 
 // Many-To-Many

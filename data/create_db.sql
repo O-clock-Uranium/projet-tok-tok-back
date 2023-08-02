@@ -66,7 +66,7 @@ CREATE TABLE "message" (
   content TEXT NOT NULL,
   expediteur INTEGER NOT NULL,
   destinataire INTEGER NOT NULL,
-  conversation_id INTEGER NOT NULL, -- ici voir avec Praveen : ce champ correspond à la room à rejoindre.
+  conversation_id INTEGER NOT NULL, -- ici voir avec Praveen : ce champ correspond à la room à rejoindre. --? INTEGER GENERATED ALWAYS
   -- Cas 1 : le couple exp/dest n'existe pas en bdd donc il faut créer un nouvel id auto incrémenté
   -- Cas 2 : le couple existe déjà, il faut récupérer l'id existant
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
