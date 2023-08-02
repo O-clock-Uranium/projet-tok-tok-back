@@ -26,14 +26,14 @@ module.exports = (latitude, longitude) => {
 
   // Calcul du delta de latitude en degrés décimaux
   const deltaLatitude = radiusInKm / 111.12;
-  const latitudeMin = (latitude - deltaLatitude).toString();
-  const latitudeMax = (latitude + deltaLatitude).toString();
+  const latitudeMin = (Number(latitude) - deltaLatitude).toString();
+  const latitudeMax = (Number(latitude) + deltaLatitude).toString();
 
   // Calcul du delta de longitude en degrés décimaux
   const deltaLongitude =
-    radiusInKm / (111.12 * Math.cos(latitude * (Math.PI / 180)));
-  const longitudeMin = (longitude - deltaLongitude).toString();
-  const longitudeMax = (longitude + deltaLongitude).toString();
+    radiusInKm / (111.12 * Math.cos(Number(latitude) * (Math.PI / 180)));
+  const longitudeMin = (Number(longitude) - deltaLongitude).toString();
+  const longitudeMax = (Number(longitude) + deltaLongitude).toString();
 
   return {
     latitude: { min: latitudeMin, max: latitudeMax },

@@ -1,12 +1,15 @@
 const { Post } = require("../models/index");
-const radius_calc = require('../../public/radius_calc');
+const radius_calc = require("../../public/radius_calc");
 const { Op } = require("sequelize");
 
 const postController = {
   getAll: async (req, res) => {
     try {
       const radius = radius_calc(req.user.latitude, req.user.longitude);
-      
+
+      console.log(radius);
+      console.log(radius.latitude.min, radius.latitude.max);
+
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
         where: {
@@ -16,12 +19,18 @@ const postController = {
           {
             association: "post_creator",
             where: {
-              longitude: {
-                [Op.between]: [radius.longitude.min, radius.longitude.max],
-              },
-              latitude: {
-                [Op.between]: [radius.latitude.min, radius.latitude.max],
-              },
+              [Op.and]: [
+                {
+                  longitude: {
+                    [Op.between]: [radius.longitude.min, radius.longitude.max],
+                  },
+                },
+                {
+                  latitude: {
+                    [Op.between]: [radius.latitude.min, radius.latitude.max],
+                  },
+                },
+              ],
             },
             attributes: {
               exclude: [
@@ -64,7 +73,7 @@ const postController = {
     }
   },
 
-  //* on ne l'utilisera pas finalement 
+  //* on ne l'utilisera pas finalement
   getOne: async (req, res) => {
     try {
       const { id } = req.params;
@@ -109,7 +118,6 @@ const postController = {
       res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
-
 
   //! Voir si on ajoute après une gestion des erreurs voir doc: https://github.com/expressjs/multer/blob/master/doc/README-fr.md
   //   const multer = require('multer')
