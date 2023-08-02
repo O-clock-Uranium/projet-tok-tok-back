@@ -37,9 +37,20 @@ const messageController = {
         return conversationData;
       });
 
-      console.log(modifiedConversations);
+      const transformedData = modifiedConversations.map((item) => {
+        const newItem = { ...item };
+        if ("user_one_info" in newItem) {
+          newItem.contact = newItem.user_one_info;
+          delete newItem.user_one_info;
+        }
+        if ("user_two_info" in newItem) {
+          newItem.contact = newItem.user_two_info;
+          delete newItem.user_two_info;
+        }
+        return newItem;
+      });
 
-      res.json(modifiedConversations);
+      res.json(transformedData);
     } catch (error) {
       console.log(error);
     }
