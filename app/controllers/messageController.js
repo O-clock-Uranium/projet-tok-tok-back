@@ -7,19 +7,39 @@ const messageController = {
     try {
       const { user } = req;
 
-      const contacts = await Conversation.findAll({
+      const conversations = await Conversation.findAll({
         where: {
           [Op.or]: [{ user1: user.id }, { user2: user.id }],
         },
         include: [
-          { association: "user_one_info" },
-          { association: "user_two_info" },
+          {
+            association: "user_one_info",
+            attributes: ["id", "firstname", "lastname", "thumbnail"],
+          },
+          {
+            association: "user_two_info",
+            attributes: ["id", "firstname", "lastname", "thumbnail"],
+          },
         ],
       });
 
-      // ajouter un map +filter sur le resultat
+      const modifiedConversations = conversations.map((conversation) => {
+        const conversationData = conversation.get({ plain: true });
 
-      res.json(contacts);
+        if (conversationData.user_one_info.id === user.id) {
+          delete conversationData.user_one_info;
+        }
+
+        if (conversationData.user_two_info.id === user.id) {
+          delete conversationData.user_two_info;
+        }
+
+        return conversationData;
+      });
+
+      console.log(modifiedConversations);
+
+      res.json(modifiedConversations);
     } catch (error) {
       console.log(error);
     }
@@ -100,18 +120,16 @@ const messageController = {
           ],
         },
       });
-      console.log(conv);
 
       let newConv = null;
 
       if (conv == null) {
-        console.log('coucou');
+        console.log("coucou");
         newConv = await Conversation.create({
           user1: user.id,
           user2: destinataire,
         });
       }
-      console.log(newConv);
 
       const message = Message.build({
         content: content,
@@ -130,42 +148,6 @@ const messageController = {
       res.status(500).json({ error: "Erreur Serveur !" });
     }
   },
-
-  // sendMessage: async (req, res) => {
-  //   try {
-  //     //const roomId = req.params.id;
-  //     const { user } = req;
-  //     const { content, destinataire } = req.body;
-
-  //     const conversation = await Message.findOne({
-  //       where: {
-  //         destinataire: {
-  //           [Op.or]: [user.id, destinataire],
-  //         },
-  //         expediteur: {
-  //           [Op.or]: [user.id, destinataire],
-  //         },
-  //       },
-  //     });
-
-  //     const message = Message.build({
-  //       content: content,
-  //       expediteur: req.user.id,
-  //       destinataire: destinataire,
-  //     });
-
-  //     conversation
-  //       ? (message.conversation_id = conversation.conversation_id)
-  //       : (message.conversation_id = 123);
-
-  //     await message.save();
-
-  //     res.status(201).json(message);
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.status(500).json({ error: "Erreur Serveur !" });
-  //   }
-  // },
 };
 
 module.exports = messageController;
