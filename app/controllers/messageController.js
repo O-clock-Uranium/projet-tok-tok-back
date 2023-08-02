@@ -1,5 +1,5 @@
 const Conversation = require("../models/Conversation");
-const { Message } = require("../models/index");
+const { Message, User } = require("../models/index");
 const { Op } = require("sequelize");
 
 const messageController = {
@@ -76,38 +76,23 @@ const messageController = {
     }
   },
 
-  // getMessages: async (req, res) => {
-  //   try {
-  //     const { user } = req;
-  //     const { destId } = req.params;
-
-  //     const message = await Message.findAll({
-  //       where: {
-  //         destinataire: {
-  //           [Op.or]: [user.id, destId],
-  //         },
-  //         expediteur: {
-  //           [Op.or]: [user.id, destId],
-  //         },
-  //       },
-  //       attributes: {
-  //         exclude: ["conversation_id"],
-  //       },
-  //       order: [["created_at", "DESC"]],
-  //       limit: 50,
-  //     });
-  //     res.json(message);
-  //   } catch (error) {
-  //     res.status(500).json({ error: "Erreur Serveur !" });
-  //   }
-  // },
-
   sendMessage: async (req, res) => {
     try {
       // const roomId = req.params.id;
       const { user } = req;
       const { content, destinataire } = req.body;
+      console.log(typeof destinataire);
 
+      const dest = await User.findByPk(destinataire);
+      console.log("Moi ou non ?", dest.id === user.id);
+
+      if (dest.id === user.id) {
+        return res
+          .status(400)
+          .json({ error: "Vous ne pouvez pas vous envoyer de message" });
+      }
+
+      //* Pour refacto : faire un findOrCreate
       const conv = await Conversation.findOne({
         where: {
           [Op.or]: [
