@@ -77,17 +77,25 @@ router.delete("/adverts/:id", verifyAuthMiddleware, advertController.remove);
 
 /* Messages
 --------------------------------------------------------------*/
-router.get("/messages", verifyAuthMiddleware, messageController.getMessages);
-router.get(
-  "/messages/:id",
-  verifyAuthMiddleware,
-  messageController.displayAllConversation
-);
-router.post(
-  "/messages/:id",
-  verifyAuthMiddleware,
-  messageController.sendMessage
-);
+// router.get("/messages", verifyAuthMiddleware, messageController.getMessages);
+// router.get(
+//   "/messages/:id",
+//   verifyAuthMiddleware,
+//   messageController.displayAllConversation
+// );
+// router.post(
+//   "/messages/:id",
+//   verifyAuthMiddleware,
+//   messageController.sendMessage
+// );
+
+router.get("/contacts", verifyAuthMiddleware, messageController.getContacts); //* OK
+router.get("/messages/:destId", verifyAuthMiddleware, messageController.getMessages); // mettre une limite 50
+router.post("/messages", verifyAuthMiddleware, messageController.sendMessage); // envoyer un message avec dans le formdata roomId en facultatif
+
+//router.patch("/message/:id", verifyAuthMiddleware); // corriger un message
+// router.delete("/message/:id", verifyAuthMiddleware); // supprimer un message
+
 
 /* Favourites --------------------------------------------------------------*/
 router.get("/favourites", verifyAuthMiddleware, favouriteController.getAll);

@@ -9,14 +9,14 @@ Message.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    expediteur: {
+    sender: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    destinataire: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    // destinataire: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
     conversation_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
