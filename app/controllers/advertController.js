@@ -100,7 +100,7 @@ const advertsController = {
             {
               association: "tag",
               attributes: ["id", "name"],
-            }
+            },
           ],
         }
       );
@@ -159,7 +159,13 @@ const advertsController = {
       const { title, content, price, tag_id } = req.body;
       const images = req.files;
 
-      const advert = await Advert.findByPk(req.params.id);
+      console.log(images, images.length);
+
+      const advert = await Advert.findByPk(req.params.id, {
+        include: {
+          association: "images",
+        },
+      });
 
       if (!advert) {
         return res.status(404).json({ error: "Annonce introuvable" });
@@ -178,16 +184,17 @@ const advertsController = {
 
       advert.save();
 
-      images.forEach(async (e, index) => {
-        const image = Advert_has_image.build({
-          advert_id: advert.id,
-          thumbnail: `${req.protocol}://${req.get("host")}/images/${
-            req.files[index].filename
-          }`,
+      if (images.length) {
+        images.forEach(async (e, index) => {
+          const image = Advert_has_image.build({
+            advert_id: advert.id,
+            thumbnail: `${req.protocol}://${req.get("host")}/images/${
+              req.files[index].filename
+            }`,
+          });
+          await image.save();
         });
-
-        await image.save();
-      });
+      } 
 
       res.json(advert);
     } catch (error) {
