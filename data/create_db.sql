@@ -20,7 +20,7 @@ CREATE TABLE "user" (
   email VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
   thumbnail TEXT,
-  banner TEXT,
+  banner TEXT DEFAULT 'http://localhost:3000/images/default-banner-picture.png',
   slug TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
