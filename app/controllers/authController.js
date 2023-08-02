@@ -112,7 +112,8 @@ const authController = {
         latitude: user.latitude,
         thumbnail: user.thumbnail,
         slug: user.slug,
-        email: user.email
+        email: user.email,
+        banner: user.banner,
       };
 
       res.status(201).json({
@@ -136,6 +137,7 @@ const authController = {
         where: { email: email.toLowerCase() },
       });
 
+      //! fix ce pb !!!!
       const isMatching = await bcrypt.compare(password, user.password);
 
       if (!user || !isMatching) {
@@ -162,6 +164,7 @@ const authController = {
         thumbnail: user.thumbnail,
         slug: user.slug,
         email: user.email,
+        banner: user.banner,
       };
 
       console.log(token);

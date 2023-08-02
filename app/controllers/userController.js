@@ -6,32 +6,55 @@ const userController = {
   getOne: async (req, res) => {
     try {
       const { slug } = req.params;
-      console.log(slug);
 
-      // const profile = await User.findOne({
-      //   where: {
-      //     slug: slug
-      //   }
-      // })
-
-      const profile = await User.findOne(
-        {
-          where: {
-            slug: slug,
-          },
-          include: [
-            "liked",
-            {
-              association: "posts",
-              where: {"reply_to": {
-                [Op.is]: null
-              }},
-              // where: {
-              //   reply_to: null,
-              // },
-              include: [
-                {
+      const profile = await User.findOne({
+        where: {
+          slug: slug,
+        },
+        include: [
+          "liked",
+          {
+            association: "posts",
+            // where: {"reply_to": {
+            //   [Op.is]: null
+            // }},
+            //!\ Ne fonctionne pas quand la personne n'a pas de posts /!\
+            //? est-ce qu'on ne ferait pas ce filtre en front ?
+            include: [
+              {
+                association: "post_creator",
+                attributes: {
+                  exclude: [
+                    "email",
+                    "password",
+                    "address",
+                    "longitude",
+                    "latitude",
+                    "created_at",
+                    "updated_at",
+                  ],
+                },
+              },
+              {
+                association: "users_liked",
+                attributes: {
+                  exclude: [
+                    "email",
+                    "password",
+                    "address",
+                    "longitude",
+                    "latitude",
+                    "created_at",
+                    "updated_at",
+                  ],
+                },
+              },
+              {
+                association: "replies",
+                order: [["replies", "created_at", "DESC"]],
+                include: {
                   association: "post_creator",
+                  //! Corriger l'exclude, il renvoie tous les champs
                   attributes: {
                     exclude: [
                       "email",
@@ -44,72 +67,39 @@ const userController = {
                     ],
                   },
                 },
-                {
-                  association: "users_liked",
-                  attributes: {
-                    exclude: [
-                      "email",
-                      "password",
-                      "address",
-                      "longitude",
-                      "latitude",
-                      "created_at",
-                      "updated_at",
-                    ],
-                  },
-                },
-                {
-                  association: "replies",
-                  order: [["replies", "created_at", "DESC"]],
-                  include: {
-                    association: "post_creator",
-                    //! Corriger l'exclude, il renvoie tous les champs
-                    attributes: {
-                      exclude: [
-                        "email",
-                        "password",
-                        "address",
-                        "longitude",
-                        "latitude",
-                        "created_at",
-                        "updated_at",
-                      ],
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              association: "adverts",
-              include: [
-                "images",
-                {
-                  association: "advert_creator",
-                  attributes: {
-                    exclude: [
-                      "email",
-                      "password",
-                      "adress",
-                      //*Pour ajouter la distance 
-                      "longitude",
-                      "latitude",
-                      "created_at",
-                      "updated_at",
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-          attributes: {
-            exclude: ["address", "password", "email", "updated_at"],
+              },
+            ],
           },
-          // order: [
-          //   ["posts", "created_at", "DESC"],
-          //   // ["liked", "created_at", "DESC"],
-          // ],
-        }
-      );
+          {
+            association: "adverts",
+            include: [
+              "images",
+              {
+                association: "advert_creator",
+                attributes: {
+                  exclude: [
+                    "email",
+                    "password",
+                    "adress",
+                    //*Pour ajouter la distance
+                    "longitude",
+                    "latitude",
+                    "created_at",
+                    "updated_at",
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+        attributes: {
+          exclude: ["address", "password", "email", "updated_at"],
+        },
+        // order: [
+        //   ["posts", "created_at", "DESC"],
+        //   // ["liked", "created_at", "DESC"],
+        // ],
+      });
       res.json(profile);
     } catch (error) {
       console.log(error);

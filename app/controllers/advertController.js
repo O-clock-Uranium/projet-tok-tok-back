@@ -14,14 +14,14 @@ const advertsController = {
           { association: "favorited_by", attributes: ["id"] },
           {
             association: "advert_creator",
-            where: {
-              longitude: {
-                [Op.between]: [radius.longitude.min, radius.longitude.max],
-              },
-              latitude: {
-                [Op.between]: [radius.latitude.min, radius.latitude.max],
-              },
-            },
+            // where: {
+            //   longitude: {
+            //     [Op.between]: [radius.longitude.min, radius.longitude.max],
+            //   },
+            //   latitude: {
+            //     [Op.between]: [radius.latitude.min, radius.latitude.max],
+            //   },
+            // },
             attributes: {
               exclude: [
                 "email",
