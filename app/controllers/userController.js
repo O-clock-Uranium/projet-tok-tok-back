@@ -1,4 +1,4 @@
-const { where } = require("sequelize");
+const { Op } = require("sequelize");
 const { User } = require("../models/index");
 const { v4: uuidv4 } = require("uuid");
 
@@ -6,6 +6,13 @@ const userController = {
   getOne: async (req, res) => {
     try {
       const { slug } = req.params;
+      console.log(slug);
+
+      // const profile = await User.findOne({
+      //   where: {
+      //     slug: slug
+      //   }
+      // })
 
       const profile = await User.findOne(
         {
@@ -16,9 +23,12 @@ const userController = {
             "liked",
             {
               association: "posts",
-              where: {
-                reply_to: null,
-              },
+              where: {"reply_to": {
+                [Op.is]: null
+              }},
+              // where: {
+              //   reply_to: null,
+              // },
               include: [
                 {
                   association: "post_creator",
@@ -81,8 +91,8 @@ const userController = {
                       "password",
                       "adress",
                       //*Pour ajouter la distance 
-                      // "longitude",
-                      // "latitude",
+                      "longitude",
+                      "latitude",
                       "created_at",
                       "updated_at",
                     ],
@@ -94,10 +104,10 @@ const userController = {
           attributes: {
             exclude: ["address", "password", "email", "updated_at"],
           },
-          order: [
-            ["posts", "created_at", "DESC"],
-            ["liked", "created_at", "DESC"],
-          ],
+          // order: [
+          //   ["posts", "created_at", "DESC"],
+          //   // ["liked", "created_at", "DESC"],
+          // ],
         }
       );
       res.json(profile);

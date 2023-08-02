@@ -14,14 +14,14 @@ const advertsController = {
           { association: "favorited_by", attributes: ["id"] },
           {
             association: "advert_creator",
-            // where: {
-            //   longitude: {
-            //     [Op.between]: [radius.longitude.min, radius.longitude.max],
-            //   },
-            //   latitude: {
-            //     [Op.between]: [radius.latitude.min, radius.latitude.max],
-            //   },
-            // },
+            where: {
+              longitude: {
+                [Op.between]: [radius.longitude.min, radius.longitude.max],
+              },
+              latitude: {
+                [Op.between]: [radius.latitude.min, radius.latitude.max],
+              },
+            },
             attributes: {
               exclude: [
                 "email",
@@ -106,7 +106,7 @@ const advertsController = {
       );
 
       if (!advert) {
-        res.status(404).json({ error: "Annonce introuvable" });
+        return res.status(404).json({ error: "Annonce introuvable" });
       }
 
       res.json(advert);
@@ -204,7 +204,7 @@ const advertsController = {
       const advert = await Advert.findByPk(id);
 
       if (!advert) {
-        res.status(404).json({ error: "Page introuvable" });
+        return res.status(404).json({ error: "Page introuvable" });
       }
 
       const { user } = req;
