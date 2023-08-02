@@ -47,7 +47,7 @@ router.patch(
   "/my-profile/edit",
   verifyAuthMiddleware,
   multer.single("thumbnail"),
-  multer.single("banner"), // A vérifier 
+  // multer.single("banner"), // A garder masqué tant qu'on a pas l'input banner
   userController.update
 );
 router.delete(
