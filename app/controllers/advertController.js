@@ -58,7 +58,7 @@ const advertsController = {
         include: [
           {
             association: "advert_creator",
-            attributes: ["id", "firstname", "lastname", "thumbnail", "slug"],
+            attributes: ["id", "firstname", "lastname", "thumbnail", "slug", "latitude", "longitude"],
           },
           { association: "images", attributes: ["thumbnail"] },
           {
@@ -83,6 +83,7 @@ const advertsController = {
         },
         {
           include: [
+            "tag",
             "images",
             {
               association: "advert_creator",
@@ -91,7 +92,6 @@ const advertsController = {
                   "email",
                   "password",
                   "description",
-                  "localization",
                   "created_at",
                   "updated_at",
                 ],
