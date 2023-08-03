@@ -81,7 +81,7 @@ const messageController = {
 
       const messages = await conversation.getMessages({ limit: 50 });
 
-      res.json(messages);
+      res.json({messages: messages});
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Erreur Serveur !" });
