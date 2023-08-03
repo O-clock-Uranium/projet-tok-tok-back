@@ -76,7 +76,7 @@ const messageController = {
       });
 
       if (!conversation) {
-        return res.json({ message: "aucune conversation en cours" });
+        return res.json({ message: "aucune conversation en cours", messages: []});
       }
 
       const messages = await conversation.getMessages({ limit: 50 });
