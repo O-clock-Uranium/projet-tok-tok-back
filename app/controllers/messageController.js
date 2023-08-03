@@ -21,6 +21,7 @@ const messageController = {
             attributes: ["id", "firstname", "lastname", "thumbnail"],
           },
         ],
+        attributes: ["id"]
       });
 
       const modifiedConversations = conversations.map((conversation) => {

@@ -184,6 +184,22 @@ const userController = {
     }
   },
 
+  changeBanner: async(req, res) => {
+    try {
+      const {user} = req;
+      
+      if (req.file) {
+        user.banner = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`;
+      }
+
+      res.status(201).json(user)
+    } catch (error) {
+      console.log(error);  
+    }
+  },
+
   deleteUser: async (req, res) => {
     //! TODO : ajouter une sécurité (demander le mot de passe par exemple) avant de supprimer
     try {

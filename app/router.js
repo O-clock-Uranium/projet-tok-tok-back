@@ -50,6 +50,12 @@ router.patch(
   // multer.single("banner"), // A garder masqué tant qu'on a pas l'input banner
   userController.update
 );
+router.patch(
+  "/my-profile/edit-banner",
+  verifyAuthMiddleware,
+  multer.single("banner"),
+  userController.changeBanner
+);
 router.delete(
   "/my-profile/delete",
   verifyAuthMiddleware,
