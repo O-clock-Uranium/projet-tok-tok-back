@@ -7,6 +7,7 @@ const favouriteController = {
 
       const favourites = await user.getFavourites({
         include: [
+          "tag",
           "images",
           {
             association: "advert_creator",

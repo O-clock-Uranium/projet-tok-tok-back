@@ -73,6 +73,7 @@ const userController = {
           {
             association: "adverts",
             include: [
+              "tag",
               "images",
               {
                 association: "advert_creator",
@@ -82,8 +83,8 @@ const userController = {
                     "password",
                     "adress",
                     //*Pour ajouter la distance
-                    "longitude",
-                    "latitude",
+                    // "longitude",
+                    // "latitude",
                     "created_at",
                     "updated_at",
                   ],
