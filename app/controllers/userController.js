@@ -194,6 +194,7 @@ const userController = {
         }`;
       }
 
+      await user.save();
       res.status(201).json(user)
     } catch (error) {
       console.log(error);  

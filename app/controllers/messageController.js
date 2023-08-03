@@ -21,7 +21,7 @@ const messageController = {
             attributes: ["id", "firstname", "lastname", "thumbnail"],
           },
         ],
-        attributes: ["id"]
+        attributes: ["id"],
       });
 
       const modifiedConversations = conversations.map((conversation) => {
@@ -41,11 +41,11 @@ const messageController = {
       const transformedData = modifiedConversations.map((item) => {
         const newItem = { ...item };
         if ("user_one_info" in newItem) {
-          newItem.contact = newItem.user_one_info;
+          newItem.contactInfo = newItem.user_one_info;
           delete newItem.user_one_info;
         }
         if ("user_two_info" in newItem) {
-          newItem.contact = newItem.user_two_info;
+          newItem.contactInfo = newItem.user_two_info;
           delete newItem.user_two_info;
         }
         return newItem;

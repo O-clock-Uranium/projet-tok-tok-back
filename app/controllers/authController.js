@@ -92,6 +92,9 @@ const authController = {
         thumbnail: `${req.protocol}://${req.get(
           "host"
         )}/images/default-profile-picture.png`,
+        banner: `${req.protocol}://${req.get(
+          "host"
+        )}/images/default-banner-picture.png`,
       });
       //await user.save();
       console.log(user);
