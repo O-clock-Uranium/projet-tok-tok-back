@@ -25,7 +25,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("client_send_message", (data) => {
-
     socket.to(data.room).emit("server_send_message", data);
 
     //* ça c'était juste pour test

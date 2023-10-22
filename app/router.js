@@ -20,13 +20,13 @@ const router = Router();
 router.post("*", sanitize);
 router.patch("*", sanitize);
 
-/* login/signup -----------------------------------------------------------------*/
+/* Login/Signup -----------------------------------------------------------------*/
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
 router.get("/posts", verifyAuthMiddleware, postController.getAll);
-router.get("/post/:id", verifyAuthMiddleware, postController.getOne); //!!! A faire vérifier par la patronne
+router.get("/post/:id", verifyAuthMiddleware, postController.getOne); 
 router.post(
   "/posts",
   verifyAuthMiddleware,

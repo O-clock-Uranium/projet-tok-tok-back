@@ -3,6 +3,7 @@ const { Message, User } = require("../models/index");
 const { Op } = require("sequelize");
 
 const messageController = {
+  // Récupère toutes les conversations du user
   getContacts: async (req, res) => {
     try {
       const { user } = req;
@@ -57,6 +58,7 @@ const messageController = {
     }
   },
 
+  // Récupère les 50 derniers messages d'une conversation
   getMessages: async (req, res) => {
     try {
       const { user } = req;
@@ -88,6 +90,8 @@ const messageController = {
     }
   },
 
+  // Enregistre un message envoyé en BDD
+  // pour l'afficher chez les deux utilisateurs 
   sendMessage: async (req, res) => {
     try {
       // const roomId = req.params.id;
@@ -148,3 +152,4 @@ const messageController = {
 };
 
 module.exports = messageController;
+
