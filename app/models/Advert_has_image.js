@@ -12,7 +12,7 @@ Advert_has_image.init(
     thumbnail: {
       type: DataTypes.TEXT,
       allowNull: false,
-    }
+    },
   },
   {
     sequelize,
