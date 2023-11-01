@@ -9,7 +9,7 @@ const categoriesController = {
       console.log(error);
       res.status(500).json({ error: "Erreur Serveur !" });
     }
-  },
+  }
 };
 
 module.exports = categoriesController;

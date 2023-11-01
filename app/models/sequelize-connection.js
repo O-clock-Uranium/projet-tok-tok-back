@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const { Sequelize } = require("sequelize");
 
-// Passing a connection URI
 const sequelize = new Sequelize(process.env.PG_URL, {
   define: {
     underscored: true,
@@ -17,7 +16,6 @@ const sequelize = new Sequelize(process.env.PG_URL, {
   }
 });
 
-// Tout à fait possible de tester si la connexion se passe bien !
 sequelize
   .authenticate()
   .then(() => {

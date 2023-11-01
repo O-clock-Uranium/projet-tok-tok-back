@@ -3,6 +3,7 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 
+
 const verifyJWT = async (req, res, next) => {
 
   // On récupère le token transmi en header de la requête HTTP
