@@ -7,9 +7,6 @@ const postController = {
     try {
       const radius = radius_calc(req.user.latitude, req.user.longitude);
 
-      console.log(radius);
-      console.log(radius.latitude.min, radius.latitude.max);
-
       const posts = await Post.findAll({
         order: [["created_at", "DESC"]],
         where: {

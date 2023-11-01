@@ -24,15 +24,15 @@ const authController = {
 
       //! NOUVEAU
       if (
-        !firstname ||
-        !lastname ||
-        !address ||
-        !city ||
-        !longitude ||
-        !latitude ||
-        !email ||
-        !password ||
-        !confirmation
+        !firstname.trim() ||
+        !lastname.trim() ||
+        !address.trim() ||
+        !city.trim() ||
+        !longitude.trim() ||
+        !latitude.trim() ||
+        !email.trim() ||
+        !password.trim() ||
+        !confirmation.trim()
       ) {
         res
           .status(400)
@@ -77,7 +77,6 @@ const authController = {
       const saltRounds = parseInt(process.env.SALT_ROUNDS);
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      //! NOUVEAU : description et thumbnail
       const user = await User.create({
         firstname,
         lastname,
@@ -96,28 +95,18 @@ const authController = {
           "host"
         )}/images/default-banner-picture.png`,
       });
-      //await user.save();
-      console.log(user);
 
       const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
         expiresIn: process.env.EXPIREDATETOKEN,
       });
-      console.log(token);
+
 
       const userObj = {
-        id: user.id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        description: user.description,
-        address: user.address,
-        city: user.city,
-        longitude: user.longitude,
-        latitude: user.latitude,
-        thumbnail: user.thumbnail,
-        slug: user.slug,
-        email: user.email,
-        banner: user.banner,
+        ...user.dataValues,
       };
+      delete userObj.password;
+      delete userObj.longitude;
+      delete userObj.latitude;
 
       res.status(201).json({
         message: "Compte crée",
@@ -136,41 +125,39 @@ const authController = {
     try {
       const { email, password } = req.body;
 
+      // On cherche un utilisateur qui correspond à l'email
       const user = await User.findOne({
-        where: { email: email.toLowerCase() },
-      });
+        where: { email: email.toLowerCase() }
+      });      
 
-      //! fix ce pb !!!!
-      const isMatching = await bcrypt.compare(password, user.password);
-
-      if (!user || !isMatching) {
+      if (!user) {
         return res
           .status(400)
           .json({ error: "Mauvais couple email/password" });
       }
+      
+      // On compare le mot de passe enregistré et celui entré
+      const isMatching = await bcrypt.compare(password, user.password);
+      if (!isMatching) {
+        return res.status(400).json({ error: "Mauvais couple email/password" });
+      }
 
-      // A chaque connexion, le user reçoit un token que l'on mettra en en-tête des requêtes http sur les routes où il faut être loggué/authentifié
+      // A chaque connexion, le user reçoit un token que l'on mettra en en-tête 
+      // des requêtes HTTP sur les routes où il faut être loggué/authentifié
       const token = jwt.sign({ userId: user.id }, process.env.SECRETTOKEN, {
         expiresIn: process.env.EXPIREDATETOKEN,
       });
 
-      //! NOUVEAU
+      // On créer un objet pour stocker les information de l'utilisateur 
+      // à transmettre au front
       const userObj = {
-        id: user.id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        description: user.description,
-        address: user.address,
-        city: user.city,
-        longitude: user.longitude,
-        latitude: user.latitude,
-        thumbnail: user.thumbnail,
-        slug: user.slug,
-        email: user.email,
-        banner: user.banner,
+        ...user.dataValues,
       };
+      // Et on en supprimer les données sensibles/inutiles
+      delete userObj.password
+      delete userObj.longitude
+      delete userObj.latitude;
 
-      console.log(token);
       res.json({ auth: true, token: token, user: userObj });
     } catch (error) {
       console.log(error);

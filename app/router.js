@@ -20,13 +20,13 @@ const router = Router();
 router.post("*", sanitize);
 router.patch("*", sanitize);
 
-/* login/signup -----------------------------------------------------------------*/
+/* Login/Signup -----------------------------------------------------------------*/
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
 /* Posts -----------------------------------------------------------------*/
 router.get("/posts", verifyAuthMiddleware, postController.getAll);
-router.get("/post/:id", verifyAuthMiddleware, postController.getOne); //!!! A faire vérifier par la patronne
+router.get("/post/:id", verifyAuthMiddleware, postController.getOne); 
 router.post(
   "/posts",
   verifyAuthMiddleware,
@@ -65,7 +65,6 @@ router.delete(
 /* Adverts ---------------------------------------------------------------*/
 router.get("/adverts", verifyAuthMiddleware, advertController.getAll);
 router.get("/profile/:id/adverts", verifyAuthMiddleware, advertController.getAllFromUser);
-
 router.get("/adverts/:slug", verifyAuthMiddleware, advertController.getOne);
 router.post(
   "/adverts",
@@ -95,12 +94,9 @@ router.delete("/adverts/:id", verifyAuthMiddleware, advertController.remove);
 //   messageController.sendMessage
 // );
 
-router.get("/contacts", verifyAuthMiddleware, messageController.getContacts); //* OK
-router.get("/messages/:destId", verifyAuthMiddleware, messageController.getMessages); // mettre une limite 50
-router.post("/messages", verifyAuthMiddleware, messageController.sendMessage); // envoyer un message avec dans le formdata roomId en facultatif
-
-//router.patch("/message/:id", verifyAuthMiddleware); // corriger un message
-// router.delete("/message/:id", verifyAuthMiddleware); // supprimer un message
+router.get("/contacts", verifyAuthMiddleware, messageController.getContacts); 
+router.get("/messages/:destId", verifyAuthMiddleware, messageController.getMessages);
+router.post("/messages", verifyAuthMiddleware, messageController.sendMessage);
 
 
 /* Favourites --------------------------------------------------------------*/
@@ -123,5 +119,7 @@ router.delete("/likes/:postId", verifyAuthMiddleware, likeController.remove);
 
 /* Categories -----------------------------------------------*/
 router.get("/categories", verifyAuthMiddleware, categoriesController.getAll);
+
+
 
 module.exports = router;

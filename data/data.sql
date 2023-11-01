@@ -46,7 +46,12 @@ VALUES (
 INSERT INTO "tag" ("name")
 VALUES ('maison'),
     ('jardin'),
-    ('vetements');
+    ('vêtements'),
+    ('animaux'),
+    ('musique'),
+    ('livres'),
+    ('bricolage'),
+    ('automobiles');
 -- INSERT INTO "advert" (
 --         "title",
 --         "content",
@@ -85,58 +90,58 @@ VALUES ('maison'),
 --     )
 -- VALUES (1, 'carte_yu_gi_oh_1.png', NOW(), NOW()),
 --     (1, 'carte_yu_gi_oh_2.png', NOW(), NOW());
-INSERT INTO "post" (
-        "content",
-        "thumbnail",
-        "reply_to",
-        "user_id",
-        "created_at",
-        "updated_at"
-    )
-VALUES (
-        'Chat perdu',
-        './chat_perdu.png',
-        NULL,
-        1,
-        NOW(),
-        NOW()
-    ),
-    (
-        'Chat trouvé peut-être ?',
-        'chat.png',
-        1,
-        2,
-        NOW(),
-        NOW()
-    );
-INSERT INTO "conversation" (
-    "user1",
-    "user2"
-)
-VALUES (
-    1,
-    2
-);
-INSERT INTO "message" (
-        "content",
-        "sender",
-        "conversation_id",
-        "created_at"
-    )
-VALUES (
-        'Je ne veux pas faire de back',
-        1,
-        1,
-        NOW()
-    ),
-    (
-        'Je veux adopter Praveen',
-        2,
-        1,
-        NOW()
-    );
+-- INSERT INTO "post" (
+--         "content",
+--         "thumbnail",
+--         "reply_to",
+--         "user_id",
+--         "created_at",
+--         "updated_at"
+--     )
+-- VALUES (
+--         'Chat perdu',
+--         './chat_perdu.png',
+--         NULL,
+--         1,
+--         NOW(),
+--         NOW()
+--     ),
+--     (
+--         'Chat trouvé peut-être ?',
+--         'chat.png',
+--         1,
+--         2,
+--         NOW(),
+--         NOW()
+--     );
+-- INSERT INTO "conversation" (
+--     "user1",
+--     "user2"
+-- )
+-- VALUES (
+--     1,
+--     2
+-- );
+-- INSERT INTO "message" (
+--         "content",
+--         "sender",
+--         "conversation_id",
+--         "created_at"
+--     )
+-- VALUES (
+--         'Je ne veux pas faire de back',
+--         1,
+--         1,
+--         NOW()
+--     ),
+--     (
+--         'Je veux adopter Praveen',
+--         2,
+--         1,
+--         NOW()
+--     );
 -- INSERT INTO "favourite" ("advert_id", "user_id")
 -- VALUES (1, 2),
 --     (2, 1);
-INSERT INTO "like" ("post_id", "user_id")
-VALUES (1, 2);
+-- INSERT INTO "like" ("post_id", "user_id")
+-- VALUES (1, 2);

@@ -1,6 +1,5 @@
-const { Advert, Advert_has_image, User } = require("../models/index");
+const { Advert, Advert_has_image } = require("../models/index");
 const radius_calc = require("../../public/radius_calc");
-const { Op } = require("sequelize");
 
 const advertsController = {
   getAll: async (req, res) => {
